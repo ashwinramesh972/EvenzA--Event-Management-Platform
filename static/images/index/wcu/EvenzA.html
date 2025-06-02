@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<!-- saved from url=(0022)http://127.0.0.1:8000/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EvenzA</title>
+    <meta name="csrf-token" content="W1cyx1e6RgAAIdzvreVn5RLhrtQVUgJX98E9S4GfuR13uYzIzwUU773prsJA0HGD">
+    <link href="./EvenzA_files/css2" rel="stylesheet" media="all" onload="this.media=&#39;all&#39;">
+    <link rel="stylesheet" href="./EvenzA_files/all.min.css" media="all" onload="this.media=&#39;all&#39;">
+    <link href="./EvenzA_files/bootstrap.min.css" rel="stylesheet" media="all" onload="this.media=&#39;all&#39;">
+    <link rel="stylesheet" href="./EvenzA_files/Navbar.css">
+    <link rel="stylesheet" href="./EvenzA_files/header.css">
+    <link rel="stylesheet" href="./EvenzA_files/whychooseus.css">
+    <link rel="stylesheet" href="./EvenzA_files/Indexcards.css">
+    <link rel="stylesheet" href="./EvenzA_files/messagebox.css">
+    <link rel="stylesheet" href="./EvenzA_files/services.css">
+    <link rel="stylesheet" href="./EvenzA_files/pricing.css">
+    <link rel="stylesheet" href="./EvenzA_files/faq.css">
+    <link rel="stylesheet" href="./EvenzA_files/cta.css">
+    <link rel="stylesheet" href="./EvenzA_files/ourfeature.css">
+    <link rel="stylesheet" href="./EvenzA_files/footer.css">
+    <style>
+
+    </style>
+    
+  <style>
+    @keyframes cardReveal {
+      0% { opacity: 0; transform: translateY(30px) rotateX(5deg); }
+      100% { opacity: 1; transform: translateY(0) rotateX(0); }
+    }
+    
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes shimmer {
+      0% { background-position: -100% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .leave-button {
+      background: linear-gradient(90deg, #E74C3C, #C0392B);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-left: 10px;
+    }
+
+    .leave-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
+    }
+
+    .leave-button:disabled {
+      background: #666;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+  </style><style>
+    @keyframes cardReveal {
+      0% { opacity: 0; transform: translateY(30px) rotateX(5deg); }
+      100% { opacity: 1; transform: translateY(0) rotateX(0); }
+    }
+    
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes shimmer {
+      0% { background-position: -100% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .leave-button {
+      background: linear-gradient(90deg, #E74C3C, #C0392B);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-left: 10px;
+    }
+
+    .leave-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
+    }
+
+    .leave-button:disabled {
+      background: #666;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+  </style></head>
+  <body class="js-enabled">
+    <header class="navbar scrolled">
+  <!-- Main navigation section -->
+  <div class="main-nav-container">
+    <div class="logo-container">
+      <a href="http://127.0.0.1:8000/" class="logo">EvenzA</a>
+    </div>
+    <nav class="desktop-nav">
+      <ul>
+        <li><a href="http://127.0.0.1:8000/" class="nav-link" aria-label="Home">Home</a></li>
+        <li><a href="http://127.0.0.1:8000/#about" class="nav-link" aria-label="About">About</a></li>
+        <li><a href="http://127.0.0.1:8000/#contact" class="nav-link" aria-label="Contact">Contact</a></li>
+        <li><a href="http://127.0.0.1:8000/communitypost/" class="nav-link" aria-label="Community Post">Community Post</a></li>
+        
+          <li><a href="http://127.0.0.1:8000/user-login" class="nav-link" aria-label="Login">Login</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+
+  <!-- User profile or signup section -->
+  <div class="user-section">
+    
+      <a href="http://127.0.0.1:8000/user-register" class="btn-signup">Sign Up</a>
+    
+  </div>
+
+  <!-- Mobile menu button -->
+  <div class="mobile-menu-btn">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <div class="menu-overlay"></div>
+  <div class="mobile-nav">
+    <ul>
+      <li><a href="http://127.0.0.1:8000/" class="nav-link" style="--item-index: 1;" aria-label="Home">Home</a></li>
+      <li><a href="http://127.0.0.1:8000/#about" class="nav-link" style="--item-index: 2;" aria-label="About">About</a></li>
+      <li><a href="http://127.0.0.1:8000/#contact" class="nav-link" style="--item-index: 3;" aria-label="Contact">Contact</a></li>
+      
+        <li><a href="http://127.0.0.1:8000/user-login" class="nav-link" style="--item-index: 4;" aria-label="Login">Login</a></li>
+        <li><a href="http://127.0.0.1:8000/user-register" class="btn-signup" style="--item-index: 5;">Sign Up</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+    
+<header>
+    <div class="header">
+        <div class="overlay"></div>
+        <div class="video-container">
+            <div class="main-video">
+                <video class="video-player" poster="/static/video/index/header/Designer.png" muted="">
+                    <source src="/static/video/index/header/1080p.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="play-button">
+                    <div class="play-icon"></div>
+                </div>
+                <span style="position: absolute; bottom: 10px; left: 10px; font-size: 14px;">Main Feature Video</span>
+            </div>
+            
+            <div class="corner-video top-left">
+                <video class="video-player" poster="/static/video/index/header/dj.jpg" muted="">
+                    <source src="/api/placeholder/video1.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <span style="position: absolute; bottom: 5px; left: 5px; font-size: 10px;">Video 1</span>
+            </div>
+            
+            <div class="corner-video top-right">
+                <video class="video-player" poster="/static/video/index/header/party.jpg" muted="">
+                    <source src="/api/placeholder/video2.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <span style="position: absolute; bottom: 5px; left: 5px; font-size: 10px;">Video 2</span>
+            </div>
+            
+            <div class="corner-video bottom-left">
+                <video class="video-player" poster="/static/video/index/header/friends.jpg" muted="">
+                    <source src="/api/placeholder/video3.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <span style="position: absolute; bottom: 5px; left: 5px; font-size: 10px;">Video 3</span>
+            </div>
+            
+            <div class="corner-video bottom-right">
+                <video class="video-player" poster="/static/video/index/header/meeting.jpg" muted="">
+                    <source src="/api/placeholder/video4.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <span style="position: absolute; bottom: 5px; left: 5px; font-size: 10px;">Video 4</span>
+            </div>
+        </div>
+        
+        <div class="header-title">Your Awesome Video Collection</div>
+    </div>
+    
+    <script>
+        const playButton = document.querySelector('.play-button');
+        const videos = document.querySelectorAll('.video-player');
+        let isPlaying = false;
+
+        playButton.addEventListener('click', () => {
+            isPlaying = !isPlaying;
+            videos.forEach(video => {
+                if (isPlaying) {
+                    video.play();
+                    video.controls = true;
+                    playButton.querySelector('.play-icon').style.borderLeft = '0';
+                    playButton.querySelector('.play-icon').style.borderRight = '25px solid #fff';
+                    playButton.querySelector('.play-icon').style.marginLeft = '0';
+                } else {
+                    video.pause();
+                    video.controls = false;
+                    playButton.querySelector('.play-icon').style.borderRight = '0';
+                    playButton.querySelector('.play-icon').style.borderLeft = '25px solid #fff';
+                    playButton.querySelector('.play-icon').style.marginLeft = '5px';
+                }
+            });
+        });
+    </script>
+</header>
+
+    
+    <section class="why-choose-us-section">
+      <div class="fcontainer">  
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-logo">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 15.39L8.24 17.66L9.23 13.38L5.91 10.5L10.29 10.13L12 6.09L13.71 10.13L18.09 10.5L14.77 13.38L15.76 17.66L12 15.39Z" fill="#FFD700"></path>
+                    </svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 15.39L8.24 17.66L9.23 13.38L5.91 10.5L10.29 10.13L12 6.09L13.71 10.13L18.09 10.5L14.77 13.38L15.76 17.66L12 15.39Z" fill="#FFD700"></path>
+                    </svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 15.39L8.24 17.66L9.23 13.38L5.91 10.5L10.29 10.13L12 6.09L13.71 10.13L18.09 10.5L14.77 13.38L15.76 17.66L12 15.39Z" fill="#FFD700"></path>
+                    </svg>
+                </div>
+                <div class="stat-value">1000+</div>
+                <div class="stat-label">Events Created</div>
+            </div>
+            
+            <div class="stat-item">
+                <div class="client-avatars">
+                    <div class="client-avatar">
+                        <img src="./EvenzA_files/dpb.jpg" alt="Client 1">
+                    </div>
+                    <div class="client-avatar">
+                        <img src="./EvenzA_files/dpg.jpg" alt="Client 2">
+                    </div>
+                    <div class="client-avatar">
+                        <img src="./EvenzA_files/dpb2.jpg" alt="Client 3">
+                    </div>
+                </div>
+                <div class="stat-value">450+</div>
+                <div class="stat-label">Clients Trust</div>
+            </div>
+            
+            <div class="stat-item">
+                <div class="stat-value">98%</div>
+                <div class="stat-label">Customer Satisfaction</div>
+            </div>
+        </div>
+      </div>  
+
+      <div class="container">  
+        <div class="services-grid">
+            <div class="event-service-card corporate-event">
+                <div class="event-arrow-icon">↗</div>
+                <div class="event-service-overlay"></div>
+                <div class="event-service-bg" style="background-image: url(&#39;../../static/images/index/background/cta.jpg&#39;)"></div>
+                <div class="event-service-bg-hover" style="background-image: url(&#39;../../static/images/index/background/corporate-hover.jpg&#39;)"></div>
+                <div class="event-service-content">
+                    <div class="event-service-title">Corporate Events</div>
+                    <div class="event-service-description">Elevate your business gatherings with our tailored corporate event solutions, designed to impress and engage your team and clients.</div>
+                    <div class="event-service-btn">Learn More</div>
+                </div>
+            </div>
+            
+            <div class="event-service-card wedding-event">
+                <div class="event-arrow-icon">↗</div>
+                <div class="event-service-overlay"></div>
+                <div class="event-service-bg" style="background-image: url(&#39;../../static/images/index/background/cta2.jpg&#39;)"></div>
+                <div class="event-service-bg-hover" style="background-image: url(&#39;../../static/images/index/background/wedding-hover.jpg&#39;)"></div>
+                <div class="event-service-content">
+                    <div class="event-service-title">Wedding Events</div>
+                    <div class="event-service-description">Create magical moments for your special day with our comprehensive wedding planning and execution services.</div>
+                    <div class="event-service-btn">Learn More</div>
+                </div>
+            </div>
+            
+            <div class="event-service-card private-event">
+                <div class="event-arrow-icon">↗</div>
+                <div class="event-service-overlay"></div>
+                <div class="event-service-bg" style="background-image: url(&#39;../../static/images/index/background/cta3.jpg&#39;)"></div>
+                <div class="event-service-bg-hover" style="background-image: url(&#39;../../static/images/index/background/private-hover.jpg&#39;)"></div>
+                <div class="event-service-content">
+                    <div class="event-service-title">Private Parties</div>
+                    <div class="event-service-description">Turn your vision into reality with our bespoke private party services, creating memorable experiences for you and your guests.</div>
+                    <div class="event-service-btn">Learn More</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+    
+    
+
+<!-- Paid Events Section -->
+<div class="events-section">
+  <h2>Events</h2>
+  <div class="carousel-container" id="paid-events-carousel">
+    <div class="carousel" id="paid-events-track" style="transform: translateX(0px);">
+      
+      <div class="card" style="transition: opacity 1200ms cubic-bezier(0.34, 1.56, 0.64, 1), transform 1200ms cubic-bezier(0.34, 1.56, 0.64, 1); opacity: 1; transform: translate(0px, 0px);">
+        <div class="profile-area">
+          <div style="display: flex; flex-direction: column; align-items: flex-end;">
+            <span class="profile-name">preash</span>
+            <button class="message-button">Message</button>
+          </div>
+          <button class="profile-button">
+            <div class="profile-icon">
+              <img src="./EvenzA_files/Screenshot_2025-05-10_143445.png" alt="Profile Icon">
+            </div>
+          </button>
+        </div>
+        <div class="date-badge">
+          <span class="countdown-label">Closes in:</span>
+          <span class="countdown-timer very-soon" data-datetime="2025-05-15 21:09:00">5h 44m 29s</span>
+        </div>
+        
+        <div class="event-image">
+          <img src="./EvenzA_files/meeting.jpg" alt="Event Image">
+        </div>
+        <div class="bottom">
+          <div class="content">
+            <span class="name">hello</span>
+            <span class="about-me">xascdx vc</span>
+            
+            <div class="event-details">
+              <span class="label">Date:</span>
+              <span class="value">May 15, 2025, 9:09 p.m.</span>
+              
+              <span class="label">Location:</span>
+              <span class="value">kannur</span>
+              
+              <span class="label">Attendees:</span>
+              <span class="value">0 people attending</span>
+            </div>
+            
+            <span class="status online">offline</span>
+          </div>
+          <div class="bottom-bottom">
+            <span class="event-mtitle">
+              hello
+            </span>
+            <button class="join-button">
+              Join $200.00
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card" style="transition: opacity 1200ms cubic-bezier(0.34, 1.56, 0.64, 1), transform 1200ms cubic-bezier(0.34, 1.56, 0.64, 1); opacity: 1; transform: translate(0px, 0px);">
+        <div class="profile-area">
+          <div style="display: flex; flex-direction: column; align-items: flex-end;">
+            <span class="profile-name">preash</span>
+            <button class="message-button">Message</button>
+          </div>
+          <button class="profile-button">
+            <div class="profile-icon">
+              <img src="./EvenzA_files/Screenshot_2025-05-10_143445.png" alt="Profile Icon">
+            </div>
+          </button>
+        </div>
+        <div class="date-badge">
+          <span class="countdown-label">Closes in:</span>
+          <span class="countdown-timer" data-datetime="2025-05-29 16:59:00">14d 1h 34m 29s</span>
+        </div>
+        
+        <div class="event-image">
+          <img src="./EvenzA_files/movie.jpg" alt="Event Image">
+        </div>
+        <div class="bottom">
+          <div class="content">
+            <span class="name">qDFDGHJ</span>
+            <span class="about-me">SDGFHDGFGFDHGFHGKJHKJHGJHKJ,</span>
+            
+            <div class="event-details">
+              <span class="label">Date:</span>
+              <span class="value">May 29, 2025, 4:59 p.m.</span>
+              
+              <span class="label">Location:</span>
+              <span class="value">FDSGFHDGGJB,NM,</span>
+              
+              <span class="label">Attendees:</span>
+              <span class="value">2 people attending</span>
+            </div>
+            
+            <span class="status online">online</span>
+          </div>
+          <div class="bottom-bottom">
+            <span class="event-mtitle">
+              qDFDGHJ
+            </span>
+            <button class="join-button">
+              Join $10.00
+            </button>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+  <div class="carousel-controls">
+    <button class="carousel-button" id="paid-prev" disabled="">←</button>
+    <button class="carousel-button" id="paid-next" disabled="">→</button>
+  </div>
+  
+</div>
+
+<!-- Non-Paid Events Section -->
+<div class="events-section">
+  <h2>Events</h2>
+  <div class="carousel-container" id="non-paid-events-carousel">
+    <div class="carousel" id="non-paid-events-track" style="transform: translateX(0px);">
+      
+      <div class="card event-started" style="transition: opacity 1200ms cubic-bezier(0.34, 1.56, 0.64, 1), transform 1200ms cubic-bezier(0.34, 1.56, 0.64, 1); opacity: 1; transform: translate(0px, 0px);">
+        <div class="profile-area">
+          <div style="display: flex; flex-direction: column; align-items: flex-end;">
+            <span class="profile-name">preash</span>
+            <button class="message-button">Message</button>
+          </div>
+          <button class="profile-button">
+            <div class="profile-icon">
+              <img src="./EvenzA_files/Screenshot_2025-05-10_143445.png" alt="Profile Icon">
+            </div>
+          </button>
+        </div>
+        <div class="date-badge">
+          <span class="countdown-label">Closes in:</span>
+          <span class="countdown-timer started" data-datetime="2025-05-13 07:06:00">Event started</span>
+        </div>
+        <div class="event-image">
+          <img src="./EvenzA_files/meeting.jpg" alt="Event Image">
+        </div>
+        <div class="bottom">
+          <div class="content">
+            <span class="name">review</span>
+            <span class="about-me">aswadesfrtdfyui</span>
+            
+            <div class="event-details">
+              <span class="label">Date:</span>
+              <span class="value">May 13, 2025, 7:06 a.m.</span>
+              
+              <span class="label">Location:</span>
+              <span class="value">kannur</span>
+              
+              <span class="label">Attendees:</span>
+              <span class="value">2 people attending</span>
+            </div>
+            
+            <span class="status online">online</span>
+          </div>
+          <div class="bottom-bottom">
+            <span class="event-mtitle">
+              review
+            </span>
+            <button class="join-button">
+              Join Event
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card event-started" style="transition: opacity 1200ms cubic-bezier(0.34, 1.56, 0.64, 1), transform 1200ms cubic-bezier(0.34, 1.56, 0.64, 1); opacity: 1; transform: translate(0px, 0px);">
+        <div class="profile-area">
+          <div style="display: flex; flex-direction: column; align-items: flex-end;">
+            <span class="profile-name">preash</span>
+            <button class="message-button">Message</button>
+          </div>
+          <button class="profile-button">
+            <div class="profile-icon">
+              <img src="./EvenzA_files/Screenshot_2025-05-10_143445.png" alt="Profile Icon">
+            </div>
+          </button>
+        </div>
+        <div class="date-badge">
+          <span class="countdown-label">Closes in:</span>
+          <span class="countdown-timer started" data-datetime="2025-05-13 10:30:00">Event started</span>
+        </div>
+        <div class="event-image">
+          <img src="./EvenzA_files/movie.jpg" alt="Event Image">
+        </div>
+        <div class="bottom">
+          <div class="content">
+            <span class="name">review</span>
+            <span class="about-me">qwertghj</span>
+            
+            <div class="event-details">
+              <span class="label">Date:</span>
+              <span class="value">May 13, 2025, 10:30 a.m.</span>
+              
+              <span class="label">Location:</span>
+              <span class="value">kannur</span>
+              
+              <span class="label">Attendees:</span>
+              <span class="value">2 people attending</span>
+            </div>
+            
+            <span class="status online">online</span>
+          </div>
+          <div class="bottom-bottom">
+            <span class="event-mtitle">
+              review
+            </span>
+            <button class="join-button">
+              Join Event
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card" style="transition: opacity 1200ms cubic-bezier(0.34, 1.56, 0.64, 1), transform 1200ms cubic-bezier(0.34, 1.56, 0.64, 1); opacity: 1; transform: translate(0px, 0px);">
+        <div class="profile-area">
+          <div style="display: flex; flex-direction: column; align-items: flex-end;">
+            <span class="profile-name">creatorash</span>
+            <button class="message-button">Message</button>
+          </div>
+          <button class="profile-button">
+            <div class="profile-icon">
+              <img src="./EvenzA_files/boy3.jpg" alt="Profile Icon">
+            </div>
+          </button>
+        </div>
+        <div class="date-badge">
+          <span class="countdown-label">Closes in:</span>
+          <span class="countdown-timer" data-datetime="2025-05-24 14:28:00">8d 23h 3m 29s</span>
+        </div>
+        <div class="event-image">
+          <img src="./EvenzA_files/Screenshot_2025-05-10_143445(1).png" alt="Event Image">
+        </div>
+        <div class="bottom">
+          <div class="content">
+            <span class="name">SDWAFESGDRFHGJHJ</span>
+            <span class="about-me">DASFSVBGFVSDFBGCDVX</span>
+            
+            <div class="event-details">
+              <span class="label">Date:</span>
+              <span class="value">May 24, 2025, 2:28 p.m.</span>
+              
+              <span class="label">Location:</span>
+              <span class="value">DSFSVF</span>
+              
+              <span class="label">Attendees:</span>
+              <span class="value">4 people attending</span>
+            </div>
+            
+            <span class="status online">online</span>
+          </div>
+          <div class="bottom-bottom">
+            <span class="event-mtitle">
+              SDWAFESGD…
+            </span>
+            <button class="join-button">
+              Join Event
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card event-started" style="transition: opacity 1200ms cubic-bezier(0.34, 1.56, 0.64, 1), transform 1200ms cubic-bezier(0.34, 1.56, 0.64, 1); opacity: 1; transform: translate(0px, 0px);">
+        <div class="profile-area">
+          <div style="display: flex; flex-direction: column; align-items: flex-end;">
+            <span class="profile-name">joinerash</span>
+            <button class="message-button">Message</button>
+          </div>
+          <button class="profile-button">
+            <div class="profile-icon">
+              <img src="./EvenzA_files/boy2.jpg" alt="Profile Icon">
+            </div>
+          </button>
+        </div>
+        <div class="date-badge">
+          <span class="countdown-label">Closes in:</span>
+          <span class="countdown-timer started" data-datetime="2025-05-11 03:25:00">Event started</span>
+        </div>
+        <div class="event-image">
+          <img src="./EvenzA_files/sports.jpg" alt="Event Image">
+        </div>
+        <div class="bottom">
+          <div class="content">
+            <span class="name">aaSDFGH</span>
+            <span class="about-me">dgfhghjzfdxbcvnbn</span>
+            
+            <div class="event-details">
+              <span class="label">Date:</span>
+              <span class="value">May 11, 2025, 3:25 a.m.</span>
+              
+              <span class="label">Location:</span>
+              <span class="value">DAFSGDF</span>
+              
+              <span class="label">Attendees:</span>
+              <span class="value">1 people attending</span>
+            </div>
+            
+            <span class="status online">online</span>
+          </div>
+          <div class="bottom-bottom">
+            <span class="event-mtitle">
+              aaSDFGH
+            </span>
+            <button class="join-button">
+              Join Event
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card" style="transition: opacity 1200ms cubic-bezier(0.34, 1.56, 0.64, 1), transform 1200ms cubic-bezier(0.34, 1.56, 0.64, 1); opacity: 1; transform: translate(0px, 0px);">
+        <div class="profile-area">
+          <div style="display: flex; flex-direction: column; align-items: flex-end;">
+            <span class="profile-name">Ashwin</span>
+            <button class="message-button">Message</button>
+          </div>
+          <button class="profile-button">
+            <div class="profile-icon">
+              <img src="./EvenzA_files/boy1.jpg" alt="Profile Icon">
+            </div>
+          </button>
+        </div>
+        <div class="date-badge">
+          <span class="countdown-label">Closes in:</span>
+          <span class="countdown-timer" data-datetime="2025-05-23 23:23:00">8d 7h 58m 29s</span>
+        </div>
+        <div class="event-image">
+          <img src="./EvenzA_files/girl3.jpg" alt="Event Image">
+        </div>
+        <div class="bottom">
+          <div class="content">
+            <span class="name">Movie Night</span>
+            <span class="about-me">scdvfb</span>
+            
+            <div class="event-details">
+              <span class="label">Date:</span>
+              <span class="value">May 23, 2025, 11:23 p.m.</span>
+              
+              <span class="label">Location:</span>
+              <span class="value">kannur</span>
+              
+              <span class="label">Attendees:</span>
+              <span class="value">5 people attending</span>
+            </div>
+            
+            <span class="status online">online</span>
+          </div>
+          <div class="bottom-bottom">
+            <span class="event-mtitle">
+              Movie Nig…
+            </span>
+            <button class="join-button">
+              Join Event
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card" style="transition: opacity 1200ms cubic-bezier(0.34, 1.56, 0.64, 1), transform 1200ms cubic-bezier(0.34, 1.56, 0.64, 1); opacity: 1; transform: translate(0px, 0px);">
+        <div class="profile-area">
+          <div style="display: flex; flex-direction: column; align-items: flex-end;">
+            <span class="profile-name">joiash1</span>
+            <button class="message-button">Message</button>
+          </div>
+          <button class="profile-button">
+            <div class="profile-icon">
+              <img src="./EvenzA_files/Screenshot_2025-02-23_123803.png" alt="Profile Icon">
+            </div>
+          </button>
+        </div>
+        <div class="date-badge">
+          <span class="countdown-label">Closes in:</span>
+          <span class="countdown-timer" data-datetime="2025-05-30 17:08:00">15d 1h 43m 29s</span>
+        </div>
+        <div class="event-image">
+          <img src="./EvenzA_files/Screenshot_2025-05-05_213327.png" alt="Event Image">
+        </div>
+        <div class="bottom">
+          <div class="content">
+            <span class="name">sczdxvfbgcvhjmk</span>
+            <span class="about-me">sdfdgfcgvh</span>
+            
+            <div class="event-details">
+              <span class="label">Date:</span>
+              <span class="value">May 30, 2025, 5:08 p.m.</span>
+              
+              <span class="label">Location:</span>
+              <span class="value">dszfxgchvjbknm</span>
+              
+              <span class="label">Attendees:</span>
+              <span class="value">1 people attending</span>
+            </div>
+            
+            <span class="status online">online</span>
+          </div>
+          <div class="bottom-bottom">
+            <span class="event-mtitle">
+              sczdxvfbg…
+            </span>
+            <button class="join-button">
+              Join Event
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card" style="transition: opacity 1200ms cubic-bezier(0.34, 1.56, 0.64, 1), transform 1200ms cubic-bezier(0.34, 1.56, 0.64, 1); opacity: 1; transform: translate(0px, 0px);">
+        <div class="profile-area">
+          <div style="display: flex; flex-direction: column; align-items: flex-end;">
+            <span class="profile-name">Ashwin</span>
+            <button class="message-button">Message</button>
+          </div>
+          <button class="profile-button">
+            <div class="profile-icon">
+              <img src="./EvenzA_files/boy1.jpg" alt="Profile Icon">
+            </div>
+          </button>
+        </div>
+        <div class="date-badge">
+          <span class="countdown-label">Closes in:</span>
+          <span class="countdown-timer" data-datetime="2025-05-31 17:02:00">16d 1h 37m 29s</span>
+        </div>
+        <div class="event-image">
+          <img src="./EvenzA_files/Screenshot_2025-05-06_171208.png" alt="Event Image">
+        </div>
+        <div class="bottom">
+          <div class="content">
+            <span class="name">xfcgvhbj</span>
+            <span class="about-me">sertrdfyughijlkdznklm</span>
+            
+            <div class="event-details">
+              <span class="label">Date:</span>
+              <span class="value">May 31, 2025, 5:02 p.m.</span>
+              
+              <span class="label">Location:</span>
+              <span class="value">xfcgvhbjkn</span>
+              
+              <span class="label">Attendees:</span>
+              <span class="value">5 people attending</span>
+            </div>
+            
+            <span class="status online">online</span>
+          </div>
+          <div class="bottom-bottom">
+            <span class="event-mtitle">
+              xfcgvhbj
+            </span>
+            <button class="join-button">
+              Join Event
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card" style="transition: opacity 1200ms cubic-bezier(0.34, 1.56, 0.64, 1), transform 1200ms cubic-bezier(0.34, 1.56, 0.64, 1); opacity: 1; transform: translate(0px, 0px);">
+        <div class="profile-area">
+          <div style="display: flex; flex-direction: column; align-items: flex-end;">
+            <span class="profile-name">joinerash</span>
+            <button class="message-button">Message</button>
+          </div>
+          <button class="profile-button">
+            <div class="profile-icon">
+              <img src="./EvenzA_files/boy2.jpg" alt="Profile Icon">
+            </div>
+          </button>
+        </div>
+        <div class="date-badge">
+          <span class="countdown-label">Closes in:</span>
+          <span class="countdown-timer" data-datetime="2025-06-07 04:28:00">22d 13h 3m 29s</span>
+        </div>
+        <div class="event-image">
+          <img src="./EvenzA_files/sports.jpg" alt="Event Image">
+        </div>
+        <div class="bottom">
+          <div class="content">
+            <span class="name">awfefsgrhdtfjgjh</span>
+            <span class="about-me">zsfdgxfhcgjvhbj</span>
+            
+            <div class="event-details">
+              <span class="label">Date:</span>
+              <span class="value">Jun 07, 2025, 4:28 a.m.</span>
+              
+              <span class="label">Location:</span>
+              <span class="value">sdgxfhcgjvhkbjn</span>
+              
+              <span class="label">Attendees:</span>
+              <span class="value">2 people attending</span>
+            </div>
+            
+            <span class="status online">online</span>
+          </div>
+          <div class="bottom-bottom">
+            <span class="event-mtitle">
+              awfefsgrh…
+            </span>
+            <button class="join-button">
+              Join Event
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card" style="transition: opacity 1200ms cubic-bezier(0.34, 1.56, 0.64, 1), transform 1200ms cubic-bezier(0.34, 1.56, 0.64, 1); opacity: 1; transform: translate(0px, 0px);">
+        <div class="profile-area">
+          <div style="display: flex; flex-direction: column; align-items: flex-end;">
+            <span class="profile-name">joinerash</span>
+            <button class="message-button">Message</button>
+          </div>
+          <button class="profile-button">
+            <div class="profile-icon">
+              <img src="./EvenzA_files/boy2.jpg" alt="Profile Icon">
+            </div>
+          </button>
+        </div>
+        <div class="date-badge">
+          <span class="countdown-label">Closes in:</span>
+          <span class="countdown-timer" data-datetime="2025-06-28 03:26:00">43d 12h 1m 29s</span>
+        </div>
+        <div class="event-image">
+          <img src="./EvenzA_files/movie.jpg" alt="Event Image">
+        </div>
+        <div class="bottom">
+          <div class="content">
+            <span class="name">aaSDFGH</span>
+            <span class="about-me">dafesgrgjh</span>
+            
+            <div class="event-details">
+              <span class="label">Date:</span>
+              <span class="value">Jun 28, 2025, 3:26 a.m.</span>
+              
+              <span class="label">Location:</span>
+              <span class="value">DAFSGDF</span>
+              
+              <span class="label">Attendees:</span>
+              <span class="value">1 people attending</span>
+            </div>
+            
+            <span class="status online">online</span>
+          </div>
+          <div class="bottom-bottom">
+            <span class="event-mtitle">
+              aaSDFGH
+            </span>
+            <button class="join-button">
+              Join Event
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card" style="transition: opacity 1200ms cubic-bezier(0.34, 1.56, 0.64, 1), transform 1200ms cubic-bezier(0.34, 1.56, 0.64, 1); opacity: 1; transform: translate(0px, 0px);">
+        <div class="profile-area">
+          <div style="display: flex; flex-direction: column; align-items: flex-end;">
+            <span class="profile-name">creash</span>
+            <button class="message-button">Message</button>
+          </div>
+          <button class="profile-button">
+            <div class="profile-icon">
+              <img src="./EvenzA_files/Screenshot_2025-05-10_143445_KjDVZ8R.png" alt="Profile Icon">
+            </div>
+          </button>
+        </div>
+        <div class="date-badge">
+          <span class="countdown-label">Closes in:</span>
+          <span class="countdown-timer" data-datetime="2025-06-06 16:02:00">22d 0h 37m 29s</span>
+        </div>
+        <div class="event-image">
+          <img src="./EvenzA_files/movie.jpg" alt="Event Image">
+        </div>
+        <div class="bottom">
+          <div class="content">
+            <span class="name">qDFDGHJ</span>
+            <span class="about-me">aDSFzdgvhbn</span>
+            
+            <div class="event-details">
+              <span class="label">Date:</span>
+              <span class="value">Jun 06, 2025, 4:02 p.m.</span>
+              
+              <span class="label">Location:</span>
+              <span class="value">FDSGFHDGGJB,NM,</span>
+              
+              <span class="label">Attendees:</span>
+              <span class="value">2 people attending</span>
+            </div>
+            
+            <span class="status online">online</span>
+          </div>
+          <div class="bottom-bottom">
+            <span class="event-mtitle">
+              qDFDGHJ
+            </span>
+            <button class="join-button">
+              Join Event
+            </button>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+  <div class="carousel-controls">
+    <button class="carousel-button" id="non-paid-prev" disabled="">←</button>
+    <button class="carousel-button" id="non-paid-next">→</button>
+  </div>
+  
+</div>
+
+    <!-- Services Section -->
+    <section class="services visible" id="services">
+      <div class="services-content">
+        <div class="services-text">
+          <div class="services-header">
+            <span class="section-label">PLATFORM FEATURES</span>
+            <h2>Organize, Engage, and Connect with <span class="highlight-text">Your Community</span>.</h2>
+            <p>Our platform empowers you to create and join diverse community events, share your experiences, and collaborate seamlessly through messaging—designed for organizers and attendees alike.</p>
+            <a href="http://127.0.0.1:8000/signup" class="services-cta">Sign Up Now</a>
+          </div>
+          <div class="services-containers">
+            <div class="service-cards">
+              <h3>Create Events with Ease</h3>
+              <p>Sign up to host any type of event, from social gatherings to professional meetups. Upgrade to premium for unlimited event creation and features.</p>
+            </div>
+            <div class="service-cards">
+              <h3>Join Community Events</h3>
+              <p>Explore and attend a wide range of events for free as a joiner, connecting with others in your community.</p>
+            </div>
+            <div class="service-cards">
+              <h3>Share Your Moments</h3>
+              <p>Post photos and updates about your events in our community feed, where others can like and engage with your content.</p>
+            </div>
+            <div class="service-cards">
+              <h3>Collaborate Seamlessly</h3>
+              <p>Communicate via one-on-one messaging or join event group chats to coordinate with attendees, with premium users enjoying unlimited access.</p>
+            </div>
+          </div>
+        </div>
+        <div class="services-image">
+          <img src="./EvenzA_files/concert.jpg" alt="Community event scene" class="service-bg-image visible" loading="lazy" style="transform: translateY(-127.81px);">
+        </div>
+      </div>
+    </section>
+
+    <section class="pricing" id="pricing">
+      <div class="pricing-content">
+        <div class="pricing-header">
+          <span class="section-label">CHOOSE YOUR PLAN</span>
+          <h2>Flexible Pricing for <span class="highlight-text">Every Organizer</span>.</h2>
+          <p>Select the plan that best suits your event organizing needs, from joining events for free to creating unlimited events with premium features.</p>
+          <div class="billing-toggle">
+            <button class="toggle-btn active" data-billing="monthly">Monthly</button>
+            <button class="toggle-btn" data-billing="yearly">Yearly  (Save 15%)</button>
+          </div>
+        </div>
+        <div class="pricing-container">
+          <!-- Joiner Plan -->
+          <div class="pricing-card">
+            <h3 class="plan-name">Joiner</h3>
+            <p class="price monthly-price">$0 <span>/ month</span></p>
+            <p class="price yearly-price hidden">$0 <span>/ year</span></p>
+            <p class="description">Perfect for community members who want to join and experience events.</p>
+            <ul class="feature-list">
+              <li class="feature-item"><span class="checkmark">✓</span>Join all public and private events</li>
+              <li class="feature-item"><span class="checkmark">✓</span>Create up to 3 free events</li>
+              <li class="feature-item"><span class="checkmark">✓</span>Maximum 10 attendees per event</li>
+              <li class="feature-item"><span class="checkmark">✓</span>Read all event messages</li>
+            </ul>
+            <a href="http://127.0.0.1:8000/plan-Free/" class="cta-btn">Get Started</a>
+          </div>
+          <!-- Premium Plan -->
+          <div class="pricing-card featured">
+            <h3 class="plan-name">Premium</h3>
+            <p class="price monthly-price">$49.99 <span>/ month</span></p>
+            <p class="price yearly-price hidden">$509.90 <span> / year</span></p>
+            <p class="description">The ultimate package for serious event organizers and community leaders.</p>
+            <ul class="feature-list">
+              <li class="feature-item"><span class="checkmark">✓</span>Create unlimited events (free &amp; paid)</li>
+              <li class="feature-item"><span class="checkmark">✓</span>Unlimited attendees per event</li>
+              <li class="feature-item"><span class="checkmark">✓</span>Unlimited messaging</li>
+              <li class="feature-item"><span class="checkmark">✓</span>Featured event promotion</li>
+              <li class="feature-item"><span class="checkmark">✓</span>Advanced analytics dashboard</li>
+              <li class="feature-item"><span class="checkmark">✓</span>Ticketing and payment processing</li>
+            </ul>
+            <a href="http://127.0.0.1:8000/plan-Premium/" class="cta-btn">Go Premium</a>
+          </div>
+          <!-- Creator Plan -->
+          <div class="pricing-card" style="transform: translateY(0px);">
+            <h3 class="plan-name">Creator</h3>
+            <p class="price monthly-price">$19.99 <span>/ month</span></p>
+            <p class="price yearly-price hidden">$203.90 <span>/ year</span></p>
+            <p class="description">For active community builders who want to create and manage multiple events.</p>
+            <ul class="feature-list">
+              <li class="feature-item"><span class="checkmark">✓</span>Create unlimited free events</li>
+              <li class="feature-item"><span class="checkmark">✓</span>Create up to 3 paid events</li>
+              <li class="feature-item"><span class="checkmark">✓</span>Maximum 100 attendees per event</li>
+              <li class="feature-item"><span class="checkmark">✓</span>Basic event analytics</li>
+              <li class="feature-item"><span class="checkmark">✓</span>Send up to 50 messages per event</li>
+              <li class="feature-item"><span class="checkmark">✓</span>Email notifications for attendees</li>
+            </ul>
+            <a href="http://127.0.0.1:8000/plan-Creator/" class="cta-btn">Upgrade to Creator</a>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <div class="faq-container">
+          <div class="row">
+              <!-- Row 1, Column 1: Heading and Description -->
+              <div class="col-md-6 faq-left">
+                <span class="section-label">FAQ SECTION</span>
+                  <h2>Answers to Your <span class="eventheader">Event</span> Questions</h2>
+                  <p>Explore quick answers to help you create, join, and manage events on EvenzA with ease.</p>
+              </div>
+              <!-- Row 1, Column 2: First Image -->
+              <div class="col-md-6">
+                  <img src="./EvenzA_files/faq.jpg" alt="Event attendees smiling" class="faq-image animate-in" style="transform: translateY(-305.4px);">
+              </div>
+          </div>
+          <div class="row mt-5">
+              <!-- Row 2, Column 1: Second Image -->
+              <div class="col-md-6">
+                  <img src="./EvenzA_files/faq2.jpg" alt="Event organizer planning" class="faq-image animate-in" style="transform: translateY(-306px);">
+              </div>
+              <!-- Row 2, Column 2: FAQ Accordion -->
+              <div class="col-md-6 faq-right">
+                  <div class="accordion" id="faqAccordion">
+                      <div class="accordion-item">
+                          <h2 class="accordion-header" id="headingOne">
+                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-answer-1" aria-expanded="false" aria-controls="faq-answer-1">
+                                  How do I create an event on EvenzA?
+                                  <span class="faq-arrow"><i class="fas fa-chevron-down"></i></span>
+                              </button>
+                          </h2>
+                          <div id="faq-answer-1" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#faqAccordion" style="display: none;">
+                              <div class="accordion-body">
+                                  Sign up as a Creator or Premium user, go to your dashboard, and click "Create Event." Fill in the details, set a price if needed, and publish to attract attendees.
+                              </div>
+                          </div>
+                      </div>
+                      <div class="accordion-item">
+                          <h2 class="accordion-header" id="headingTwo">
+                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-answer-2" aria-expanded="false" aria-controls="faq-answer-2">
+                                  Can I join events for free?
+                                  <span class="faq-arrow"><i class="fas fa-chevron-down"></i></span>
+                              </button>
+                          </h2>
+                          <div id="faq-answer-2" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion" style="display: none;">
+                              <div class="accordion-body">
+                                  Yes, many events on EvenzA are free to join! Some events may have a fee set by the creator, but community events are often free for all users.
+                              </div>
+                          </div>
+                      </div>
+                      <div class="accordion-item">
+                          <h2 class="accordion-header" id="headingThree">
+                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-answer-3" aria-expanded="false" aria-controls="faq-answer-3">
+                                  What benefits does a Premium plan offer?
+                                  <span class="faq-arrow"><i class="fas fa-chevron-down"></i></span>
+                              </button>
+                          </h2>
+                          <div id="faq-answer-3" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion" style="display: none;">
+                              <div class="accordion-body">
+                                  A Premium plan lets you create unlimited paid events, gain priority visibility in listings, and access advanced analytics to track your event performance.
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <a href="http://127.0.0.1:8000/#" class="more-questions-btn">More Questions</a>
+              </div>
+          </div>
+      </div>
+    </section>
+
+    <section class="evenza-unique-hero-section evenza-unique-in-view">
+      <div class="evenza-unique-floating-shapes">
+          <div class="evenza-unique-shape evenza-unique-shape-1" style="transform: scale(1);"></div>
+          <div class="evenza-unique-shape evenza-unique-shape-2" style="transform: scale(1);"></div>
+          <div class="evenza-unique-shape evenza-unique-shape-3" style="transform: scale(1);"></div>
+      </div>
+      <div class="evenza-unique-overlay"></div>
+      <div class="evenza-unique-content-container">
+          <div class="evenza-unique-text-content">
+              <h1 class="evenza-unique-hero-heading">Create Memorable Experiences with Evenza</h1>
+              <p class="evenza-unique-hero-subheading">Join our vibrant community platform where you can discover, create, and share amazing events. Connect with like-minded people and turn your ideas into unforgettable gatherings.</p>
+              <div class="evenza-unique-cta-buttons">
+                  <a href="http://127.0.0.1:8000/#" class="evenza-unique-primary-btn">Create Event <span class="evenza-unique-btn-icon">→</span></a>
+                  <a href="http://127.0.0.1:8000/#" class="evenza-unique-secondary-btn">Explore Events</a>
+              </div>
+          </div>
+          <div class="evenza-unique-card-content">
+              <div class="evenza-unique-hero-card">
+                  <h2 class="evenza-unique-card-heading">Let's Make Your Event Unforgettable Today.</h2>
+                  <p class="evenza-unique-card-text">From intimate meetups to large conferences, Evenza provides all the tools you need to organize, promote, and manage successful events that bring people together.</p>
+                  <a href="http://127.0.0.1:8000/#" class="evenza-unique-primary-btn">Get Started <span class="evenza-unique-btn-icon" style="transform: translateX(0px);">→</span></a>
+              </div>
+          </div>
+      </div>
+    </section>
+
+    <section id="our-features" class="our-features-section">
+      <div class="our-features-container">
+        <div class="our-features-label">OUR FEATURES</div>
+        <h2 class="our-features-title">Discover Evenza: Your Community Event Platform.</h2>
+        
+        <div class="features-grid">
+          <!-- Top Row: 4 Boxes -->
+          <!-- Card with play button (representing Messaging Feature) -->
+          <div class="feature-card">
+            <video class="feature-image" poster="/static/video/index/our-feature-event.mp4" preload="metadata" controls="" autoplay="" muted="">
+              <source src="/static/video/index/our-feature-event.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <a class="arrow-btn" href="http://127.0.0.1:8000/user-login">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 17L17 7M17 7H7M17 7V17" stroke="#3d2c72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </a>
+          </div>
+          
+          <!-- Messaging Feature Card (with gradient background) -->
+          <div class="feature-card venue">
+            <a class="arrow-btn" href="http://127.0.0.1:8000/user-login">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 17L17 7M17 7H7M17 7V17" stroke="#3d2c72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </a>
+            <div class="feature-content">
+              <h3 class="feature-title">Create Event</h3>
+              <p class="feature-desc">Connect with your community by creating new Events.</p>
+            </div>
+          </div>
+          
+          <!-- Card with play button (representing Community Post Section) -->
+          <div class="feature-card">
+            <video class="feature-image" poster="/static/video/index/our-feature-community-post.mp4" preload="metadata" controls="" autoplay="" muted="">
+              <source src="/static/video/index/our-feature-community-post.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <a class="arrow-btn" href="http://127.0.0.1:8000/user-login">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 17L17 7M17 7H7M17 7V17" stroke="#3d2c72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </a>
+          </div>
+          
+          <!-- Community Post Section Card (yellow background) -->
+          <div class="feature-card community-post">
+            <a class="arrow-btn" href="http://127.0.0.1:8000/user-login">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 17L17 7M17 7H7M17 7V17" stroke="#3d2c72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </a>
+            <div class="feature-content">
+              <h3 class="feature-title">Community Post Section</h3>
+              <p class="feature-desc">Engage with your community through posts and discussions.</p>
+            </div>
+          </div>
+          
+          <!-- Bottom Row: 4 Boxes -->
+          <!-- 24x7 Customer Support Card (no play button, catering style) -->
+          <div class="feature-card catering">
+            <a class="arrow-btn" href="http://127.0.0.1:8000/user-login">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 17L17 7M17 7H7M17 7V17" stroke="#3d2c72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </a>
+            <div class="feature-content">
+              <h3 class="feature-title">24x7 Customer Support</h3>
+              <p class="feature-desc">Get help anytime with our round-the-clock support team.</p>
+            </div>
+          </div>
+          
+          <!-- Card with play button (representing 24x7 Customer Support) -->
+          <div class="feature-card">
+            <video class="feature-image" poster="/static/video/index/our-feature-customersupport.mp4" preload="metadata" controls="" autoplay="" muted="">
+              <source src="/static/video/index/our-feature-customersupport.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <a class="arrow-btn" href="http://127.0.0.1:8000/user-login">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 17L17 7M17 7H7M17 7V17" stroke="#3d2c72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </a>
+          </div>
+          
+          <!-- Explore More Card (no play button, decor style) -->
+          <div class="feature-card decor">
+            <a class="arrow-btn" href="http://127.0.0.1:8000/user-login">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 17L17 7M17 7H7M17 7V17" stroke="#3d2c72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </a>
+            <div class="feature-content">
+              <h3 class="feature-title">Explore More</h3>
+              <p class="feature-desc">Discover additional features to enhance your event experience.</p>
+            </div>
+          </div>
+          
+          <!-- Card with play button (representing Explore More) -->
+          <div class="feature-card">
+            <video class="feature-image" poster="/static/video/index/our-feature-customersupport.mp4" preload="metadata" controls="" autoplay="" muted="">
+              <source src="/static/video/index/our-feature-exploremore.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <a class="arrow-btn" href="http://127.0.0.1:8000/user-login">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 17L17 7M17 7H7M17 7V17" stroke="#3d2c72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Feature Details Sections -->
+        <div id="messaging-details" class="feature-details">
+          <h2>Messaging Feature</h2>
+          <p>Stay connected with your community through Evenza's messaging feature. Chat with attendees, organizers, and members in real-time to coordinate and collaborate.</p>
+          <p>Our secure messaging ensures your conversations are private and accessible anytime.</p>
+        </div>
+        
+        <div id="community-post-details" class="feature-details">
+          <h2>Community Post Section</h2>
+          <p>Engage with your community through Evenza's Community Post Section. Share updates, post event highlights, and spark conversations with members.</p>
+          <p>Build a vibrant community by encouraging interaction and participation through posts and comments.</p>
+        </div>
+        
+        <div id="support-details" class="feature-details">
+          <h2>24x7 Customer Support</h2>
+          <p>Our dedicated support team is available 24x7 to assist you with any questions or issues. Whether you need help with event setup or platform navigation, we're here for you.</p>
+          <p>Reach out via chat, email, or phone, and get prompt solutions anytime, anywhere.</p>
+        </div>
+        
+        <div id="explore-details" class="feature-details">
+          <h2>Explore More</h2>
+          <p>Evenza offers a range of tools to enhance your event planning experience. Discover features like event analytics, RSVP tracking, and more to make your events even better.</p>
+          <p>Explore our platform to find everything you need for a seamless community event experience.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <!-- Brand and Contact Info -->
+        <div class="footer-brand">
+          <h2>
+            <i class="fas fa-calendar-alt"></i> EvenzA
+          </h2>
+          <p>Create, share, and join communities that matter with EvenzA.</p>
+          <div class="contact-info">
+            <div>
+              <i class="fas fa-envelope"></i>
+              <span>hello@evenza.com</span>
+            </div>
+            <div>
+              <i class="fas fa-phone"></i>
+              <span>+44 123 456 789</span>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Quick Links -->
+        <div class="footer-links">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="http://127.0.0.1:8000/#home" class="smooth-scroll">Homepage</a></li>
+            <li><a href="http://127.0.0.1:8000/#audience" class="smooth-scroll">Who Can Join</a></li>
+            <li><a href="http://127.0.0.1:8000/#services" class="smooth-scroll">Our Services</a></li>
+            <li><a href="http://127.0.0.1:8000/#pricing" class="smooth-scroll">Pricing</a></li>
+            <li><a href="http://127.0.0.1:8000/#our-features" class="smooth-scroll">Features</a></li>
+          </ul>
+        </div>
+  
+        <!-- Services -->
+        <div class="footer-services">
+          <h3>Our Services</h3>
+          <ul>
+            <li><a href="http://127.0.0.1:8000/#services">Create Events</a></li>
+            <li><a href="http://127.0.0.1:8000/#services">Join Communities</a></li>
+            <li><a href="http://127.0.0.1:8000/#our-features">Community Posts</a></li>
+            <li><a href="http://127.0.0.1:8000/#our-features">Messaging</a></li>
+            <li><a href="http://127.0.0.1:8000/#our-features">24x7 Support</a></li>
+          </ul>
+        </div>
+  
+        <!-- Newsletter Subscription -->
+        <div class="footer-newsletter">
+          <h3>Subscribe Our Newsletter</h3>
+          <p>Get the latest updates on events &amp; community features.</p>
+          <form class="newsletter-form" id="newsletterForm">
+            <input type="email" placeholder="Email" aria-label="Email for newsletter subscription" id="newsletterEmail">
+            <button type="submit">Subscribe</button>
+          </form>
+          <div class="newsletter-message" id="newsletterMessage"></div>
+        </div>
+      </div>
+  
+      <!-- Footer Bottom -->
+      <div class="footer-bottom container">
+        <p>All Rights Reserved - EvenzA © 2025</p>
+        <div class="social-icons">
+          <a href="http://127.0.0.1:8000/#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="http://127.0.0.1:8000/#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="http://127.0.0.1:8000/#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="http://127.0.0.1:8000/#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="./EvenzA_files/bootstrap.bundle.min.js.download"></script>
+    <script src="./EvenzA_files/Navbar.js.download"></script>
+    <script src="./EvenzA_files/header.js.download"></script>
+    <script src="./EvenzA_files/wcu.js.download"></script>
+    <script src="./EvenzA_files/Indexcards.js.download"></script>
+    <script src="./EvenzA_files/Indexcards.js.download"></script>
+    <script src="./EvenzA_files/pagination.js.download"></script>
+    <script src="./EvenzA_files/animation.js.download"></script>
+    <script src="./EvenzA_files/timeleft.js.download"></script>
+    <script src="./EvenzA_files/services.js.download"></script>
+    <script src="./EvenzA_files/pricing.js.download"></script>
+    <script src="./EvenzA_files/faq.js.download"></script>
+    <script src="./EvenzA_files/cta.js.download"></script>
+    <script src="./EvenzA_files/ourfeature.js.download"></script>
+    <script src="./EvenzA_files/footer.js.download"></script>
+  
+</body></html>

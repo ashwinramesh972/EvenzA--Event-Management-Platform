@@ -1,0 +1,778 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - EvenzA</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --text-light: #7f8c8d;
+            --bg-light: #f8f9fa;
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .photo-placeholder {
+                width: 150px;
+                height: 150px;
+            }
+
+            .growth-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .growth-icon {
+                margin: 0 0 20px 0;
+                align-self: center;
+            }
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-section p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        .project-section, .developer-section {
+            padding: 80px 0;
+        }
+
+        .project-section {
+            background: var(--bg-light);
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 5px solid var(--secondary-color);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .feature-card h4 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .feature-card i {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+
+        .tech-stack {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 40px;
+        }
+
+        .tech-logo {
+            width: 60px;
+            height: 60px;
+            margin: 15px;
+            transition: transform 0.3s ease;
+            filter: grayscale(0.3);
+        }
+
+        .tech-logo:hover {
+            transform: scale(1.1);
+            filter: grayscale(0);
+        }
+
+        .developer-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .developer-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+        }
+
+        .photo-placeholder {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 5px solid white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo-placeholder i {
+            font-size: 4rem;
+            color: var(--text-light);
+        }
+
+        .photo-placeholder::after {
+            content: 'Your Photo Here';
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: var(--text-light);
+            background: rgba(255,255,255,0.9);
+            padding: 5px 10px;
+            border-radius: 15px;
+        }
+
+        .contact-info {
+            margin-top: 30px;
+        }
+
+        .contact-item {
+            display: inline-block;
+            margin: 10px 15px;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-item:hover {
+            color: var(--secondary-color);
+        }
+
+        .contact-item i {
+            margin-right: 8px;
+        }
+
+        .skills-section {
+            margin-top: 40px;
+        }
+
+        .skill-category {
+            background: var(--bg-light);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .skill-category h5 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .skill-tag {
+            display: inline-block;
+            background: var(--secondary-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin: 5px;
+            font-size: 0.9rem;
+        }
+
+        .stats-section {
+            background: var(--primary-color);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .stat-item {
+            margin-bottom: 30px;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .growth-mindset-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 30px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .growth-mindset-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .growth-card {
+            position: relative;
+            z-index: 2;
+        }
+
+        .growth-content {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+
+        .growth-icon {
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        .pulse-animation {
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: pulse 2s infinite;
+        }
+
+        .pulse-animation i {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .pulse-animation::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            animation: ripple 2s infinite;
+        }
+
+        .growth-title {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .growth-description {
+            color: rgba(255,255,255,0.9);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .learning-progress {
+            margin: 25px 0;
+        }
+
+        .progress-item {
+            margin-bottom: 15px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .progress-percent {
+            font-weight: 600;
+            color: #4fc3f7;
+        }
+
+        .progress-bar-custom {
+            height: 6px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4fc3f7, #29b6f6);
+            border-radius: 10px;
+            transition: width 2s ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        .motivation-quote {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            position: relative;
+        }
+
+        .quote-icon {
+            font-size: 1.5rem;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 10px;
+        }
+
+        .quote-text {
+            font-style: italic;
+            color: rgba(255,255,255,0.9);
+            font-size: 1rem;
+            margin: 0;
+            font-weight: 300;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255,255,255,0.4);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 20px rgba(255,255,255,0);
+            }
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+        .photo-placeholder {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0; /* Fallback color */
+        }
+
+        .photo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 50% 20%;
+        }
+
+        .photo-placeholder::before,
+        .photo-placeholder::after {
+            content: none; /* Remove any placeholder text */
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <h1><i class="fas fa-calendar-alt me-3"></i>EvenzA</h1>
+            <p>A comprehensive role-based event management platform designed to connect communities and streamline event organization</p>
+        </div>
+    </section>
+
+    <!-- Project Section -->
+    <section class="project-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-title">About The Project</h2>
+                    <p class="lead mb-5">EvenzA is a full-featured web-based event management platform built using modern technologies to provide a seamless experience for event creators and participants alike.</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <i class="fas fa-users"></i>
+                        <h4>Role-Based Access</h4>
+                        <p>Three distinct user roles - Joiner, Creator, and Premium - each with specific capabilities and limitations to ensure optimal platform usage.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <i class="fas fa-calendar-check"></i>
+                        <h4>Event Management</h4>
+                        <p>Create public or private events, set them as free or paid, with admin approval system ensuring quality control.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <i class="fas fa-comments"></i>
+                        <h4>Messaging System</h4>
+                        <p>Direct messaging between users and group chats for event participants, with tier-based limitations.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <i class="fas fa-star"></i>
+                        <h4>Review System</h4>
+                        <p>Star rating and written feedback system helping users evaluate event quality and host reputation.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <i class="fas fa-search"></i>
+                        <h4>Advanced Search</h4>
+                        <p>Search and filter events by title, location, and other criteria for enhanced discoverability.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h4>Analytics Dashboard</h4>
+                        <p>Comprehensive analytics for premium users and administrators to track performance and revenue.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technology Stack -->
+            <div class="tech-stack">
+                <h3 class="text-center mb-4">Built With</h3>
+                <div class="row text-center">
+                    <div class="col-lg-2 col-md-3 col-4">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg" alt="Django" class="tech-logo">
+                        <p class="mt-2"><strong>Django</strong></p>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-4">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" class="tech-logo">
+                        <p class="mt-2"><strong>Python</strong></p>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-4">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" class="tech-logo">
+                        <p class="mt-2"><strong>JavaScript</strong></p>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-4">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" alt="Bootstrap" class="tech-logo">
+                        <p class="mt-2"><strong>Bootstrap</strong></p>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-4">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg" alt="SQLite" class="tech-logo">
+                        <p class="mt-2"><strong>SQLite3</strong></p>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-4">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5" class="tech-logo">
+                        <p class="mt-2"><strong>HTML5</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">User Roles</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <div class="stat-number">8+</div>
+                        <div class="stat-label">Key Features</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <div class="stat-number">6</div>
+                        <div class="stat-label">Technologies</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <div class="stat-number">∞</div>
+                        <div class="stat-label">Possibilities</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Developer Section -->
+    <section class="developer-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="text-center mb-5">
+                        <h2 class="section-title">About The Developer</h2>
+                        <p class="lead">Meet the passionate developer behind EvenzA</p>
+                    </div>
+                    
+                    <div class="developer-card">
+                        <div class="photo-placeholder">
+                            <img src="{% static 'images/user/ashwin.jpg' %}" alt="">
+                        </div>
+                        
+                        <h3 class="mb-2">Ashwin P</h3>
+                        <h5 class="text-muted mb-4">Python Full Stack Developer</h5>
+                        
+                        <p class="lead mb-4">A passionate Python Full Stack Developer with a B.Sc. in Physics and hands-on experience in building scalable web applications. Currently enhancing skills at Quest Innovation and Solution, focusing on delivering efficient, user-focused solutions through strong analytical and problem-solving abilities.</p>
+                        
+                        <div class="contact-info">
+                            <a href="mailto:Ashwinramesh972@gmail.com" class="contact-item">
+                                <i class="fas fa-envelope"></i>Ashwinramesh972@gmail.com
+                            </a>
+                            <a href="tel:+919526611897" class="contact-item">
+                                <i class="fas fa-phone"></i>+91 9526611897
+                            </a>
+                            <a href="https://github.com/ashwinramesh972" class="contact-item" target="_blank">
+                                <i class="fab fa-github"></i>GitHub
+                            </a>
+                            <a href="https://www.linkedin.com/in/ashwin-p-972000-ash" class="contact-item" target="_blank">
+                                <i class="fab fa-linkedin"></i>LinkedIn
+                            </a>
+                        </div>
+                        
+                        <div class="skills-section">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="skill-category">
+                                        <h5><i class="fas fa-server me-2"></i>Backend Skills</h5>
+                                        <span class="skill-tag">Python</span>
+                                        <span class="skill-tag">Django</span>
+                                        <span class="skill-tag">Flask</span>
+                                        <span class="skill-tag">MySQL</span>
+                                        <span class="skill-tag">SQLite3</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="skill-category">
+                                        <h5><i class="fas fa-paint-brush me-2"></i>Frontend Skills</h5>
+                                        <span class="skill-tag">HTML</span>
+                                        <span class="skill-tag">CSS</span>
+                                        <span class="skill-tag">JavaScript</span>
+                                        <span class="skill-tag">jQuery</span>
+                                        <span class="skill-tag">Bootstrap</span>
+                                        <span class="skill-tag">React</span>
+                                        <span class="skill-tag">Angular</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <div class="growth-mindset-section">
+                                <h6 class="mb-4"><i class="fas fa-rocket me-2" style="color: var(--secondary-color);"></i>Growth Mindset</h6>
+                                <div class="growth-card">
+                                    <div class="growth-content">
+                                        <div class="growth-icon">
+                                            <div class="pulse-animation">
+                                                <i class="fas fa-chart-line"></i>
+                                            </div>
+                                        </div>
+                                        <div class="growth-text">
+                                            <h6 class="growth-title">Continuous Learning Journey</h6>
+                                            <p class="growth-description">
+                                                Every day is an opportunity to grow. I'm committed to improving my skills, 
+                                                learning new technologies, and pushing the boundaries of what's possible. 
+                                                From mastering Angular to exploring cutting-edge frameworks, my goal is to 
+                                                become a better developer with each passing day.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="learning-progress">
+                                        <div class="progress-item">
+                                            <div class="progress-label">
+                                                <span>Problem Solving</span>
+                                                <span class="progress-percent">95%</span>
+                                            </div>
+                                            <div class="progress-bar-custom">
+                                                <div class="progress-fill" style="width: 95%;"></div>
+                                            </div>
+                                        </div>
+                                        <div class="progress-item">
+                                            <div class="progress-label">
+                                                <span>Full Stack Development</span>
+                                                <span class="progress-percent">88%</span>
+                                            </div>
+                                            <div class="progress-bar-custom">
+                                                <div class="progress-fill" style="width: 88%;"></div>
+                                            </div>
+                                        </div>
+                                        <div class="progress-item">
+                                            <div class="progress-label">
+                                                <span>Modern Frameworks</span>
+                                                <span class="progress-percent">80%</span>
+                                            </div>
+                                            <div class="progress-bar-custom">
+                                                <div class="progress-fill" style="width: 80%;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="motivation-quote">
+                                        <i class="fas fa-quote-left quote-icon"></i>
+                                        <p class="quote-text">"The expert in anything was once a beginner who refused to give up."</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <h6 class="mb-3">Achievements</h6>
+                            <div class="d-flex flex-wrap justify-content-center">
+                                <span class="badge bg-primary me-2 mb-2">NCC B & C Certificate Holder</span>
+                                <span class="badge bg-success me-2 mb-2">Football Team Captain</span>
+                                <span class="badge bg-info me-2 mb-2">B.Sc. Physics (72.28%)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Add smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.feature-card, .developer-card, .tech-stack').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

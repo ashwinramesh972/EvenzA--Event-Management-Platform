@@ -1,0 +1,126 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.header {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('../../images/index/header/crowd.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+.main-video {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    height: 65%;
+    background-color: #333;
+    border: 2px solid #fffcfc;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    z-index: 3;
+}
+
+.corner-video {
+    position: absolute;
+    width: 22%;
+    height: 35%;
+    background-color: #555;
+    border: 1px solid #fffefe;
+    z-index: 2;
+}
+
+.top-left {
+    top: 10%;
+    left: 5%;
+}
+
+.top-right {
+    top: 10%;
+    right: 5%;
+}
+
+.bottom-left {
+    bottom: 5%;
+    left: 5%;
+}
+
+.bottom-right {
+    bottom: 5%;
+    right: 5%;
+}
+
+.video-player {
+    width: 99.99%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 4;
+}
+
+.play-icon {
+    width: 0;
+    height: 0;
+    border-top: 15px solid transparent;
+    border-left: 25px solid #fff;
+    border-bottom: 15px solid transparent;
+    margin-left: 5px;
+}
+
+.header-title {
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    z-index: 3;
+    width: 80%;
+}

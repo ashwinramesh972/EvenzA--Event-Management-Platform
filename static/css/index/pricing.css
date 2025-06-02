@@ -1,0 +1,289 @@
+/* Base Styles */
+.pricing {
+  background-color: #f5f5fa;
+  padding: 80px 20px;
+  font-family: 'Inter', Arial, sans-serif;
+  color: #333;
+}
+
+.pricing-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.pricing-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.section-label {
+  color: #7b47c1;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+.pricing-header h2 {
+  font-size: 36px;
+  margin: 15px 0;
+  color: #2a1a42;
+}
+
+.highlight-text {
+  color: #7b47c1;
+}
+
+.pricing-header p {
+  max-width: 600px;
+  margin: 0 auto 30px;
+  color: #666;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* Billing Toggle */
+.billing-toggle {
+  display: flex;
+  justify-content: center;
+  background: #eaeaf4;
+  border-radius: 30px;
+  padding: 5px;
+  width: 300px;
+  margin: 0 auto;
+}
+
+.toggle-btn {
+  padding: 10px 20px;
+  border: none;
+  background: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 500;
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.toggle-btn.active {
+  background-color: #7b47c1;
+  color: white;
+  box-shadow: 0 4px 10px rgba(123, 71, 193, 0.3);
+}
+
+/* Pricing Cards Container */
+.pricing-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Pricing Card */
+.pricing-card {
+  background: linear-gradient(135deg, #8a55d7 0%, #5e38b1 100%);
+  border-radius: 20px;
+  padding: 30px;
+  width: 320px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 10px 30px rgba(123, 71, 193, 0.2);
+}
+
+.pricing-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(123, 71, 193, 0.3);
+}
+
+/* Featured Card (Middle) */
+.pricing-card.featured {
+  background: linear-gradient(135deg, #5c2799 0%, #3a1c65 100%);
+  transform: scale(1.05);
+  z-index: 2;
+  box-shadow: 0 15px 50px rgba(92, 39, 153, 0.4);
+}
+
+.pricing-card.featured:after {
+  content: "FEATURED";
+  position: absolute;
+  top: -12px;
+  right: 30px;
+  background: #7b47c1;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 15px;
+  border-radius: 30px;
+  letter-spacing: 1px;
+}
+
+.plan-name {
+  font-size: 22px;
+  margin: 0 0 15px;
+  font-weight: 600;
+}
+
+
+
+.price {
+  font-size: 42px;
+  font-weight: 700;
+  margin: 0 0 10px;
+  color: white;
+}
+
+.price span {
+  font-size: 16px;
+  font-weight: normal;
+  opacity: 0.8;
+}
+
+.yearly-price {
+  display: none;
+}
+
+
+.yearly-price.active, .monthly-price.active {
+  display: block;
+}
+
+.hidden {
+  display: none;
+}
+
+.description {
+  margin-bottom: 25px;
+  opacity: 0.9;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* Feature List */
+.feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 auto;
+}
+
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.checkmark {
+  color: #fff;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+/* CTA Button */
+.cta-btn {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: none;
+  padding: 12px 0;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  margin-top: 25px;
+  transition: background-color 0.3s ease;
+}
+
+.cta-btn:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1100px) {
+  .pricing-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .pricing-card {
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 20px;
+  }
+  
+  .pricing-card.featured {
+    transform: scale(1);
+    order: -1;
+  }
+}
+.cta-btn {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: auto;
+}
+
+.cta-btn:hover:not(.disabled) {
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.cta-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.skip-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Added to vertically center the larger text */
+  background: #7b47c1;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 20px;
+  width: 200px;
+  height: 45px; /* Fixed height to prevent button from growing */
+  margin: 0 auto;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  text-align: center;
+  overflow: hidden; /* Prevents text from overflowing */
+}
+
+.skip-btn a, 
+.skip-btn span {
+  font-size: 20px; /* Enlarged text */
+  line-height: 1; /* Tighter line height */
+}
+
+.skip-btn:hover {
+  background-color: #6a3aad;
+  box-shadow: 0 4px 10px rgba(123, 71, 193, 0.3);
+}
+
+.skip-btn.active {
+  background-color: #7b47c1;
+  color: white;
+}
+
+.skip-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(123, 71, 193, 0.4);
+}

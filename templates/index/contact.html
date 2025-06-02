@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 25px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+        }
+
+        .header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+
+        .home-btn {
+            background: rgba(52, 152, 219, 0.9);
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .home-btn:hover {
+            background: #3498db;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+
+        .content {
+            padding: 50px 40px;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: #7f8c8d;
+            font-weight: 300;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .contact-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.2);
+            border-color: rgba(102, 126, 234, 0.4);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .card-text {
+            color: #5a6c7d;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .main-contact-section {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-contact-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: rotate(0deg) translate(-50%, -50%); }
+            100% { transform: rotate(360deg) translate(-50%, -50%); }
+        }
+
+        .main-contact-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-heading {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .contact-description {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .email-container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .email-label {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .email-link {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px 35px;
+            border-radius: 50px;
+            display: inline-block;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .email-link:hover {
+            background: white;
+            color: #667eea;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .info-section {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .info-item {
+            background: #f8f9fa;
+            padding: 25px 20px;
+            border-radius: 12px;
+            text-align: center;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .info-item:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .info-icon {
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+            color: #667eea;
+        }
+
+        .info-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+
+        .info-text {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 10px;
+            color: #5a6c7d;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .content {
+                padding: 30px 20px;
+            }
+            
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .contact-grid,
+            .info-section {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .main-contact-section {
+                padding: 30px 20px;
+            }
+            
+            .email-link {
+                font-size: 1.4rem;
+                padding: 12px 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>📞 Contact Support</h2>
+            <a href="#" class="home-btn" onclick="goHome()">🏠 Home</a>
+        </div>
+
+        <div class="content">
+            <div class="hero-section">
+                <h1 class="hero-title">We're Here to Help</h1>
+                <p class="hero-subtitle">Your satisfaction is our priority. Reach out whenever you need assistance.</p>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <span class="card-icon">🚨</span>
+                    <h3 class="card-title">Complaints & Issues</h3>
+                    <p class="card-text">Experiencing problems with our service? We take all complaints seriously and work quickly to resolve any issues you may encounter.</p>
+                </div>
+
+                <div class="contact-card">
+                    <span class="card-icon">💡</span>
+                    <h3 class="card-title">General Inquiries</h3>
+                    <p class="card-text">Have questions about our services, policies, or need general information? We're happy to provide clear answers to all your queries.</p>
+                </div>
+
+                <div class="contact-card">
+                    <span class="card-icon">🛠️</span>
+                    <h3 class="card-title">Technical Support</h3>
+                    <p class="card-text">Need help with technical issues or facing any inconvenience? Our support team is ready to assist you with step-by-step solutions.</p>
+                </div>
+
+                <div class="contact-card">
+                    <span class="card-icon">💬</span>
+                    <h3 class="card-title">Feedback & Suggestions</h3>
+                    <p class="card-text">Your feedback helps us improve. Share your thoughts, suggestions, or ideas to help us serve you better.</p>
+                </div>
+            </div>
+
+            <div class="main-contact-section">
+                <div class="main-contact-content">
+                    <h2 class="contact-heading">Ready to Get in Touch?</h2>
+                    <p class="contact-description">
+                        Don't hesitate to reach out. We're committed to providing excellent customer service 
+                        and will respond to your message as soon as possible.
+                    </p>
+                    
+                    <div class="email-container">
+                        <div class="email-label">Send us an email at:</div>
+                        <a href="mailto:admin@gmail.com?subject=Support Request" class="email-link">
+                            📧 admin@gmail.com
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <div class="info-item">
+                    <div class="info-icon">⚡</div>
+                    <div class="info-title">Quick Response</div>
+                    <div class="info-text">We typically respond within 24 hours</div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon">🔒</div>
+                    <div class="info-title">Confidential</div>
+                    <div class="info-text">Your information is kept private and secure</div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon">🌟</div>
+                    <div class="info-title">Professional</div>
+                    <div class="info-text">Friendly and knowledgeable support team</div>
+                </div>
+            </div>
+
+            <div class="footer-note">
+                <p>We value your time and concerns. Every message is important to us, and we're dedicated to providing you with the best possible support experience.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goHome() {
+            // Replace with your actual home page URL
+            window.location.href = '/';
+        }
+
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.contact-card, .info-item');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+{% load static %}
+<nav class="ez-navbar ez-collapsed">
+  <div class="ez-logo-container">
+    <a href="/admin" class="ez-logo">EvenzA Admin</a>
+  </div>
+  <div class="ez-mobile-menu-btn">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <div class="ez-menu-overlay"></div>
+  <div class="ez-desktop-nav">
+    <ul>
+      {% if request.user.is_authenticated %}
+        <li class="ez-nav-item ez-dropdown">
+          <a class="ez-nav-link ez-dropdown-toggle ez-user-profile" href="#" id="ezNavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="{% static 'images/index/icons/sponsor-icon.png' %}" alt="Profile" class="ez-profile-pic">
+            <span class="ez-username-display">{{ request.user.username }}</span>
+            {% if request.user.user_type == 'premium' %}
+              <span class="ez-premium-badge">Premium</span>
+            {% endif %}
+          </a>
+        </li>
+      {% endif %}
+      <li>
+        <a href="{% url 'dashboard:admin-view-user' %}" class="ez-nav-link ez-active"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
+      </li>
+      <li>
+        <a href="{% url 'dashboard:admin-view-events' %}" class="ez-nav-link"><i class="fas fa-users"></i>View Events</a>
+      </li>
+      <li>
+        <a href="{% url 'dashboard:admin_approve_page' %}" class="ez-nav-link"><i class="fas fa-check-circle"></i>Approvals</a>
+      </li>
+      <li>
+        <a href="{% url 'dashboard:admin-analitics' %}" class="ez-nav-link"><i class="fas fa-chart-bar"></i>Analytics</a>
+      </li>
+      <li>
+        <a href="{% url 'users:user-logout' %}" class="ez-nav-link"><i class="fas fa-sign-out-alt"></i>Logout</a>
+      </li>
+    </ul>
+  </div>
+  <div class="ez-mobile-nav">
+    <ul>
+      {% if request.user.is_authenticated %}
+        <li class="ez-nav-item">
+          <a class="ez-nav-link ez-user-profile" href="#" role="button" data-bs-toggle="collapse" data-bs-target="#ezMobileDropdown" aria-expanded="false" style="--item-index: 1;">
+            <img src="{{ request.user.profile_picture.url|default:'/static/default-pic.png' }}" alt="Profile" class="ez-profile-pic">
+            <span class="ez-username-display">{{ request.user.username }}</span>
+            {% if request.user.user_type == 'premium' %}
+              <span class="ez-premium-badge">Premium</span>
+            {% endif %}
+          </a>
+        </li>
+      {% endif %}
+      <li>
+        <a href="{% url 'dashboard:admin-view-user' %}" class="ez-nav-link" style="--item-index: 2;"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
+      </li>
+      <li>
+        <a href="{% url 'dashboard:admin-view-events' %}" class="ez-nav-link" style="--item-index: 3;"><i class="fas fa-users"></i>View Events</a>
+      </li>
+      <li>
+        <a href="{% url 'dashboard:admin_approve_page' %}" class="ez-nav-link" style="--item-index: 4;"><i class="fas fa-check-circle"></i>Approvals</a>
+      </li>
+      <li>
+        <a href="{% url 'dashboard:admin-analitics' %}" class="ez-nav-link" style="--item-index: 5;"><i class="fas fa-chart-bar"></i>Analytics</a>
+      </li>
+      <li>
+     <a href="{% url 'users:user-logout' %}" class="ez-nav-link" style="--item-index: 6;"><i class="fas fa-sign-out-alt"></i>Logout</a>   
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="ez-nav-toggle-btn">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>

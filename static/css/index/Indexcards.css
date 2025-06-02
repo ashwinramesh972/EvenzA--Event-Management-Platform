@@ -1,0 +1,483 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@700&display=swap');
+.one{
+  padding: 0 20px;
+  background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('../../images/index/background/crowd.jpg'); /* White overlay over background image */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.two{
+  padding: 0 20px;
+  background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('../../images/index/background/cardssecond.jpg'); /* White overlay over background image */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.card {
+  width: 320px;
+  height: 380px;
+  background: linear-gradient(to bottom, #000000, #a44fef); /* Deep black to dark gray gradient */
+  border-radius: 32px;
+  padding: 3px;
+  position: relative;
+  box-shadow: 0px 70px 30px -50px rgba(255, 255, 255, 0.4); /* Adjusted shadow for light background */
+  transition: all 0.5s ease-in-out;
+}
+
+.card .profile-area {
+  position: absolute;
+  right: 1.8rem;
+  top: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 4;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.4s ease-in-out 0.3s;
+}
+
+.card:hover .profile-area {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card .profile-name {
+  color: white;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+.card .message-button {
+  background: #c0c0c0; /* Silver */
+  color: #000000;
+  border: none;
+  border-radius: 15px;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 0.3rem;
+}
+
+.card .message-button:hover {
+  background: #a8a8a8;
+  transform: translateY(-1px);
+}
+
+/* Status badge in profile area (new position) */
+.card .profile-area .status {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 10px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  margin-top: 0.2rem;
+  transition: all 0.3s ease;
+}
+
+.card .profile-area .status.online {
+  background: #c0c0c0;
+  color: #000000;
+}
+
+.card .profile-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.card .profile-button .profile-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #333333;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
+
+.card .profile-button .profile-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card .profile-button .profile-icon:hover {
+  background: #555555;
+}
+
+.card .event-image {
+  position: absolute;
+  width: calc(100% - 6px);
+  height: calc(100% - 6px);
+  top: 3px;
+  left: 3px;
+  border-radius: 29px;
+  z-index: 1;
+  border: 0px solid #333333;
+  overflow: hidden;
+  transition: all 0.5s ease-in-out 0.2s, z-index 0.5s ease-in-out 0.2s;
+}
+
+.card .event-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 0px 0px;
+  transition: all 0.5s ease-in-out 0s;
+}
+
+.card .date-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  text-align: center;
+  padding: 0.5rem 0;
+  font-size: 0.9rem;
+  font-weight: bold;
+  z-index: 3;
+  box-shadow: 0 3px 7px rgba(0,0,0,0.2);
+  transition: opacity 0.5s ease-in-out;
+  border-radius: 15px;
+  border: 2px solid white;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.card .date-badge .countdown-timer {
+  color: #ff5252;
+}
+
+.card:hover .date-badge {
+  opacity: 0;
+}
+
+.card .premium-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: linear-gradient(45deg, #c0c0c0, #a8a8a8);
+  color: #000000;
+  border-radius: 0 20px 0 20px;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.7rem;
+  font-weight: bold;
+  z-index: 3;
+  transform: rotate(45deg) translateX(20px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  transition: opacity 0.3s ease;
+}
+
+.card:hover .premium-badge {
+  opacity: 0;
+}
+
+.card .bottom {
+  position: absolute;
+  bottom: 3px;
+  left: 3px;
+  right: 3px;
+  background:linear-gradient(to top, #000000 40%, #5f2394 ) ;
+  top: 80%;
+  border-radius: 29px;
+  z-index: 2;
+  box-shadow: inset 0px 5px 5px 0px rgba(255, 255, 255, 0.15);
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.645, 0.045, 0.355, 1) 0s;
+}
+
+.card .bottom .content {
+  position: absolute;
+  bottom: 0;
+  left: 1.5rem;
+  right: 1.5rem;
+  height: 220px;
+}
+
+.card .bottom .content .name {
+  display: block;
+  font-size: 1.2rem;
+  color: white;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  transition: all 0.3s ease;
+  opacity: 0;
+}
+
+.card .bottom .content .about-me {
+  display: block;
+  font-size: 0.9rem;
+  color: #e0e0e0;
+  margin-top: 0.5rem;
+  line-height: 1.4;
+  transition: all 0.3s ease;
+  opacity: 0;
+}
+
+.card .bottom .content .event-details {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.3rem 0.5rem;
+  font-size: 0.8rem;
+  color: #f0f0f0;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+  opacity: 0;
+}
+
+.card .bottom .content .event-details .label {
+  font-weight: bold;
+  color: #d3d3d3;
+}
+
+.card .bottom .content .event-details .value {
+  text-align: right;
+}
+
+/* Remove old status styling from content area */
+.card .bottom .content .status {
+  display: none; /* Hide any status elements that might still be in content area */
+}
+
+.card .bottom .bottom-bottom {
+  position: absolute;
+  bottom: 1rem;
+  left: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card .bottom .bottom-bottom .event-mtitle {
+  color: #e8e8e8;
+  font-size: 2rem;
+  font-weight: bold;
+  display: inline-block;
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card:hover .bottom .bottom-bottom .event-mtitle {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card .bottom .bottom-bottom .join-button {
+  background: #c0c0c0;
+  color: #000000;
+  border: none;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.card .bottom .bottom-bottom .join-button:hover {
+  background: #a8a8a8;
+  transform: translateY(-2px);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.35);
+}
+
+.card .bottom .bottom-bottom .event-date {
+  background: white;
+  color: #1c2526;
+  border: none;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  padding: 0.4rem 0.6rem;
+  box-shadow: 0px 5px 5px 0px rgba(165, 132, 130, 0.13);
+  font-weight: bold;
+}
+
+.card:hover {
+  border-top-left-radius: 55px;
+}
+
+.card:hover .bottom {
+  top: 20%;
+  border-radius: 80px 29px 29px 29px;
+  transition: all 0.5s cubic-bezier(0.645, 0.045, 0.355, 1) 0.2s;
+}
+
+.card:hover .bottom .content .name {
+  position: absolute;
+  margin-bottom: 1px;
+  top: 140px;
+  left: 30%;
+  transform: translateX(-50%);
+  margin: 0;
+  opacity: 1;
+}
+
+.card:hover .bottom .content .about-me {
+  position: absolute;
+  top: -35px;
+  left: 0.5rem;
+  right: 0.5rem;
+  margin: 0;
+  width: calc(100% - 1rem);
+  opacity: 1;
+}
+
+.card:hover .bottom .content .event-details {
+  margin-top: 0.5rem;
+  position: absolute;
+  top: 50px;
+  left: 0.5rem;
+  right: 0.5rem;
+  width: calc(100% - 1rem);
+  opacity: 1;
+}
+
+.card:hover .event-image {
+  width: 100px;
+  height: 100px;
+  aspect-ratio: 1;
+  top: 10px;
+  left: 10px;
+  border-radius: 50%;
+  z-index: 3;
+  border: 7px solid #c0c0c0;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.5s ease-in-out, z-index 0.5s ease-in-out 0.1s;
+}
+
+.card:hover .event-image:hover {
+  transform: scale(0.8); /* Slightly zoom out more on direct hover */
+  border-radius: 0px;
+  border-color: #aa3fc0;
+}
+
+.card:hover .event-image img {
+  transform: scale(1.2); /* Zoom out on card hover */
+  object-position: center; /* Center the image when zoomed out */
+  transition: all 0.5s ease-in-out 0.5s;
+}
+
+.carousel-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  padding: 0 10px;
+}
+
+.carousel {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  padding: 10px 0;
+  margin-left: 20px;
+}
+
+.card {
+  flex: 0 0 320px;
+  box-sizing: border-box;
+  margin-right: 40px;
+  max-width: 320px;
+  min-width: 280px;
+}
+
+.carousel-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  padding: 0 20px;
+}
+
+.carousel-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.carousel-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.carousel-button:hover:not(:disabled) {
+  color: #007bff;
+}
+
+.card:last-child {
+  margin-right: 0;
+}
+
+
+.events-section h2 {
+  text-align: center;
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-size: 2.5rem;
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
+  padding-top: 40px;
+
+
+}
+
+.events-section h2 .title-part1 {
+  font-weight: 600;
+  font-size: 36px;
+  letter-spacing: 1px;
+  color: #2a1a42;
+}
+
+.events-section h2 .title-part2 {
+  color: #7b47c1;
+  font-weight: 600;
+  font-size: 32px;
+  letter-spacing: 1px;
+}
+
+
+/* Adjust carousel buttons for readability */
+.carousel-button {
+  color: #000000; /* Silver to match card accents */
+}
+
+.carousel-button:hover:not(:disabled) {
+  color: #000000; /* Slightly darker silver for hover effect */
+}
+
+.browse-more-container {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 30px;
+}
+
+.browse-more-button {
+  background: #c0c0c0; /* Silver, matching the join-button */
+  color: #000000; /* Black text for contrast */
+  border: none;
+  border-radius: 20px;
+  font-size: 1rem;
+  padding: 0.6rem 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.browse-more-button:hover {
+  background: #a8a8a8; /* Slightly darker silver on hover */
+  transform: translateY(-2px);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.35);
+}

@@ -1,0 +1,1188 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <style>
+      /* Services Section */
+
+    </style>
+  </head>
+
+  <body>
+<!-- Services Section -->
+    <section class="services" id="services">
+      <div class="services-content">
+        <div class="services-text">
+          <div class="services-header">
+            <span class="section-label">OUR FEATURES</span>
+            <h2>Comprehensive Services from <span class="highlight-text">Concept to Execution</span>.</h2>
+            <p>We provide end-to-end event planning services to make your vision a reality. From concept development to on-site management, we’ve got you covered.</p>
+          </div>
+          <div class="services-container">
+            <div class="service-card">
+              <h3>End-To-End Planning</h3>
+              <p>We handle every detail from start to finish, ensuring a seamless event.</p>
+            </div>
+            <div class="service-card">
+              <h3>Customized Themes</h3>
+              <p>Personalized themes tailored to your event’s unique style and vision.</p>
+            </div>
+            <div class="service-card">
+              <h3>Vendor Coordination</h3>
+              <p>We manage all vendors to ensure everything runs smoothly on the day.</p>
+            </div>
+            <div class="service-card">
+              <h3>On-Site Management</h3>
+              <p>Our team oversees every aspect on the day of your event for perfection.</p>
+            </div>
+          </div>
+        </div>
+        <div class="services-image">
+          <img src="/path/to/your/image.jpg" alt="Event planning scene" class="service-bg-image" loading="lazy">
+        </div>
+      </div>
+    </section>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+      integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      // Initialize services section animation
+    
+    </script>
+  </body>
+</html>
+
+
+<section class="services" id="services">
+  <div class="services-header">
+    <span class="section-label">OUR FEATURES</span>
+    <h2>Comprehensive Services from <span class="highlight-text">Concept to Execution</span>.</h2>
+    <p>We provide end-to-end event planning services to make your vision a reality. From concept development to on-site management, we’ve got you covered.</p>
+  </div>
+  <div class="services-container">
+    <div class="service-card">
+      <h3>End-To-End Planning</h3>
+      <p>We handle every detail from start to finish, ensuring a seamless event.</p>
+    </div>
+    <div class="service-card">
+      <h3>Customized Themes</h3>
+      <p>Personalized themes tailored to your event’s unique style and vision.</p>
+    </div>
+    <div class="service-card">
+      <h3>Vendor Coordination</h3>
+      <p>We manage all vendors to ensure everything runs smoothly on the day.</p>
+    </div>
+    <div class="service-card">
+      <h3>On-Site Management</h3>
+      <p>Our team oversees every aspect on the day of your event for perfection.</p>
+    </div>
+  </div>
+</section>
+// Initialize services section animation
+const servicesSection = document.querySelector('.services');
+if (servicesSection) {
+  const servicesObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  servicesObserver.observe(servicesSection);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('Enhanced carousel loaded');
+
+  // Carousel elements
+  const carouselDom = document.querySelector('.carousel');
+  const sliderDom = carouselDom.querySelector('.carousel .list');
+  const thumbnailBorderDom = document.querySelector('.carousel .thumbnail');
+  const thumbnailItemsDom = thumbnailBorderDom.querySelectorAll('.item');
+  const nextDom = document.getElementById('next');
+  const prevDom = document.getElementById('prev');
+  const timeDom = document.querySelector('.carousel .time');
+  const video = document.getElementById('introVideo');
+  const playButton = document.querySelector('.carousel .list .item:first-child .play-button');
+  
+  // Timing configurations
+  const timeRunning = 2000; // Animation transition time
+  const timeAutoNext = 8000; // Time between auto slides
+  
+  // Initialize carousel
+  thumbnailBorderDom.appendChild(thumbnailItemsDom[0]);
+  let runTimeOut;
+  let runNextAuto;
+  
+  // Video controls setup
+  if (playButton && video) {
+      playButton.addEventListener('click', () => {
+          video.play().catch((e) => console.error('Video play error:', e));
+          playButton.style.opacity = '0';
+          setTimeout(() => {
+              playButton.style.display = 'none';
+          }, 300);
+      });
+
+      playButton.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              playButton.click();
+          }
+      });
+
+      video.addEventListener('ended', () => {
+          playButton.style.display = 'block';
+          setTimeout(() => {
+              playButton.style.opacity = '1';
+          }, 10);
+      });
+      
+      video.addEventListener('pause', () => {
+          if (!video.ended) {
+              playButton.style.display = 'block';
+              setTimeout(() => {
+                  playButton.style.opacity = '1';
+              }, 10);
+          }
+      });
+  }
+
+  // Navigation event listeners
+  nextDom.addEventListener('click', () => {
+      showSlider('next');
+  });
+
+  prevDom.addEventListener('click', () => {
+      showSlider('prev');
+  });
+
+  // Touch support for mobile
+  let touchStartX = 0;
+  let touchEndX = 0;
+  
+  carouselDom.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+  
+  carouselDom.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+  }, { passive: true });
+  
+  function handleSwipe() {
+      const SWIPE_THRESHOLD = 50;
+      if (touchStartX - touchEndX > SWIPE_THRESHOLD) {
+          nextDom.click(); // Swipe left = next
+      } else if (touchEndX - touchStartX > SWIPE_THRESHOLD) {
+          prevDom.click(); // Swipe right = prev
+      }
+  }
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') {
+          nextDom.click();
+      } else if (e.key === 'ArrowLeft') {
+          prevDom.click();
+      }
+  });
+
+  // Main slider function
+  function showSlider(type) {
+      let sliderItemsDom = sliderDom.querySelectorAll('.carousel .list .item');
+      let thumbnailItemsDom = document.querySelectorAll('.carousel .thumbnail .item');
+
+      // Pause video when changing slides
+      if (video) {
+          video.pause();
+          if (playButton) {
+              playButton.style.display = 'block';
+              playButton.style.opacity = '1';
+          }
+      }
+
+      // Disable buttons during transition
+      nextDom.disabled = true;
+      prevDom.disabled = true;
+      
+      // Handle slide direction
+      if (type === 'next') {
+          sliderDom.appendChild(sliderItemsDom[0]);
+          thumbnailBorderDom.appendChild(thumbnailItemsDom[0]);
+          carouselDom.classList.add('next');
+      } else {
+          sliderDom.prepend(sliderItemsDom[sliderItemsDom.length - 1]);
+          thumbnailBorderDom.prepend(thumbnailItemsDom[thumbnailItemsDom.length - 1]);
+          carouselDom.classList.add('prev');
+      }
+
+      // Remove animation classes after transition
+      clearTimeout(runTimeOut);
+      runTimeOut = setTimeout(() => {
+          carouselDom.classList.remove('next');
+          carouselDom.classList.remove('prev');
+          nextDom.disabled = false;
+          prevDom.disabled = false;
+      }, timeRunning);
+
+      // Reset auto slide timer
+      clearTimeout(runNextAuto);
+      runNextAuto = setTimeout(() => {
+          nextDom.click();
+      }, timeAutoNext);
+      
+      // Animate the progress bar
+      animateProgressBar();
+  }
+  
+  // Progress bar animation
+  function animateProgressBar() {
+      if (timeDom) {
+          timeDom.style.width = '0%';
+          timeDom.style.transition = 'none';
+          
+          setTimeout(() => {
+              timeDom.style.width = '100%';
+              timeDom.style.transition = `width ${timeAutoNext}ms linear`;
+          }, 50);
+      }
+  }
+  
+  // Initialize progress bar
+  animateProgressBar();
+  
+  // Start autoplay
+  runNextAuto = setTimeout(() => {
+      nextDom.click();
+  }, timeAutoNext);
+  
+  // Pause autoplay when hovering
+  carouselDom.addEventListener('mouseenter', () => {
+      clearTimeout(runNextAuto);
+      if (timeDom) {
+          timeDom.style.animationPlayState = 'paused';
+          const computedStyle = window.getComputedStyle(timeDom);
+          const width = computedStyle.getPropertyValue('width');
+          timeDom.style.width = width;
+          timeDom.style.transition = 'none';
+      }
+  });
+  
+  carouselDom.addEventListener('mouseleave', () => {
+      runNextAuto = setTimeout(() => {
+          nextDom.click();
+      }, timeAutoNext);
+      if (timeDom) {
+          timeDom.style.transition = `width ${timeAutoNext}ms linear`;
+          timeDom.style.width = '100%';
+      }
+  });
+  
+  // Thumbnail click navigation
+  const thumbnailItems = document.querySelectorAll('.carousel .thumbnail .item');
+  thumbnailItems.forEach((item, index) => {
+      item.addEventListener('click', () => {
+          // Calculate how many moves we need to make
+          const currentIndex = 0; // First visible item is always at index 0
+          let targetIndex = index;
+          
+          // Adjust for circular list
+          if (targetIndex < thumbnailItems.length - 1) {
+              // Need to move next
+              for (let i = 0; i < targetIndex; i++) {
+                  setTimeout(() => {
+                      nextDom.click();
+                  }, i * 100);
+              }
+          }
+      });
+  });
+
+  // Audience section animation with IntersectionObserver
+  const audienceItems = document.querySelectorAll('.audience-item');
+  const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.15
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+          if (entry.isIntersecting) {
+              setTimeout(() => {
+                  entry.target.classList.add('visible');
+                  entry.target.style.transform = 'translateY(0)';
+                  entry.target.style.opacity = '1';
+              }, index * 150);
+              observer.unobserve(entry.target);
+          }
+      });
+  }, observerOptions);
+
+  audienceItems.forEach(item => {
+      item.style.transform = 'translateY(30px)';
+      item.style.opacity = '0';
+      item.style.transition = 'transform 0.8s ease, opacity 0.8s ease';
+      observer.observe(item);
+  });
+});
+
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Carousel */
+.carousel {
+  height: 100vh;
+  max-width: 100%;
+  overflow: hidden;
+  position: relative;
+  background-color: #000;
+}
+
+.carousel .list {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.carousel .list .item {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0 0 0 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+}
+
+.carousel .list .item:nth-child(1),
+.carousel .list .item:nth-child(2) {
+  opacity: 1;
+  visibility: visible;
+}
+
+.carousel .list .item img,
+.carousel .list .item video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.8s cubic-bezier(0.33, 1, 0.68, 1), 
+              border-radius 0.8s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.carousel .list .item:first-child .play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(143, 0, 255, 0.8);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  font-size: 28px;
+  cursor: pointer;
+  transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+  z-index: 10;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel .list .item:first-child .play-button:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+  background: rgba(143, 0, 255, 0.9);
+}
+
+.carousel .list .item:first-child .play-button:focus {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+
+/* Content Styling */
+.carousel .list .item .content {
+  position: absolute;
+  top: 15%;
+  width: 1140px;
+  max-width: 80%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding-right: 30%;
+  box-sizing: border-box;
+  color: #fff;
+  text-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+  z-index: 2;
+}
+
+.carousel .list .item .content:before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  left: -100px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(143, 0, 255, 0.2) 0%, rgba(143, 0, 255, 0) 70%);
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.carousel .list .item .title,
+.carousel .list .item .topic {
+  font-size: 5em;
+  font-weight: 800;
+  line-height: 1.2em;
+  letter-spacing: -1px;
+  margin-bottom: 10px;
+  transform: translateY(50px);
+  opacity: 0;
+}
+
+.carousel .list .item .topic {
+  color: #8F00FF;
+  background: linear-gradient(90deg, #8F00FF, #B34CFF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+.carousel .list .item .des {
+  font-size: 18px;
+  margin-bottom: 40px;
+  line-height: 1.6;
+  max-width: 600px;
+  transform: translateY(50px);
+  opacity: 0;
+}
+
+/* Stats Section */
+.carousel .list .item .hero-stats {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 40px;
+  transform: translateY(50px);
+  opacity: 0;
+}
+
+.carousel .list .item .stat-item {
+  text-align: center;
+  padding: 15px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.carousel .list .item .stat-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.carousel .list .item .stat-number {
+  display: block;
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+.carousel .list .item .stat-label {
+  font-size: 14px;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+/* Buttons */
+.carousel .list .item .buttons {
+  display: flex;
+  gap: 15px;
+  transform: translateY(50px);
+  opacity: 0;
+}
+
+.carousel .list .item .buttons button {
+  border: none;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.carousel .list .item .buttons .hero-cta {
+  background: linear-gradient(90deg, #8F00FF, #B34CFF);
+  color: white;
+  border-radius: 50px;
+  padding: 14px 32px;
+  font-size: 16px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(143, 0, 255, 0.4);
+  z-index: 1;
+}
+
+.carousel .list .item .buttons .hero-cta:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #B34CFF, #8F00FF);
+  transition: width 0.5s ease;
+  z-index: -1;
+}
+
+.carousel .list .item .buttons .hero-cta:hover:before {
+  width: 100%;
+}
+
+.carousel .list .item .buttons .hero-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(143, 0, 255, 0.5);
+}
+
+.carousel .list .item .buttons button:nth-child(2) {
+  background-color: transparent;
+  border: 2px solid #fff;
+  color: #fff;
+  border-radius: 50px;
+  padding: 12px 30px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.carousel .list .item .buttons button:nth-child(2):hover {
+  background-color: #fff;
+  color: #8F00FF;
+}
+
+/* Thumbnail Navigation */
+.carousel .thumbnail {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  width: max-content;
+  z-index: 100;
+  display: flex;
+  gap: 15px;
+  transform: translateX(-50%);
+}
+
+.carousel .thumbnail .item {
+  width: 150px;
+  height: 90px;
+  flex-shrink: 0;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  transform: scale(0.9);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.carousel .thumbnail .item:hover {
+  transform: scale(1);
+}
+
+.carousel .thumbnail .item:after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.carousel .thumbnail .item:hover:after {
+  opacity: 0.5;
+}
+
+.carousel .thumbnail .item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.carousel .thumbnail .item:hover img {
+  transform: scale(1.1);
+}
+
+.carousel .thumbnail .item .content {
+  color: #fff;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  z-index: 1;
+}
+
+.carousel .thumbnail .item .content .title {
+  font-weight: 600;
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+
+.carousel .thumbnail .item .content .description {
+  font-weight: 400;
+  font-size: 10px;
+  opacity: 0.8;
+}
+
+/* Navigation Arrows */
+.carousel .arrows {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 100;
+}
+
+.carousel .arrows button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.carousel .arrows button:hover {
+  background-color: rgba(143, 0, 255, 0.8);
+  transform: scale(1.1);
+}
+
+.carousel .arrows button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Animation Timing Bar */
+.carousel .time {
+  position: absolute;
+  z-index: 1000;
+  width: 0%;
+  height: 4px;
+  background: linear-gradient(90deg, #8F00FF, #B34CFF);
+  left: 0;
+  bottom: 0;
+  box-shadow: 0 0 10px rgba(143, 0, 255, 0.5);
+}
+
+/* Advanced Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Content Animation Sequence */
+.carousel .list .item:nth-child(2) .title,
+.carousel .list .item:nth-child(2) .topic,
+.carousel .list .item:nth-child(2) .des,
+.carousel .list .item:nth-child(2) .hero-stats,
+.carousel .list .item:nth-child(2) .buttons {
+  animation: fadeIn 0.8s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards;
+}
+
+.carousel .list .item:nth-child(2) .title {
+  animation-delay: 0.3s;
+}
+
+.carousel .list .item:nth-child(2) .topic {
+  animation-delay: 0.5s;
+}
+
+.carousel .list .item:nth-child(2) .des {
+  animation-delay: 0.7s;
+}
+
+.carousel .list .item:nth-child(2) .hero-stats {
+  animation-delay: 0.9s;
+}
+
+.carousel .list .item:nth-child(2) .buttons {
+  animation-delay: 1.1s;
+}
+
+/* Slide Transition Animations */
+.carousel.next .list .item:nth-child(1) {
+  z-index: 10;
+}
+
+.carousel.next .list .item:nth-child(1) img,
+.carousel.next .list .item:nth-child(1) video {
+  animation: nextSlideOut 0.8s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+}
+
+@keyframes nextSlideOut {
+  0% {
+    transform: scale(1);
+    border-radius: 0;
+  }
+  100% {
+    transform: scale(0.4) translateX(-120%);
+    border-radius: 16px;
+  }
+}
+
+.carousel.next .list .item:nth-child(2) img,
+.carousel.next .list .item:nth-child(2) video {
+  animation: nextSlideIn 0.8s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+  transform: scale(1.2);
+  opacity: 0.5;
+}
+
+@keyframes nextSlideIn {
+  0% {
+    transform: scale(1.2);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.carousel.prev .list .item:nth-child(1) {
+  z-index: 0;
+}
+
+.carousel.prev .list .item:nth-child(2) {
+  z-index: 10;
+}
+
+.carousel.prev .list .item:nth-child(2) img,
+.carousel.prev .list .item:nth-child(2) video {
+  animation: prevSlideOut 0.8s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+}
+
+@keyframes prevSlideOut {
+  0% {
+    transform: scale(1);
+    border-radius: 0;
+  }
+  100% {
+    transform: scale(0.4) translateX(120%);
+    border-radius: 16px;
+  }
+}
+
+.carousel.prev .list .item:nth-child(1) img,
+.carousel.prev .list .item:nth-child(1) video {
+  animation: prevSlideIn 0.8s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+  transform: scale(1.2);
+  opacity: 0.5;
+}
+
+@keyframes prevSlideIn {
+  0% {
+    transform: scale(1.2);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Audience Section Enhancement */
+.audience {
+  position: relative;
+  width: 100%;
+  padding: 100px 20px;
+  background: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%);
+  text-align: center;
+  overflow: hidden;
+}
+
+.audience:before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(143, 0, 255, 0.2) 0%, rgba(143, 0, 255, 0) 70%);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.audience:after {
+  content: '';
+  position: absolute;
+  bottom: -50px;
+  left: -50px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(245, 166, 35, 0.2) 0%, rgba(245, 166, 35, 0) 70%);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.audience-header {
+  margin-bottom: 60px;
+  position: relative;
+  z-index: 1;
+}
+
+.audience-header h2 {
+  font-size: 42px;
+  font-weight: 800;
+  color: #feffff;
+  margin-bottom: 20px;
+  position: relative;
+  display: inline-block;
+}
+
+.audience-header h2:after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #8F00FF, #F5A623);
+  border-radius: 2px;
+}
+
+.audience-header h2 span {
+  background: linear-gradient(90deg, #8F00FF, #F5A623);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+.audience-header p {
+  font-size: 18px;
+  color: #a0a0a0;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.audience-items {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.audience-item {
+  flex: 1;
+  min-width: 280px;
+  max-width: 300px;
+  padding: 30px 25px;
+  background: linear-gradient(135deg, rgba(143, 0, 255, 0.9), rgba(245, 166, 35, 0.9));
+  border-radius: 20px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.audience-item:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+  border-radius: 20px;
+  z-index: 0;
+}
+
+.audience-item.visible {
+  opacity: 1;
+}
+
+.audience-item:hover {
+  transform: translateY(-15px) scale(1.03);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.audience-icon {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 25px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, background 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.audience-item:hover .audience-icon {
+  transform: scale(1.15);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.audience-item h3 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 15px;
+  position: relative;
+  z-index: 1;
+}
+
+.audience-item p {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
+}
+
+.audience-cta {
+  margin-top: 50px;
+  background: transparent;
+  color: #fff;
+  border: 2px solid #8F00FF;
+  border-radius: 50px;
+  padding: 14px 35px;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.audience-cta:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #8F00FF, #F5A623);
+  transition: width 0.4s ease;
+  z-index: -1;
+}
+
+.audience-cta:hover {
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 10px 20px rgba(143, 0, 255, 0.3);
+}
+
+.audience-cta:hover:before {
+  width: 100%;
+}
+
+/* Responsive Adjustments */
+@media (min-width: 1200px) {
+  .carousel .list .item .content {
+    max-width: 900px;
+    padding-right: 15%;
+  }
+}
+
+@media (max-width: 991px) {
+  .carousel .list .item .title,
+  .carousel .list .item .topic {
+    font-size: 3em;
+  }
+  
+  .carousel .list .item .content {
+    padding-right: 10%;
+    top: 10%;
+  }
+  
+  .carousel .list .item .hero-stats {
+    gap: 20px;
+  }
+  
+  .carousel .thumbnail {
+    bottom: 30px;
+  }
+  
+  .carousel .thumbnail .item {
+    width: 120px;
+    height: 70px;
+  }
+}
+
+@media (max-width: 767px) {
+  .carousel .list .item .title,
+  .carousel .list .item .topic {
+    font-size: 2.5em;
+  }
+  
+  .carousel .list .item .content {
+    padding-right: 0;
+    width: 90%;
+  }
+  
+  .carousel .list .item .des {
+    font-size: 16px;
+  }
+  
+  .carousel .list .item .buttons {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 200px;
+  }
+  
+  .carousel .thumbnail {
+    display: none;
+  }
+  
+  .audience-items {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 479px) {
+  .carousel .list .item .title,
+  .carousel .list .item .topic {
+    font-size: 2em;
+  }
+  
+  .carousel .list .item .des {
+    font-size: 14px;
+  }
+  
+  .carousel .list .item .hero-stats {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .carousel .arrows button {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+}
+
+/* Accessibility Enhancements */
+.carousel .list .item:focus-within,
+.carousel .thumbnail .item:focus-within,
+.carousel .arrows button:focus {
+  outline: 2px solid #8F00FF;
+  outline-offset: 2px;
+}
+
+/* Screen Reader Only Text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .audience {
+    background: linear-gradient(135deg, #0F0F1A 0%, #101830 100%);
+  }
+  
+  .audience-header p {
+    color: #b0b0b0;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .carousel {
+    height: auto;
+  }
+  
+  .carousel .list .item {
+    page-break-inside: avoid;
+    visibility: visible;
+    opacity: 1;
+    position: relative;
+    margin-bottom: 20px;
+  }
+  
+  .carousel .arrows,
+  .carousel .thumbnail,
+  .carousel .time,
+  .carousel .list .item .play-button {
+    display: none;
+  }
+}

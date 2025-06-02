@@ -1,0 +1,115 @@
+document.addEventListener('DOMContentLoaded', () => {
+  function initCarousel(carouselId, prevButtonId, nextButtonId) {
+    const carousel = document.getElementById(carouselId);
+    const prevButton = document.getElementById(prevButtonId);
+    const nextButton = document.getElementById(nextButtonId);
+    
+    // Check if carousel and buttons exist
+    if (!carousel || !prevButton || !nextButton) {
+      console.warn(`Carousel elements not found: ${carouselId}, ${prevButtonId}, ${nextButtonId}`);
+      return;
+    }
+    
+    const cards = carousel.querySelectorAll('.card');
+    const cardCount = cards.length;
+    
+    // Skip initialization if no cards exist
+    if (cardCount === 0) {
+      prevButton.disabled = true;
+      nextButton.disabled = true;
+      return;
+    }
+    
+    const cardWidth = 360; // Card width + margin (320px + 40px)
+    const container = carousel.parentElement;
+    const containerWidth = container.clientWidth;
+    const cardsPerView = Math.floor((containerWidth - 40) / cardWidth) || 1; // Calculate how many cards fit, min 1
+    let currentIndex = 0;
+
+    // Disable Next button if cards are less than or equal to cardsPerView
+    if (cardCount <= cardsPerView) {
+      nextButton.disabled = true;
+    }
+
+    function updateCarousel() {
+      // Calculate offset in pixels based on card width
+      const offset = -(currentIndex * cardWidth);
+      carousel.style.transform = `translateX(${offset}px)`;
+      
+      // Enable/disable buttons based on position
+      prevButton.disabled = currentIndex === 0;
+      nextButton.disabled = currentIndex >= cardCount - cardsPerView;
+    }
+
+    prevButton.addEventListener('click', () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateCarousel();
+      }
+    });
+
+    nextButton.addEventListener('click', () => {
+      if (currentIndex < cardCount - cardsPerView) {
+        currentIndex++;
+        updateCarousel();
+      }
+    });
+
+    // Initial update to set button states
+    updateCarousel();
+  }
+
+  // Try to initialize carousels and handle errors safely
+  try {
+    // Initialize paid events carousel if elements exist
+    if (document.getElementById('paid-events-track')) {
+      initCarousel('paid-events-track', 'paid-prev', 'paid-next');
+    }
+  } catch (error) {
+    console.error('Error initializing paid events carousel:', error);
+  }
+  
+  try {
+    // Initialize non-paid events carousel if elements exist
+    if (document.getElementById('non-paid-events-track')) {
+      initCarousel('non-paid-events-track', 'non-paid-prev', 'non-paid-next');
+    }
+  } catch (error) {
+    console.error('Error initializing non-paid events carousel:', error);
+  }
+  
+  // Modify join buttons to show price for paid events
+  try {
+    document.querySelectorAll('.card').forEach(card => {
+      const priceElement = card.querySelector('.event-price');
+      const joinButton = card.querySelector('.join-button');
+      
+      if (priceElement && joinButton) {
+        const priceText = priceElement.textContent.trim();
+        
+        // Check if this is a paid event (contains a price in USD)
+        if (priceText.includes('USD')) {
+          const price = priceText.replace('USD', '').trim();
+          
+          // Only change button text if it's not already "Joined"
+          if (joinButton.textContent.trim() !== 'Joined') {
+            joinButton.textContent = `Join $${price}`;
+          }
+        }
+      }
+    });
+  } catch (error) {
+    console.error('Error modifying join buttons:', error);
+  }
+  
+  // Change section titles
+  try {
+    const sectionTitles = document.querySelectorAll('.events-section h2');
+    if (sectionTitles.length >= 2) {
+      sectionTitles[0].textContent = 'Events';      // Change "Paid Events" to just "Events"
+      sectionTitles[1].textContent = 'Events';      // Change "Free Events" to just "Events"
+    }
+  } catch (error) {
+    console.error('Error changing section titles:', error);
+  }
+});

@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Joined Events</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    /* Main styling */
+    .joined-events-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2.5rem;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .joined-events-section .section-title {
+      font-size: 2.2rem;
+      color: #2d3748 !important; 
+      margin-bottom: 2.5rem;
+      font-weight: 700;
+      text-align: center;
+      position: relative;
+      letter-spacing: -0.5px;
+    }
+
+    .joined-events-section .section-title:after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 5px;
+      background: linear-gradient(90deg, #3b82f6, #10b981);
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
+    }
+
+    .joined-events-section .event-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2.5rem;
+    }
+
+    /* New Card Style */
+    .joined-events-section .event-card {
+      width: 100%;
+      height: 300px;
+      background-color: rgb(255, 255, 255);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition-duration: .5s;
+      cursor: pointer;
+      border-radius: 15px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+    }
+
+    .joined-events-section .event-image-container {
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: rgb(24, 24, 24);
+      transition-duration: .5s;
+      color: rgb(255, 255, 255);
+      position: relative;
+    }
+
+    .joined-events-section .event-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.8;
+      transition: all 0.5s ease;
+    }
+
+    .joined-events-section .event-title-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.7);
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 1.1rem;
+      text-align: center;
+      box-sizing: border-box;
+      transition: all 0.3s ease;
+    }
+
+    /* Event date moved to top left */
+    .joined-events-section .event-date-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0.5rem 0.8rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      background-color: rgba(255, 255, 255, 0.9);
+      color: #3b82f6;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+      z-index: 3;
+    }
+
+    .joined-events-section .event-date-badge i {
+      margin-right: 5px;
+      color: #3b82f6;
+    }
+
+    .joined-events-section .event-status {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: inline-block;
+      padding: 0.5rem 0.8rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+      z-index: 3;
+    }
+
+    .joined-events-section .status-active {
+      background-color: rgba(16, 185, 129, 0.9);
+      color: white;
+    }
+
+    .joined-events-section .status-pending {
+      background-color: rgba(245, 158, 11, 0.9);
+      color: white;
+    }
+
+    .joined-events-section .event-card:hover .event-image-container {
+      transform: translateX(-25%) translateY(-20%);
+      transition-duration: .5s;
+    }
+
+    .joined-events-section .event-info {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f8f9ff;
+      z-index: 1;
+    }
+
+    .joined-events-section .event-details {
+      width: 75%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      background: linear-gradient(to right, #0a001d, #7a28c1) !important;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      gap: 2px;
+      padding: 1rem;
+      box-sizing: border-box;
+    }
+
+    .joined-events-section .card-title {
+      margin: 0;
+      padding: 0;
+      font-size: 18px;
+      font-weight: 600;
+      color: #2d3748;
+    }
+
+    .joined-events-section .card-description {
+      margin: 12px 0;
+      padding: 0;
+      font-size: 14px;
+      font-weight: 400;
+      color: #4a5568;
+      max-height: 80px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+
+    /* Hidden date info (replaced by badge) */
+    .joined-events-section .event-date {
+      display: none;
+    }
+
+    /* Event creator profile - hidden by default, shown on hover */
+    .joined-events-section .event-creator {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      opacity: 1;
+      margin: 0.5rem 0;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .joined-events-section .creator-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #3b82f6;
+    }
+
+    .joined-events-section .creator-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #2d3748;
+    }
+
+    .joined-events-section .creator-message-btn {
+      background: linear-gradient(90deg, #3b82f6, #10b981) !important;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+    }
+
+    .joined-events-section .creator-message-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 15px rgba(59, 130, 246, 0.4);
+    }
+
+    .joined-events-section .event-actions {
+      width: 25%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      background: linear-gradient(to bottom, #0a001d, #7a28c1)!important;
+    }
+
+    /* Improved action buttons with labels */
+    .joined-events-section .action-btn-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .joined-events-section .action-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .joined-events-section .action-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #4b5563;
+      margin-top: 5px;
+      text-align: center;
+    }
+
+    .joined-events-section .action-btn:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, rgba(59, 130, 246, 0.2), rgba(16, 185, 129, 0.2)) !important;
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: -1;
+      border-radius: 50%;
+    }
+
+    .joined-events-section .action-btn:hover:after {
+      opacity: 1;
+    }
+
+    .joined-events-section .action-btn i {
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+    }
+
+    /* View button styling */
+    .joined-events-section .view-btn {
+      margin-top: 60px;
+      background-color: #ffffff;
+      color: #3b82f6;
+      border: 2px solid #3b82f6;
+    }
+
+    .joined-events-section .view-btn:hover {
+      background-color: #3b82f6;
+      color: #ffffff;
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(59, 130, 246, 0.3);
+    }
+
+    /* Message button styling */
+    .joined-events-section .message-btn {
+      background-color: #ffffff;
+      color: #10b981;
+      border: 2px solid #10b981;
+    }
+
+    .joined-events-section .message-btn:hover {
+      background-color: #10b981;
+      color: #ffffff;
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(16, 185, 129, 0.3);
+    }
+
+    /* Improved leave button */
+    .joined-events-section .leave-btn-container {
+      position: absolute;
+      top: 20px;
+      right: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 10;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .joined-events-section .leave-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #ef4444;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+      border: 2px solid white;
+    }
+
+    .joined-events-section .leave-label {
+      margin-top: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      color: white;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 2px 8px;
+      border-radius: 4px;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+    }
+
+    .joined-events-section .event-card:hover .leave-btn-container {
+      opacity: 1;
+    }
+
+    .joined-events-section .leave-btn-container:hover .leave-label {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .joined-events-section .leave-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 15px rgba(239, 68, 68, 0.4);
+    }
+
+    /* Empty state styling */
+    .joined-events-section p {
+      text-align: center;
+      color: #4a5568;
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .joined-events-section .btn-join {
+      background: linear-gradient(90deg, #3b82f6, #10b981);
+      color: #ffffff;
+      padding: 0.9rem 2rem;
+      border-radius: 0.8rem;
+      margin-top: 1.5rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+      transform: translateZ(0);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: none;
+      cursor: pointer;
+    }
+
+    .joined-events-section .btn-join:hover {
+      background: linear-gradient(90deg, #2563eb, #059669);
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 12px 25px rgba(59, 130, 246, 0.4);
+    }
+
+    /* Add pulse animation to the join button */
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+      }
+      70% {
+        box-shadow: 0 0 0 15px rgba(59, 130, 246, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+      }
+    }
+
+    .joined-events-section .btn-join {
+      animation: pulse 2s infinite;
+    }
+
+    /* Send Message Modal Styling */
+    .message-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .message-modal.active {
+      display: flex;
+    }
+
+    .message-modal-content {
+      width: 100%;
+      max-width: 500px;
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .message-modal-header {
+      padding: 1rem 1.5rem;
+      background: linear-gradient(90deg, #3b82f6, #10b981);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .message-modal-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .message-modal-close {
+      background: rgba(255, 255, 255, 0.3);
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: white;
+    }
+
+    .message-modal-close:hover {
+      background: rgba(255, 255, 255, 0.5);
+      transform: rotate(90deg);
+    }
+
+    .message-modal-body {
+      padding: 1.5rem;
+    }
+
+    .message-modal-label {
+      display: block;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+      color: #2d3748;
+    }
+
+    .message-modal-textarea {
+      width: 100%;
+      min-height: 150px;
+      padding: 0.8rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      resize: vertical;
+      font-family: inherit;
+      font-size: 1rem;
+      box-sizing: border-box;
+      transition: border-color 0.3s ease;
+    }
+
+    .message-modal-textarea:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .message-modal-footer {
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .message-modal-button {
+      padding: 0.7rem 1.5rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .message-modal-cancel {
+      background-color: transparent;
+      color: #4a5568;
+      border: 1px solid #cbd5e0;
+    }
+
+    .message-modal-cancel:hover {
+      background-color: #f7fafc;
+      color: #2d3748;
+    }
+
+    .message-modal-send {
+      background: linear-gradient(90deg, #3b82f6, #10b981);
+      color: white;
+      border: none;
+      box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2);
+    }
+
+    .message-modal-send:hover {
+      background: linear-gradient(90deg, #2563eb, #059669);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(59, 130, 246, 0.3);
+    }
+
+    .message-counter {
+      text-align: right;
+      color: #718096;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+
+    /* Media queries for responsiveness */
+    @media (max-width: 992px) {
+      .joined-events-section .event-container {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .joined-events-section .event-container {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 2rem;
+      }
+      
+      .joined-events-section .section-title {
+        font-size: 2rem;
+      }
+      
+      .joined-events-section .event-card {
+        height: 280px;
+      }
+      
+      .message-modal-content {
+        width: 90%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .joined-events-section .event-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .joined-events-section {
+        padding: 1.5rem 1rem;
+      }
+      
+      .joined-events-section .section-title {
+        font-size: 1.8rem;
+      }
+      
+      .joined-events-section .event-actions {
+        flex-direction: row;
+        width: 100%;
+        height: 80px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        gap: 0;
+        justify-content: space-evenly;
+      }
+      
+      .joined-events-section .event-details {
+        width: 100%;
+        padding-bottom: 80px;
+      }
+      
+      .joined-events-section .event-card:hover .event-image-container {
+        transform: translateY(-30%);
+      }
+      
+      .joined-events-section .action-btn-container {
+        flex-direction: column;
+      }
+    }
+
+    /* Accessibility improvements */
+    .joined-events-section .event-card:focus-within .event-image-container {
+      transform: translateX(-25%) translateY(-20%);
+    }
+
+    .joined-events-section .action-btn:focus,
+    .joined-events-section .btn-join:focus {
+      outline: 2px solid #3b82f6;
+      outline-offset: 2px;
+    }
+
+    /* Add dark mode support */
+    @media (prefers-color-scheme: dark) {
+      .joined-events-section .section-title {
+        color: #e2e8f0;
+      }
+      
+      .joined-events-section p {
+        color: #cbd5e0;
+      }
+      
+      .joined-events-section .event-info {
+        background-color: #2d3748;
+      }
+      
+      .joined-events-section .event-details {
+        background-color: #2d3748;
+      }
+      
+      .joined-events-section .event-actions {
+        background-color: #1a202c;
+      }
+      
+      .joined-events-section .card-title {
+        color: #f7fafc;
+      }
+      
+      .joined-events-section .card-description {
+        color: #e2e8f0;
+      }
+      
+      .joined-events-section .event-date-badge {
+        background-color: #1a202c;
+        color: #60a5fa;
+      }
+
+      .joined-events-section .event-date-badge i {
+        color: #60a5fa;
+      }
+      
+      .joined-events-section .action-label {
+        color: #cbd5e0;
+      }
+      
+      .joined-events-section .creator-name {
+        color: #e2e8f0;
+      }
+      
+      .joined-events-section .action-btn {
+        background-color: #4a5568;
+        color: #f7fafc;
+      }
+      
+      .message-modal-content {
+        background-color: #2d3748;
+      }
+      
+      .message-modal-label {
+        color: #e2e8f0;
+      }
+      
+      .message-modal-textarea {
+        background-color: #1a202c;
+        border-color: #4a5568;
+        color: #e2e8f0;
+      }
+      
+      .message-modal-cancel {
+        color: #e2e8f0;
+        border-color: #4a5568;
+      }
+      
+      .message-modal-cancel:hover {
+        background-color: #4a5568;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Modified template structure with new card design -->
+<div class="joined-events joined-events-section">
+  <h3 class="section-title">Joined Events</h3>
+  {% if eventjoined %}
+    <div class="event-container">
+      {% for i in eventjoined %}
+        <div class="event-card">
+          <div class="event-image-container">
+            <img src="{{ i.image.url|default:'/static/images/placeholder.jpg' }}" class="event-image" alt="Event Image">
+            <div class="event-title-overlay">{{ i.title }}</div>
+            <span class="event-status {% if i.status == 'Active' %}status-active{% else %}status-pending{% endif %}">
+              {{ i.status }}
+            </span>
+            <!-- Date moved to top left -->
+            <div class="event-date-badge">
+              <i class="far fa-calendar-alt"></i>
+              <span>{{ i.date_time }}</span>
+            </div>
+          </div>
+          <div class="event-info">
+            <div class="event-details">
+              <h5 class="card-title">{{ i.title }}</h5>
+              <p class="card-description">{{ i.description }}</p>
+              
+              <!-- Creator profile shown all the time -->
+              <div class="event-creator">
+                <img src="{{ i.creator.profile_picture.url|default:'/static/images/avatar-placeholder.jpg' }}" class="creator-avatar" alt="Creator">
+                <span class="creator-name">{{ i.creator.username }}</span>
+                <button class="creator-message-btn" onclick="messageCreator({{ i.creator.id }}); event.stopPropagation();">
+                  <i class="fas fa-paper-plane"></i>
+                </button>
+              </div>
+            </div>
+            <div class="event-actions">
+              <div class="action-btn-container">
+                <a href="#" class="action-btn view-btn" onclick="viewEvent({{ i.id }}); return false;" title="View Event">
+                  <i class="fas fa-eye"></i>
+                </a>
+                <span class="action-label">View</span>
+              </div>
+              <div class="action-btn-container">
+                <a href="{% url 'message:messages_home' %}" class="action-btn message-btn" title="Group Message">
+                  <i class="fas fa-comments"></i>
+                </a>
+                <span class="action-label">Group Chat</span>
+              </div>
+            </div>
+          </div>
+          <div class="leave-btn-container">
+            <a href="#" class="leave-btn" onclick="leaveEvent({{ i.id }}); event.stopPropagation(); return false;" title="Leave Event">
+              <i class="fas fa-times"></i>
+            </a>
+            <span class="leave-label">Leave</span>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No events joined yet.</p>
+    <a href="/" class="btn btn-join">
+      <i class="fas fa-plus"></i>Join Event
+    </a>
+  {% endif %}
+</div>
+
+<!-- Send Message Modal -->
+<div id="messageModal" class="message-modal">
+  <div class="message-modal-content">
+    <div class="message-modal-header">
+      <h3 class="message-modal-title">Send Message</h3>
+      <button class="message-modal-close" onclick="closeMessageModal()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="message-modal-body">
+      <label class="message-modal-label">Message</label>
+      <textarea id="messageText" class="message-modal-textarea" placeholder="Type your message here..." maxlength="500" oninput="updateCounter()"></textarea>
+      <div class="message-counter">
+        <span id="charCount">0</span>/500
+      </div>
+    </div>
+    <div class="message-modal-footer">
+      <button class="message-modal-button message-modal-cancel" onclick="closeMessageModal()">Cancel</button>
+      <button class="message-modal-button message-modal-send" onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>

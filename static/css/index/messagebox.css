@@ -1,0 +1,181 @@
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal.visible {
+  opacity: 1;
+}
+
+.modal-content {
+  background-color: #fff;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 550px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+.modal.visible .modal-content {
+  transform: scale(1);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.modal-recipient {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.modal-recipient img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.modal-recipient h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.close-modal-btn, .close-upgrade-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #888;
+  transition: color 0.2s;
+}
+
+.close-modal-btn:hover, .close-upgrade-btn:hover {
+  color: #333;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+#messageContent {
+  width: 100%;
+  min-height: 150px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 16px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.modal-footer {
+  padding: 15px 20px;
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid #eee;
+  gap: 10px;
+}
+
+#sendMessageBtn, #upgradeBtn {
+  background: linear-gradient(90deg, #6366F1, #4338CA);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#sendMessageBtn:hover, #upgradeBtn:hover {
+  background: linear-gradient(90deg, #4F46E5, #3730A3);
+  transform: translateY(-1px);
+}
+
+#sendMessageBtn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.cancel-btn {
+  background-color: #f1f1f1;
+  color: #333;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cancel-btn:hover {
+  background-color: #e5e5e5;
+}
+
+/* Message Button Styles */
+.message-button {
+  background-color: #4F46E5;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.message-button:hover {
+  background-color: #3730A3;
+}
+
+/* Notification Toast */
+.notification-toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #333;
+  color: white;
+  padding: 15px 25px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.notification-toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.notification-toast.success {
+  background: linear-gradient(90deg, #2ECC71, #27AE60);
+}
+
+.notification-toast.error {
+  background: linear-gradient(90deg, #E74C3C, #C0392B);
+}

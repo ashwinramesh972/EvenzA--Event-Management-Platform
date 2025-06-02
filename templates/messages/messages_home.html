@@ -1,0 +1,210 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EvenZA - Messages</title>
+    <link rel="stylesheet" href="{% static 'css/user/usernavbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/message/message.css' %}">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Inter Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    {% include 'user-homepage/usernavbar.html' %}
+    <div class="messaging-container">
+        <!-- Sidebar: Contacts and Groups -->
+        <div class="contacts-column">
+            <div class="tabs-container">
+                <ul class="nav nav-tabs" id="messageTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="direct-tab" data-bs-toggle="tab" href="#direct" role="tab" aria-controls="direct" aria-selected="true">
+                            <i class="fas fa-comment-alt mr-2"></i> Chats
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="group-tab" data-bs-toggle="tab" href="#group" role="tab" aria-controls="group" aria-selected="false">
+                            <i class="fas fa-users mr-2"></i> Groups
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="tab-content contacts-list" id="messageTabContent">
+                <!-- Direct Messages Tab -->
+                <div class="tab-pane fade show active" id="direct" role="tabpanel" aria-labelledby="direct-tab">
+                    <!-- Direct conversations will be loaded here -->
+                    {% for conversation in direct_conversations %}
+                        <div class="conversation-item d-flex align-items-center" onclick="loadDirectMessages({{ conversation.partner.id }}, '{{ conversation.partner.username|escapejs }}')">
+                            <div class="profile-pic me-3">
+                                {% if conversation.partner.profile_picture %}
+                                    <img src="{{ conversation.partner.profile_picture.url }}" alt="{{ conversation.partner.username }}'s profile">
+                                {% else %}
+                                    {{ conversation.partner.username|first|upper }}
+                                {% endif %}
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <strong>{{ conversation.partner.username }}</strong>
+                                    <div class="text-muted small">
+                                        {% if conversation.last_message %}
+                                            {{ conversation.last_message.sent_at|time:"h:i A" }}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="text-muted text-truncate" style="max-width: 200px;">
+                                        {% if conversation.last_message %}
+                                            {{ conversation.last_message.content|truncatechars:30 }}
+                                        {% else %}
+                                            No messages yet
+                                        {% endif %}
+                                    </div>
+                                    {% if conversation.unread_count > 0 %}
+                                        <span class="unread-badge ms-2">{{ conversation.unread_count }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="text-center p-4">
+                            <div class="mb-3 text-primary">
+                                <i style="color: white;" class="fas fa-comment-slash fa-3x opacity-20"></i>
+                            </div>
+                            <p class="text-muted" style="color: white !important ;" >No direct conversations yet.</p>
+                        </div>
+                    {% endfor %}
+                </div>
+                
+                <!-- Group Messages Tab -->
+                <div class="tab-pane fade" id="group" role="tabpanel" aria-labelledby="group-tab">
+                    <h6>My Events</h6>
+                    <!-- My events conversations will be loaded here -->
+                    {% for group in my_events_preview %}
+                        <div class="conversation-item d-flex align-items-center" onclick="loadGroupMessages({{ group.event.id }}, '{{ group.event.title|escapejs }}', this)">
+                            <div class="event-img me-3">
+                                {% if group.event.image %}
+                                    <img src="{{ group.event.image.url }}" alt="{{ group.event.title }}">
+                                {% else %}
+                                    <i class="fas fa-calendar-alt"></i>
+                                {% endif %}
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <strong>{{ group.event.title|truncatechars:20 }}</strong>
+                                    <div class="text-muted small">
+                                        {% if group.last_message %}
+                                            {{ group.last_message.sent_at|time:"h:i A" }}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="text-muted text-truncate" style="max-width: 200px;">
+                                        {% if group.last_message %}
+                                            {{ group.last_message.sender.username }}: {{ group.last_message.content|truncatechars:25 }}
+                                        {% else %}
+                                            No messages yet
+                                        {% endif %}
+                                    </div>
+                                    {% if group.unread_count > 0 %}
+                                        <span class="unread-badge ms-2">{{ group.unread_count }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="text-center p-4">
+                            <div class="mb-3 text-primary">
+                                <i class="fas fa-calendar-times fa-3x opacity-20" style="color: white;"></i>
+                            </div>
+                            <p class="text" style="color: white;">No messages in your events yet.</p>
+                        </div>
+                    {% endfor %}
+                    
+                    <h6>Joined Events</h6>
+                    <!-- Joined events conversations will be loaded here -->
+                    {% for group in joined_events_preview %}
+                        <div class="conversation-item d-flex align-items-center" onclick="loadGroupMessages({{ group.event.id }}, '{{ group.event.title|escapejs }}', this)">
+                            <div class="event-img me-3">
+                                {% if group.event.image %}
+                                    <img src="{{ group.event.image.url }}" alt="{{ group.event.title }}">
+                                {% else %}
+                                    <i class="fas fa-calendar-alt"></i>
+                                {% endif %}
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <strong>{{ group.event.title|truncatechars:20 }}</strong>
+                                    <div class="text-muted small">
+                                        {% if group.last_message %}
+                                            {{ group.last_message.sent_at|time:"h:i A" }}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="text-muted text-truncate" style="max-width: 200px;">
+                                        {% if group.last_message %}
+                                            {{ group.last_message.sender.username }}: {{ group.last_message.content|truncatechars:25 }}
+                                        {% else %}
+                                            No messages yet
+                                        {% endif %}
+                                    </div>
+                                    {% if group.unread_count > 0 %}
+                                        <span class="unread-badge ms-2">{{ group.unread_count }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="text-center p-4">
+                            <div class="mb-3 text-primary">
+                                <i class="fas fa-calendar-check fa-3x opacity-20"></i>
+                            </div>
+                            <p class="text-muted">No messages in joined events yet.</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Chat Area -->
+        <div class="chat-area">
+            <div id="conversation-header"></div>
+            <div id="chat-messages"></div>
+            <div id="message-limit"></div>
+            <div class="message-input-container" id="message-input-container">
+                {% if show_upgrade_prompt %}
+                    <div class="alert alert-danger mb-2">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        {{ limit_message }}
+                        <a href="{% url 'users:user-upgrade'%}" class="btn btn-danger btn-sm float-end">Upgrade Now</a>
+                    </div>
+                {% endif %}
+            </div>
+            {% if not event %}
+                <div class="no-conversation">
+                    <i class="fas fa-comments"></i>
+                    <h5>Select a conversation</h5>
+                    <p>Choose a direct or group conversation to start messaging</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- JavaScript Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Set currentUserId for JavaScript
+        window.currentUserId = {{ userdata.id|default:'null' }};
+    </script>
+    <script src="{% static 'js/message/utils.js' %}"></script>
+    <script src="{% static 'js/message/message.js' %}"></script>
+    <script src="{% static 'js/message/directmessageview.js' %}"></script>
+    <script src="{% static 'js/message/groupmessageview.js' %}"></script>
+    <script src="{% static 'js/user/usernavbar.js' %}"></script>
+</body>
+</html>

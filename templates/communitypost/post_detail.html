@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Detail</title>
+    <link rel="stylesheet" href="{% static 'css/communitypost/post_detail.css' %}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="{% url 'communitypost:community_feed' %}" class="back-link">
+                <svg class="back-icon" viewBox="0 0 24 24">
+                    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" />
+                </svg>
+                Back to Feed
+            </a>
+            <h1>Post Detail</h1>
+        </header>
+        <div class="post-detail">
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="user-info">
+                    <div class="profile-pic">
+                     <img src="{{ post.user.profile_picture.url }}" alt="" >
+                    </div>
+                        <span class="username">{{ post.user.username }}</span>
+                    </div>
+                    <span class="post-date">{{ post.created_at|date:"F d, Y" }}</span>
+                </div>
+                
+                {% if post.image %}
+                <div class="post-image">
+                    <img src="{{ post.image.url }}" alt="Post image">
+                </div>
+                {% endif %}
+                
+                {% if post.caption %}
+                <div class="post-caption">
+                    <p>{{ post.caption }}</p>
+                </div>
+                {% endif %}
+                
+                <div class="post-actions">
+                    <div class="like-section">
+                        <button class="like-button {% if is_liked %}liked{% endif %}" 
+                                data-post-id="{{ post.id }}"
+                                {% if not user.is_authenticated %}disabled{% endif %}>
+                            <svg class="heart-icon" viewBox="0 0 24 24">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                            </svg>
+                            <span class="like-count">{{ like_count }}</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comments-section">
+                <h2>Comments</h2>
+                
+                {% if user.is_authenticated %}
+                <form class="comment-form" method="POST">
+                    {% csrf_token %}
+                    <div class="comment-input-container">
+                        <textarea name="comment_text" placeholder="Add a comment..." maxlength="250" required></textarea>
+                        <div class="char-counter">0/250</div>
+                    </div>
+                    <button type="submit" class="submit-comment">Post Comment</button>
+                    {% if error %}
+                    <div class="error-message">{{ error }}</div>
+                    {% endif %}
+                </form>
+                {% else %}
+                <div class="login-prompt">
+                    <p>Please <a href="{% url 'login' %}">log in</a> to comment on this post.</p>
+                </div>
+                {% endif %}
+                
+                <div class="comments-list">
+                    {% if comments %}
+                        {% for comment_item in comments %}
+                        <div class="comment">
+                            <div class="comment-header">
+                                <div class="user-info">
+                                    <div class="profile-pic-small">
+                                        <img src="{{ comment_item.comment.user.profile_picture.url }}" alt="" >
+                                    </div>
+                                 <span class="username">{{ comment_item.comment.user.username }}</span>
+                                </div>
+                                <span class="comment-date">{{ comment_item.created_at|date:"F d, Y" }}</span>
+                            </div>
+                            <div class="comment-text">
+                                {{ comment_item.text }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="no-comments">
+                            <p>No comments yet. Be the first to comment!</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'js/communitypost/post_detail.js' %}"></script>
+</body>
+</html>

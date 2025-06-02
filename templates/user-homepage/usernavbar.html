@@ -1,0 +1,123 @@
+{% load static %}
+<nav class="ez-navbar ez-collapsed">
+  <div class="ez-logo-container">
+    <a href="/" class="ez-logo">EvenzA</a>
+  </div>
+  <div class="ez-mobile-menu-btn">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <div class="ez-menu-overlay"></div>
+  <div class="ez-desktop-nav">
+    <ul>
+      {% if request.user.is_authenticated %}
+        <li class="ez-nav-item ez-dropdown">
+          <a class="ez-nav-link ez-dropdown-toggle ez-user-profile" href="#" id="ezNavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="{{ request.user.profile_picture.url|default:'/static/default-pic.png' }}" alt="Profile" class="ez-profile-pic">
+            <span class="ez-username-display">{{ request.user.username }}</span>
+            {% if request.user.user_type == 'premium' %}
+              <span class="ez-premium-badge">Premium</span>
+            {% endif %}
+          </a>
+          <ul class="ez-dropdown-menu ez-profile-dropdown" aria-labelledby="ezNavbarDropdown">
+            {% if request.user.user_type == 'joiner' or request.user.user_type == 'creator' %}
+              <li><a class="ez-dropdown-item" href="{% url 'users:user-upgrade'%}">Upgrade</a></li>
+            {% endif %}
+            <li><a class="ez-dropdown-item" href="/profile">Profile</a></li>
+            <li><a class="ez-dropdown-item" href="/user-logout">Logout</a></li>
+          </ul>
+        </li>
+      {% endif %}
+      <li>
+        <a href="/" class="ez-nav-link"><i class="fas fa-home"></i>EvenzAHome</a>
+      </li>
+      <li>
+        <a href="#about" class="ez-nav-link"><i class="fas fa-info-circle"></i>About</a>
+      </li>
+      <li>
+        <a href="#contact" class="ez-nav-link"><i class="fas fa-envelope"></i>Contact</a>
+      </li>
+      <li>
+        <a href="{% url 'communitypost:community_feed' %}" class="ez-nav-link"><i class="fas fa-users"></i>Community</a>
+      </li>
+      <li>
+        <a href="{% url 'message:messages_home' %}" class="ez-nav-link"><i class="fas fa-calendar-alt"></i>Message</a>
+      </li>
+      {% if request.user.is_authenticated %}
+        <li>
+          <a href="{% if request.user.user_type == 'joiner' %}{% url 'users:Joiner-home' %}
+                    {% elif request.user.user_type == 'creator' %}{% url 'users:creator-home' %}
+                    {% else %}{% url 'users:Premium-Home' %}{% endif %}" class="ez-nav-link ez-active">
+            <i class="fas fa-tachometer-alt"></i>Dashboard
+          </a>
+        </li>
+      {% else %}
+        <li>
+          <a href="/user-login" class="ez-nav-link"><i class="fas fa-sign-in-alt"></i>Login</a>
+        </li>
+        <li>
+          <a href="/user-register" class="ez-btn-register"><i class="fas fa-user-plus"></i>Get Started</a>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+  <div class="ez-mobile-nav">
+    <ul>
+      {% if request.user.is_authenticated %}
+        <li class="ez-nav-item">
+          <a class="ez-nav-link ez-user-profile" href="#" role="button" data-bs-toggle="collapse" data-bs-target="#ezMobileDropdown" aria-expanded="false" style="--item-index: 1;">
+            <img src="{{ request.user.profile_picture.url|default:'/static/default-pic.png' }}" alt="Profile" class="ez-profile-pic">
+            <span class="ez-username-display">{{ request.user.username }}</span>
+            {% if request.user.user_type == 'premium' %}
+              <span class="ez-premium-badge">Premium</span>
+            {% endif %}
+          </a>
+          <ul class="ez-collapse" id="ezMobileDropdown">
+            {% if request.user.user_type == 'joiner' or request.user.user_type == 'creator' %}
+              <li><a class="ez-dropdown-item" href="{% url 'users:user-upgrade'%}">Upgrade</a></li>
+            {% endif %}
+            <li><a class="ez-dropdown-item" href="/profile">Profile</a></li>
+            <li><a class="ez-dropdown-item" href="/user-logout">Logout</a></li>
+          </ul>
+        </li>
+      {% endif %}
+      <li>
+        <a href="/" class="ez-nav-link" style="--item-index: 2;"><i class="fas fa-home"></i>EvenzAHome</a>
+      </li>
+      <li>
+        <a href="#about" class="ez-nav-link" style="--item-index: 3;"><i class="fas fa-info-circle"></i>About</a>
+      </li>
+      <li>
+        <a href="#contact" class="ez-nav-link" style="--item-index: 4;"><i class="fas fa-envelope"></i>Contact</a>
+      </li>
+      <li>
+        <a href="{% url 'communitypost:community_feed' %}" class="ez-nav-link" style="--item-index: 5;"><i class="fas fa-users"></i>Community</a>
+      </li>
+      <li>
+        <a href="{% url 'message:messages_home' %}" class="ez-nav-link" style="--item-index: 6;"><i class="fas fa-calendar-alt"></i>message</a>
+      </li>
+      {% if request.user.is_authenticated %}
+        <li>
+          <a href="{% if request.user.user_type == 'joiner' %}{% url 'users:Joiner-home' %}
+                    {% elif request.user.user_type == 'creator' %}{% url 'users:creator-home' %}
+                    {% else %}{% url 'users:Premium-Home' %}{% endif %}" class="ez-nav-link" style="--item-index: 7;">
+            <i class="fas fa-tachometer-alt"></i>Dashboard
+          </a>
+        </li>
+      {% else %}
+        <li>
+          <a href="/user-login" class="ez-nav-link" style="--item-index: 7;"><i class="fas fa-sign-in-alt"></i>Login</a>
+        </li>
+        <li>
+          <a href="/user-register" class="ez-btn-register" style="--item-index: 8;"><i class="fas fa-user-plus"></i>Get Started</a>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
+<div class="ez-nav-toggle-btn">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>

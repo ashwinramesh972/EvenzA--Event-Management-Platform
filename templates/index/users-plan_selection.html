@@ -1,0 +1,110 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Choose Your Plan - EvenzA</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+        <link rel="stylesheet" href="{% static 'css/index/pricing.css' %}">
+        <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+    </head>
+
+    <body>
+    <section class="pricing" id="pricing">
+        <div class="pricing-content" >
+            <div class="pricing-header">
+            <span class="section-label" style="font-size: 40px; font-family: 'Dancing Script', cursive;">CHOOSE YOUR PLAN</span>
+            <div class="billing-toggle">
+                <button class="toggle-btn active" data-billing="monthly">Monthly</button>
+                <button class="toggle-btn" data-billing="yearly">Yearly  (Save 15%)</button>
+            </div>
+            </div>
+            <div class="pricing-container">
+
+
+
+            <!-- Joiner Plan -->
+            <div class="pricing-card">
+                <h3 class="plan-name">Joiner</h3>
+                <p class="price monthly-price">$0 <span>/ month</span></p>
+                <p class="price yearly-price hidden">$0 <span>/ year</span></p>
+                <p class="description">Perfect for community members who want to join and experience events.</p>
+                <ul class="feature-list">
+                <li class="feature-item"><span class="checkmark">✓</span>Join all public and private events</li>
+                <li class="feature-item"><span class="checkmark">✓</span>Create up to 3 free events</li>
+                <li class="feature-item"><span class="checkmark">✓</span>Maximum 10 attendees per event</li>
+                <li class="feature-item"><span class="checkmark">✓</span>Read all event messages</li>
+                </ul>
+                <a class="cta-btn {% if user.user_type == 'creator' or user.user_type == 'joiner' or user.user_type == 'premium' %}disabled{% endif %}" 
+                       href="{% if user.user_type != 'creator' and user.user_type != 'premium' %}{% url 'payment:select_plan' 'free' user.id %}{% else %}javascript:void(0){% endif %}">
+                        {% if user.user_type == 'joiner' %}Current Plan{% elif user.user_type == 'creator' or user.user_type == 'premium' %}Not Available{% else %}Get Started{% endif %}
+                </a>
+            </div>
+
+
+
+
+            <!-- Premium Plan -->
+            <div class="pricing-card featured">
+                <h3 class="plan-name">Premium</h3>
+                <p class="price monthly-price">$49.99 <span>/ month</span></p>
+                <p class="price yearly-price hidden">$509.90 <span> / year</span></p>
+                <p class="description">The ultimate package for serious event organizers and community leaders.</p>
+                <ul class="feature-list">
+                <li class="feature-item"><span class="checkmark">✓</span>Create unlimited events (free & paid)</li>
+                <li class="feature-item"><span class="checkmark">✓</span>Unlimited attendees per event</li>
+                <li class="feature-item"><span class="checkmark">✓</span>Unlimited messaging</li>
+                <li class="feature-item"><span class="checkmark">✓</span>Featured event promotion</li>
+                <li class="feature-item"><span class="checkmark">✓</span>Advanced analytics dashboard</li>
+                <li class="feature-item"><span class="checkmark">✓</span>Ticketing and payment processing</li>
+                </ul>
+                <button class="cta-btn {% if user.user_type == 'premium' %}disabled{% endif %}"
+                onclick="startCheckout('premium', {{ user.id|default:0 }})">
+                        {% if user.user_type == 'premium' %}Current Plan{% else %}Go Premium{% endif %}
+                    </button>
+            </div>
+
+
+
+
+
+            <!-- Creator Plan -->
+            <div class="pricing-card">
+                <h3 class="plan-name">Creator</h3>
+                <p class="price monthly-price">$19.99 <span>/ month</span></p>
+                <p class="price yearly-price hidden">$203.90 <span>/ year</span></p>
+                <p class="description">For active community builders who want to create and manage multiple events.</p>
+                <ul class="feature-list">
+                <li class="feature-item"><span class="checkmark">✓</span>Create unlimited free events</li>
+                <li class="feature-item"><span class="checkmark">✓</span>Create up to 3 paid events</li>
+                <li class="feature-item"><span class="checkmark">✓</span>Maximum 100 attendees per event</li>
+                <li class="feature-item"><span class="checkmark">✓</span>Basic event analytics</li>
+                <li class="feature-item"><span class="checkmark">✓</span>Send up to 50 messages per event</li>
+                <li class="feature-item"><span class="checkmark">✓</span>Email notifications for attendees</li>
+                </ul>
+                <button class="cta-btn {% if user.user_type == 'creator' or user.user_type == 'premium' %}disabled{% endif %}" 
+                            {% if user.user_type != 'premium' %}onclick="startCheckout('creator', {{ user.id|default:0 }})"{% endif %}>
+                        {% if user.user_type == 'creator' %}Current Plan{% elif user.user_type == 'premium' %}Not Available{% else %}Upgrade to Creator{% endif %}
+                </button>
+            </div>
+
+            
+            {% if user.user_type == 'joiner' %}
+                <div class="skip-btn">
+                <a href="{% if user.user_type != 'creator' and user.user_type != 'premium' %}{% url 'payment:select_plan' 'free' user.id %}{% else %}javascript:void(0){% endif %}" class="skip-btn active">Skip</a>
+                </div>
+            {% endif %}
+                
+            
+
+            </div>
+        </div>
+        </section>
+        
+        <script src="{% static 'js/index/pricing.js' %}"></script>
+        
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    </body>
+</html>

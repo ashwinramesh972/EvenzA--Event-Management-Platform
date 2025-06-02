@@ -1,0 +1,196 @@
+.message-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.message-modal.visible {
+  opacity: 1;
+}
+
+.message-modal-content {
+  background: white;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.message-modal-header {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.recipient-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.recipient-name {
+  flex-grow: 1;
+  margin: 0;
+  font-size: 18px;
+}
+
+.close-modal-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.message-modal-body {
+  padding: 15px;
+}
+
+#messageContent {
+  width: 100%;
+  height: 100px;
+  resize: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.send-message-btn {
+  background: #8F00FF;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+
+.send-message-btn:hover {
+  background: #7200CC;
+}
+
+.upgrade-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.upgrade-modal.visible {
+  opacity: 1;
+}
+
+.upgrade-modal-content {
+  background: #F3E5FF; /* Light purple background to match theme */
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.upgrade-modal-header {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #ddd; /* Adjusted border color for visibility on light background */
+}
+
+.upgrade-modal-header h4 {
+  flex-grow: 1;
+  margin: 0;
+  font-size: 18px;
+  color: #333; /* Darker text for contrast */
+}
+
+.close-upgrade-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #333; /* Darker color for visibility */
+}
+
+.upgrade-modal-body {
+  padding: 15px;
+  text-align: center;
+}
+
+.upgrade-modal-body p {
+  color: #333; /* Darker text for contrast on light background */
+}
+
+.upgrade-btn {
+  background: #8F00FF; /* Matches signup button */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.upgrade-btn:hover {
+  background: #7200CC; /* Matches signup button hover */
+}
+
+.cancel-btn {
+  background: #D1B3FF; /* Lighter purple shade to complement theme */
+  color: #333; /* Darker text for contrast */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cancel-btn:hover {
+  background: #BFA3FF; /* Slightly darker on hover */
+}
+
+.notification-toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #333;
+  color: white;
+  padding: 15px 25px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.notification-toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.notification-toast.success {
+  background: linear-gradient(90deg, #2ECC71, #27AE60);
+}
+
+.notification-toast.error {
+  background: linear-gradient(90deg, #E74C3C, #C0392B);
+}

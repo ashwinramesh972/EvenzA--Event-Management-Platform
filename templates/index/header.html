@@ -1,0 +1,63 @@
+{% load static %}
+<header>
+    <div class="header" id="header">
+        <div class="overlay"></div>
+        <div class="video-container">
+            <div class="main-video">
+                <video class="video-player" poster="{% static 'video/index/header/Designer.png' %}" muted>
+                    <source src="{% static 'video/index/header/1080p.mp4' %}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="play-button">
+                    <div class="play-icon"></div>
+                </div>
+                <span style="position: absolute; bottom: 10px; left: 10px; font-size: 14px;"></span>
+            </div>
+            
+            <div class="corner-video top-left">
+                <img src="{% static 'video/index/header/dj.jpg' %}" alt="DJ Event" style="width: 100%; height: 100%; object-fit: cover;">
+                <span style="position: absolute; bottom: 5px; left: 5px; font-size: 10px;"></span>
+            </div>
+            
+            <div class="corner-video top-right">
+                <img src="{% static 'video/index/header/party.jpg' %}" alt="Party Event" style="width: 100%; height: 100%; object-fit: cover;">
+                <span style="position: absolute; bottom: 5px; left: 5px; font-size: 10px;"></span>
+            </div>
+            
+            <div class="corner-video bottom-left">
+                <img src="{% static 'video/index/header/friends.jpg' %}" alt="Friends Event" style="width: 100%; height: 100%; object-fit: cover;">
+                <span style="position: absolute; bottom: 5px; left: 5px; font-size: 10px;"></span>
+            </div>
+            
+            <div class="corner-video bottom-right">
+                <img src="{% static 'video/index/header/meeting.jpg' %}" alt="Meeting Event" style="width: 100%; height: 100%; object-fit: cover;">
+                <span style="position: absolute; bottom: 5px; left: 5px; font-size: 10px;"></span>
+            </div>
+        </div>
+        
+        <div class="header-title">Your EvenZA Journey Starts Here</div>
+    </div>
+    
+    <script>
+        const playButton = document.querySelector('.play-button');
+        const mainVideo = document.querySelector('.main-video .video-player');
+        let isPlaying = false;
+
+        playButton.addEventListener('click', () => {
+            isPlaying = !isPlaying;
+            if (isPlaying) {
+                mainVideo.play();
+                mainVideo.controls = true;
+                playButton.querySelector('.play-icon').style.borderLeft = '0';
+                playButton.querySelector('.play-icon').style.borderRight = '25px solid #fff';
+                playButton.querySelector('.play-icon').style.marginLeft = '0';
+            } else {
+                mainVideo.pause();
+                mainVideo.controls = false;
+                playButton.querySelector('.play-icon').style.borderRight = '0';
+                playButton.querySelector('.play-icon').style.borderLeft = '25px solid #fff';
+                playButton.querySelector('.play-icon').style.marginLeft = '5px';
+            }
+        });
+    </script>
+</header>

@@ -1,0 +1,126 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <title>Community Feed</title>
+    <link rel="stylesheet" href="{% static 'css/communitypost/community_feed.css' %}">
+    <link rel="stylesheet" href="{% static 'css/user/usernavbar.css' %}">
+</head>
+<body>
+    {% include 'user-homepage/usernavbar.html' %}
+    <div class="container">
+        <header>
+            <h1>Community Feed</h1>
+            <nav>
+                <a href="/" class="nav-link">Home</a>
+                <a href="#" class="create-post-button">Create Post</a>
+            </nav>
+        </header>
+
+        <div class="posts-container">
+            {% if posts %}
+                {% for post_item in posts %}
+                <div class="post-card">
+                    <div class="post-header">
+                        <div class="user-info">
+                            <div class="profile-pic-container">
+                                <img src="{{ post_item.profile_picture }}" alt="{{ post_item.post.user.username }}'s profile picture" class="profile-pic">
+                                <div class="pop-up-user-info" data-recipient-id="{{ post_item.post.user.id }}">
+                                    <div class="pop-up-user-info-profileimage" >
+                                        <img src="{{ post_item.profile_picture }}" alt="pop-up-user-info-Profile image">
+                                    </div>
+                                    <div class="pop-up-user-info-Name">{{ post_item.post.user.username }}</div>
+                                    <div class="pop-up-user-info-message-user">
+                                        <button class="pop-up-user-info-message-button">Message</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="username">{{ post_item.post.user.username }}</div>
+                            </div>
+                        </div>
+                        <span class="post-date">{{ post_item.created_at|date:"F d, Y" }}</span>
+                    </div>
+                    
+                    {% if post_item.image %}
+                    <div class="post-image">
+                        <img src="{{ post_item.image.url }}" alt="Post image">
+                    </div>
+                    {% endif %}
+                    
+                    {% if post_item.caption %}
+                    <div class="post-caption">
+                        <p>{{ post_item.caption }}</p>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="post-actions">
+                        <div class="like-section">
+                            <button class="like-button {% if post_item.is_liked %}liked{% endif %}" 
+                                    data-post-id="{{ post_item.post.id }}"
+                                    {% if not user.is_authenticated %}disabled{% endif %}>
+                                <svg class="heart-icon" viewBox="0 0 24 24">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                                </svg>
+                                <span class="like-count">{{ post_item.like_count }}</span>
+                            </button>
+                        </div>
+                        <a href="post/{{ post_item.post.id }}/" class="comments-link">
+                            <svg class="comment-icon" viewBox="0 0 24 24">
+                                <path d="M21 6h-2v9H6v2c0 .55.45 1 1 1h11l4 4V7c0-.55-.45-1-1-1zm-4 6V3c0-.55-.45-1-1-1H3c-.55 0-1 .45-1 1v14l4-4h10c.55 0 1-.45 1-1z" />
+                            </svg>
+                            Comments
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-posts">
+                    <p>No posts yet. Be the first to share something!</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div id="create-post-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Create Post</h2>
+            <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="create-post-form" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="caption">Caption</label>
+                    <textarea name="caption" id="caption" placeholder="What's on your mind?" maxlength="500"></textarea>
+                    <div class="char-counter">0/500</div>
+                </div>
+                <div class="form-group">
+                    <label for="image">Image</label>
+                    <div class="image-upload-container">
+                        <input type="file" name="image" id="image" accept="image/*">
+                        <div class="image-preview-container" style="display: none;">
+                            <img id="image-preview" src="" alt="Image preview">
+                            <button type="button" class="remove-image">X</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="post-error" class="error-message" style="display: none;"></div>
+                <div class="form-actions">
+                    <button type="button" class="cancel-button">Cancel</button>
+                    <button type="submit" class="submit-post">Post</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    </div>
+    <script src="{% static 'js/communitypost/community_feed.js' %}"></script>
+    <script src="{% static 'js/user/usernavbar.js' %}"></script>
+    <script src="{% static 'js/communitypost/message.js' %}"></script>
+</body>
+</html>

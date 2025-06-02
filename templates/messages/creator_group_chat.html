@@ -1,0 +1,138 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script>{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ event.title }} - Group Chat</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .chat-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .messages-list {
+            max-height: 500px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            margin-bottom: 20px;
+        }
+        .message-item {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        .message-item.sent {
+            align-items: flex-end;
+        }
+        .message-item.received {
+            align-items: flex-start;
+        }
+        .message-content {
+            max-width: 70%;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .message-item.sent .message-content {
+            background-color: #007bff;
+            color: white;
+        }
+        .message-item.received .message-content {
+            background-color: #e9ecef;
+            color: black;
+        }
+        .message-sender {
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+        .message-time {
+            font-size: 0.75em;
+            color: #666;
+            margin-top: 5px;
+        }
+        #message-form {
+            max-width: 100%;
+        }
+        #message-form input {
+            border-radius: 5px 0 0 5px;
+        }
+        #message-form button {
+            border-radius: 0 5px 5px 0;
+        }
+    </style>
+</head>
+<body>
+    {% include 'user-homepage/usernavbar.html' %}
+
+    <div class="chat-container">
+        <h1>{{ event.title }} - Group Chat</h1>
+        <a href="{% url 'event:detail' event.id %}" class="btn btn-secondary mb-3">Back to Event</a>
+
+        <div class="messages-list">
+            {% for message in messages %}
+                <div class="message-item {% if message.sender == request.user %}sent{% else %}received{% endif %}">
+                    <div class="message-sender">{{ message.sender.username }}</div>
+                    <div class="message-content">{{ message.content }}</div>
+                    <div class="message-time">{{ message.sent_at|date:"M d, Y, H:i" }}</div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <form id="message-form" data-event-id="{{ event.id }}" class="input-group">
+            {% csrf_token %}
+            <input type="text" name="content" class="form-control" placeholder="Type your message..." required>
+            <button type="submit" class="btn btn-primary">Send</button>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{% static 'js/owngroupchat.js' %}"></script>
+</body>
+</html>

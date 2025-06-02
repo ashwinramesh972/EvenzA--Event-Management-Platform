@@ -1,0 +1,169 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Analytical Dashboard</title>
+    <!-- Include Chart.js to fix the 'Chart is not defined' error -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{% static 'css/user/usernavbar.css' %}">
+    <!-- Custom CSS instead of Tailwind -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .card {
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .card h3 {
+            margin: 0 0 10px;
+            color: #555;
+        }
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .tabs a {
+            padding: 5px 10px;
+            text-decoration: none;
+            color: #007bff;
+            border: 1px solid #007bff;
+            border-radius: 4px;
+        }
+        .tabs a:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+        .nav-links {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .nav-links a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Admin Analytical Dashboard</h1>
+    {% include 'admin/adminnavbar.html' %}
+
+    <div class="dashboard-container">
+        <div class="card">
+            <h3>Events Created Over Time</h3>
+            <div class="tabs">
+                <a href="#">Daily</a>
+                <a href="#">Monthly</a>
+                <a href="#">Yearly</a>
+            </div>
+            <canvas id="eventsOverTimeChart"></canvas>
+        </div>
+
+        <div class="card">
+            <h3>New User Registration</h3>
+            <div class="tabs">
+                <a href="#">Daily</a>
+                <a href="#">Monthly</a>
+                <a href="#">Yearly</a>
+            </div>
+            <canvas id="newUserChart"></canvas>
+        </div>
+
+        <div class="card">
+            <h3>Revenue from Events</h3>
+            <canvas id="revenueEventsChart"></canvas>
+        </div>
+
+        <div class="card">
+            <h3>Revenue from Subscriptions</h3>
+            <canvas id="revenueSubscriptionsChart"></canvas>
+        </div>
+
+        <div class="card">
+            <h3>Top Events by Participation</h3>
+            <canvas id="topEventsChart"></canvas>
+        </div>
+
+        <div class="card">
+            <h3>Average Event Ratings</h3>
+            <canvas id="eventRatingsChart"></canvas>
+        </div>
+
+        <div class="card">
+            <h3>Payment Status Distribution</h3>
+            <canvas id="paymentStatusChart"></canvas>
+        </div>
+
+        <div class="card">
+            <h3>Paid vs Non-Paid Events</h3>
+            <canvas id="paidVsNonPaidChart"></canvas>
+        </div>
+
+        <div class="card">
+            <h3>Canceled vs Completed Events</h3>
+            <canvas id="canceledVsCompletedChart"></canvas>
+        </div>
+
+        <div class="card">
+            <h3>Event Price Distribution</h3>
+            <canvas id="eventPriceChart"></canvas>
+        </div>
+
+        <div class="card">
+            <h3>User Activity Types</h3>
+            <canvas id="userActivityChart"></canvas>
+        </div>
+
+        <div class="card">
+            <h3>Top Active Users</h3>
+            <canvas id="topActiveUsersChart"></canvas>
+        </div>
+
+        <div class="card">
+            <h3>Subscription Plan Distribution</h3>
+            <canvas id="subscriptionPlanChart"></canvas>
+        </div>
+
+        <div class="card">
+            <h3>Community Posts Over Time</h3>
+            <canvas id="communityPostsChart"></canvas>
+        </div>
+    </div>
+
+    <div class="nav-links">
+        <a href="#">Events</a>
+        <a href="#">Users</a>
+        <a href="#">Community</a>
+    </div>
+
+    <!-- Placeholder for admin-home.js (assumed to contain Chart.js logic) -->
+    <script src="{% static 'js/admin/script.js' %}" type="module"></script>
+    <script src="{% static 'js/user/usernavbar.js' %}"></script>
+</body>
+</html>

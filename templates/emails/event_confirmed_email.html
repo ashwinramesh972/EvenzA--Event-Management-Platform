@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Participation Confirmed</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px 0;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #00d4ff, #0095ff, #7b68ee, #ff6b6b);
+            background-size: 300% 100%;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #00d4ff 0%, #0095ff 100%);
+            padding: 48px 32px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        
+        .header h1 {
+            color: #ffffff;
+            font-size: 32px;
+            font-weight: 700;
+            margin: 0;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .success-icon {
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        
+        .success-icon::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 36px;
+            color: #ffffff;
+            font-weight: bold;
+        }
+        
+        .content {
+            padding: 40px 32px;
+        }
+        
+        .greeting {
+            font-size: 18px;
+            color: #374151;
+            margin-bottom: 24px;
+            font-weight: 500;
+        }
+        
+        .promotion-message {
+            background: linear-gradient(135deg, #fef3c7 0%, #fbbf24 100%);
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 32px;
+            border-left: 4px solid #f59e0b;
+            font-weight: 500;
+            color: #92400e;
+        }
+        
+        .event-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 32px;
+            margin: 32px 0;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .event-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #0095ff, #7b68ee);
+        }
+        
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .event-card h2 {
+            color: #1e293b;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #0095ff, #7b68ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .event-detail {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            padding: 8px 0;
+        }
+        
+        .event-detail:last-child {
+            margin-bottom: 0;
+        }
+        
+        .detail-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+            opacity: 0.7;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: #374151;
+            min-width: 120px;
+        }
+        
+        .detail-value {
+            color: #6b7280;
+            flex: 1;
+        }
+        
+        .price-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+        
+        .payment-status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .status-confirmed {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .payment-reminder {
+            background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%);
+            border: 1px solid #fb923c;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+            color: #ea580c;
+            font-weight: 500;
+        }
+        
+        .button {
+            display: inline-block;
+            background: linear-gradient(135deg, #0095ff 0%, #7b68ee 100%);
+            color: #ffffff;
+            padding: 16px 32px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 149, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .button:hover::before {
+            left: 100%;
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 149, 255, 0.4);
+        }
+        
+        .closing-message {
+            font-size: 18px;
+            color: #374151;
+            text-align: center;
+            margin-top: 32px;
+            padding: 24px;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-radius: 16px;
+            border-left: 4px solid #0284c7;
+        }
+        
+        .footer {
+            background: #1f2937;
+            color: #9ca3af;
+            text-align: center;
+            padding: 32px;
+            font-size: 14px;
+        }
+        
+        .footer a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 640px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                border-radius: 16px;
+                margin: 10px;
+            }
+            
+            .header {
+                padding: 32px 20px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .content {
+                padding: 24px 20px;
+            }
+            
+            .event-card {
+                padding: 20px;
+            }
+            
+            .event-detail {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .detail-label {
+                min-width: auto;
+                margin-bottom: 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="success-icon"></div>
+            <h1>Welcome Aboard!</h1>
+        </div>
+        <div class="content">
+            <div class="greeting">
+                Hello {{ user.username }},
+            </div>
+            
+            {% if promotion_message %}
+                <div class="promotion-message">
+                    {{ promotion_message }}
+                </div>
+            {% else %}
+                <p style="font-size: 16px; color: #6b7280; margin-bottom: 24px;">
+                    🎉 Fantastic news! Your spot for <strong>{{ event.title }}</strong> is officially confirmed. Get ready for an amazing experience!
+                </p>
+            {% endif %}
+            
+            <div class="event-card">
+                <h2>{{ event.title }}</h2>
+                
+                <div class="event-detail">
+                    <svg class="detail-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a1 1 0 011-1h6a1 1 0 011 1v4m-6 0h6M8 7l-2 9h12l-2-9M8 7h8"/>
+                    </svg>
+                    <div>
+                        <div class="detail-label">Date & Time</div>
+                        <div class="detail-value">{{ event.date_time|date:"F d, Y, h:i A" }}</div>
+                    </div>
+                </div>
+                
+                <div class="event-detail">
+                    <svg class="detail-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    <div>
+                        <div class="detail-label">Location</div>
+                        <div class="detail-value">{{ event.location }}</div>
+                    </div>
+                </div>
+                
+                <div class="event-detail">
+                    <svg class="detail-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    <div>
+                        <div class="detail-label">Description</div>
+                        <div class="detail-value">{{ event.description }}</div>
+                    </div>
+                </div>
+                
+                {% if event.is_paid %}
+                    <div class="event-detail">
+                        <svg class="detail-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+                        </svg>
+                        <div>
+                            <div class="detail-label">Investment</div>
+                            <div class="detail-value">
+                                <span class="price-tag">${{ event.price }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-detail">
+                        <svg class="detail-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <div>
+                            <div class="detail-label">Payment Status</div>
+                            <div class="detail-value">
+                                <span class="payment-status {% if participant.payment_status == 'confirmed' %}status-confirmed{% else %}status-pending{% endif %}">
+                                    {{ participant.payment_status|title }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {% if participant.payment_status == "pending" %}
+                        <div class="payment-reminder">
+                            ⚡ Action Required: Complete your payment to secure your spot and avoid disappointment.
+                            {% if payment_url %}
+                                <a href="{{ payment_url }}" class="button">Complete Payment Now</a>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="event-detail">
+                        <svg class="detail-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
+                        </svg>
+                        <div>
+                            <div class="detail-label">Investment</div>
+                            <div class="detail-value">
+                                <span class="price-tag">Free Event</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="closing-message">
+                🚀 We're thrilled to have you join us! This is going to be an incredible experience, and we can't wait to see you there.
+            </div>
+        </div>
+        <div class="footer">
+            <p>&copy; {{ current_year }} EventApp. Crafted with ❤️ for amazing experiences.</p>
+            <p><a href="#">Manage Preferences</a> • <a href="#">Contact Support</a></p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,807 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Admin Dashboard - Approvals</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Swiper JS CSS for slider -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/9.3.2/swiper-bundle.min.css">
+    <link rel="stylesheet" href="{% static 'css/user/usernavbar.css' %}">
+    <style>
+      body {
+        background-color: #f8f9fa;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        padding-top: 100px;
+      }
+      
+      .page-header {
+        padding: 25px 0;
+        margin-bottom: 30px;
+        background-color: #fff;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      }
+      
+      .page-header h1 {
+        font-weight: 600;
+        color: #333;
+        margin: 0;
+        font-size: 2rem;
+      }
+      
+      .main-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        margin-bottom: 40px;
+      }
+      
+      @media (max-width: 1200px) {
+        .main-container {
+          grid-template-columns: 1fr;
+          gap: 30px;
+        }
+      }
+      
+      /* Appeals Section Styles */
+      .appeals-section {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        height: fit-content;
+        max-height: 800px;
+        overflow-y: auto;
+      }
+      
+      .appeals-section::-webkit-scrollbar {
+        width: 6px;
+      }
+      
+      .appeals-section::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+      }
+      
+      .appeals-section::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+      }
+      
+      .appeals-section::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+      
+      .appeal-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 20px;
+        color: white;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      
+      .appeal-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
+      }
+      
+      .appeal-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+        pointer-events: none;
+      }
+      
+      .appeal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 15px;
+        position: relative;
+        z-index: 2;
+      }
+      
+      .user-info {
+        flex: 1;
+      }
+      
+      .username {
+        font-size: 20px;
+        font-weight: 700;
+        margin: 0 0 5px 0;
+        display: flex;
+        align-items: center;
+      }
+      
+      .username i {
+        margin-right: 8px;
+        opacity: 0.9;
+      }
+      
+      .user-email {
+        font-size: 14px;
+        opacity: 0.9;
+        margin: 0;
+        display: flex;
+        align-items: center;
+      }
+      
+      .user-email i {
+        margin-right: 6px;
+      }
+      
+      .appeal-date {
+        text-align: right;
+        font-size: 12px;
+        opacity: 0.8;
+        white-space: nowrap;
+      }
+      
+      .appeal-subject {
+        background: rgba(255,255,255,0.2);
+        padding: 10px 15px;
+        border-radius: 10px;
+        margin-bottom: 15px;
+        backdrop-filter: blur(10px);
+        position: relative;
+        z-index: 2;
+      }
+      
+      .subject-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0 0 5px 0;
+        display: flex;
+        align-items: center;
+      }
+      
+      .subject-title i {
+        margin-right: 8px;
+      }
+      
+      .appeal-message {
+        font-size: 14px;
+        line-height: 1.5;
+        margin: 0;
+        opacity: 0.95;
+        max-height: 60px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+      }
+      
+      .appeal-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+        position: relative;
+        z-index: 2;
+      }
+      
+      .action-btn {
+        flex: 1;
+        padding: 12px 16px;
+        border: none;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+      
+      .view-file-btn {
+        background: rgba(255,255,255,0.25);
+        color: white;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.3);
+      }
+      
+      .view-file-btn:hover {
+        background: rgba(255,255,255,0.35);
+        color: white;
+        transform: translateY(-1px);
+      }
+      
+      .revoke-btn {
+        background: linear-gradient(135deg, #4CAF50, #45a049);
+        color: white;
+        border: none;
+      }
+      
+      .revoke-btn:hover {
+        background: linear-gradient(135deg, #45a049, #3d8b40);
+        color: white;
+        transform: translateY(-1px);
+      }
+      
+      .no-appeals {
+        text-align: center;
+        color: #6c757d;
+        font-style: italic;
+        padding: 40px 20px;
+      }
+      
+      .no-appeals i {
+        font-size: 48px;
+        margin-bottom: 15px;
+        opacity: 0.5;
+      }
+      
+      /* Events Section Styles */
+      .events-section {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+      }
+      
+      .event-slider-container {
+        position: relative;
+        padding: 20px 0;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+      }
+      
+      .event-slider-container.loaded {
+        opacity: 1;
+      }
+      
+      .swiper {
+        padding: 20px 10px 50px;
+      }
+      
+      .swiper-container-initializing {
+        visibility: hidden;
+      }
+      
+      .swiper-button-next, .swiper-button-prev {
+        color: #4a6fa5;
+        background-color: #fff;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+      }
+      
+      .swiper-button-next:after, .swiper-button-prev:after {
+        font-size: 18px;
+        font-weight: bold;
+      }
+      
+      .swiper-pagination-bullet-active {
+        background-color: #4a6fa5;
+      }
+      
+      .cabin-card {
+        width: 100%;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        background-color: white;
+        padding: 0;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+      }
+      
+      .cabin-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+      }
+      
+      .image-container {
+        padding: 12px;
+        position: relative;
+      }
+      
+      .creator-badge {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #333;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      }
+      
+      .creator-badge i {
+        margin-right: 5px;
+        color: #4a6fa5;
+      }
+      
+      .card-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+        transition: transform 0.5s;
+      }
+      
+      .card-image:hover {
+        transform: scale(1.03);
+      }
+      
+      .card-content {
+        padding: 15px 20px 20px;
+      }
+      
+      .card-title {
+        margin: 0;
+        font-size: 22px;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 8px;
+      }
+      
+      .card-description {
+        color: #555;
+        font-size: 15px;
+        line-height: 1.5;
+        margin-bottom: 20px;
+        height: 45px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+      }
+      
+      .card-stats {
+        display: flex;
+        margin-bottom: 20px;
+        gap: 10px;
+      }
+      
+      .stat-box {
+        background-color: #f0f4f8;
+        flex: 1;
+        padding: 10px 5px;
+        border-radius: 12px;
+        text-align: center;
+        transition: background-color 0.3s;
+      }
+      
+      .stat-box:hover {
+        background-color: #d5dfe9;
+      }
+      
+      .stat-value {
+        font-weight: 600;
+        font-size: 16px;
+        margin: 0;
+        color: #2c3e50;
+      }
+      
+      .stat-label {
+        color: #6c757d;
+        font-size: 13px;
+        margin: 0;
+        font-weight: 500;
+      }
+      
+      .action-buttons {
+        display: flex;
+        gap: 10px;
+      }
+      
+      .approve-button {
+        background-color: #38b000;
+        color: white;
+        flex: 1;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        text-decoration: none;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .approve-button:hover {
+        background-color: #2d9900;
+        color: white;
+      }
+      
+      .reject-button {
+        background-color: #e63946;
+        color: white;
+        flex: 1;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        text-decoration: none;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .reject-button:hover {
+        background-color: #d62828;
+        color: white;
+      }
+      
+      .free-tag {
+        color: #38b000;
+        font-weight: 600;
+      }
+      
+      .price-tag {
+        color: #2c3e50;
+        font-weight: 600;
+      }
+      
+      .section-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 25px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      
+      .section-title i {
+        color: #4a6fa5;
+      }
+      
+      .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+      
+      .loading-overlay.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+      
+      .spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgba(74, 111, 165, 0.3);
+        border-radius: 50%;
+        border-top-color: #4a6fa5;
+        animation: spin 1s ease-in-out infinite;
+      }
+      
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Loading overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="spinner"></div>
+    </div>
+    
+    {% if messages %}
+    {% for message in messages %}
+      <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+    {% endif %}
+
+    {% include 'admin/adminnavbar.html' %}
+
+    <div class="container-fluid">
+      <div class="main-container">
+        <!-- Suspended Users Appeals Section -->
+        <div class="appeals-section">
+          <h2 class="section-title">
+            <i class="fas fa-user-slash"></i>
+            Ban Appeals
+          </h2>
+          
+          {% if suspendeduser %}
+            {% for appeal in suspendeduser %}
+              <div class="appeal-card">
+                <div class="appeal-header">
+                  <div class="user-info">
+                    <h3 class="username">
+                      <i class="fas fa-user"></i>
+                      {{ appeal.username }}
+                    </h3>
+                    <p class="user-email">
+                      <i class="fas fa-envelope"></i>
+                      {{ appeal.email }}
+                    </p>
+                  </div>
+                  <div class="appeal-date">
+                    <i class="far fa-calendar"></i>
+                    {{ appeal.submitted_at|date:"M d, Y" }}<br>
+                    {{ appeal.submitted_at|time:"g:i A" }}
+                  </div>
+                </div>
+                
+                <div class="appeal-subject">
+                  <h4 class="subject-title">
+                    <i class="fas fa-exclamation-circle"></i>
+                    {{ appeal.subject }}
+                  </h4>
+                  <p class="appeal-message">{{ appeal.appeal_message }}</p>
+                </div>
+                
+                <div class="appeal-actions">
+                  {% if appeal.uploaded_file %}
+                    <a href="{{ appeal.uploaded_file.url }}" target="_blank" class="action-btn view-file-btn">
+                      <i class="fas fa-file-alt"></i>
+                      View Proof
+                    </a>
+                  {% else %}
+                    <button class="action-btn view-file-btn" disabled style="opacity: 0.5; cursor: not-allowed;">
+                      <i class="fas fa-file-alt"></i>
+                      No File
+                    </button>
+                  {% endif %}
+                  
+                  <a href="{% url 'dashboard:revoke_ban' appeal.user.id  %}" class="action-btn revoke-btn">
+                    <i class="fas fa-user-check"></i>
+                    Revoke Ban
+                  </a>
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="no-appeals">
+              <i class="fas fa-clipboard-check"></i>
+              <h4>No Appeals Found</h4>
+              <p>There are currently no ban appeals to review.</p>
+            </div>
+          {% endif %}
+        </div>
+        
+        <!-- Events Approval Section -->
+        <div class="events-section">
+          <h2 class="section-title">
+            <i class="fas fa-calendar-check"></i>
+            Events Pending Approval
+          </h2>
+          
+          {% if event %}
+            <div class="event-slider-container" id="eventSliderContainer">
+              <div class="swiper event-swiper">
+                <div class="swiper-wrapper">
+                  {% for i in event %}
+                  <div class="swiper-slide">
+                    <div class="cabin-card">
+                      <div class="image-container">
+                        <img src="{{ i.image.url }}" alt="Event Image" class="card-image">
+                        <div class="creator-badge">
+                          <i class="fas fa-user"></i> {{ i.creator.username }}
+                        </div>
+                      </div>
+                      <div class="card-content">
+                        <h2 class="card-title">{{ i.title }}</h2>
+                        <p class="card-description">{{ i.description|truncatechars:80 }}</p>
+                        
+                        <div class="card-stats">
+                          <div class="stat-box">
+                            <p class="stat-value"><i class="far fa-calendar-alt"></i></p>
+                            <p class="stat-label">{{ i.date_time|date:"M d, Y" }}</p>
+                          </div>
+                          <div class="stat-box">
+                            <p class="stat-value"><i class="far fa-clock"></i></p>
+                            <p class="stat-label">{{ i.date_time|time:"g:i A" }}</p>
+                          </div>
+                          <div class="stat-box">
+                            {% if i.price %}
+                              <p class="stat-value price-tag">${{ i.price }}</p>
+                            {% else %}
+                              <p class="stat-value free-tag">Free</p>
+                            {% endif %}
+                            <p class="stat-label">Price</p>
+                          </div>
+                        </div>
+                        
+                        <div class="action-buttons">
+                          <a href="{% url 'dashboard:admin_approve_event' i.id %}" class="approve-button">
+                            <i class="fas fa-check me-2"></i> Approve
+                          </a>
+                          <a href="{% url 'dashboard:admin_reject_event' i.id %}" class="reject-button">
+                            <i class="fas fa-times me-2"></i> Reject
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+                
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
+              </div>
+            </div>
+          {% else %}
+            <div class="no-appeals">
+              <i class="fas fa-calendar-times"></i>
+              <h4>No Events Pending</h4>
+              <p>There are currently no events waiting for approval.</p>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+      integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+      crossorigin="anonymous"
+    ></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/9.3.2/swiper-bundle.min.js"></script>
+    
+    <script>
+      // Safely add initializing class only if element exists
+      const eventSwiperEl = document.querySelector('.event-swiper');
+      if (eventSwiperEl) {
+        eventSwiperEl.classList.add('swiper-container-initializing');
+      }
+      
+      document.addEventListener('DOMContentLoaded', function() {
+        let imagesLoaded = 0;
+        const cardImages = document.querySelectorAll('.card-image');
+        const totalImages = cardImages.length;
+        const eventSliderContainer = document.getElementById('eventSliderContainer');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        
+        function initializeSwiper() {
+          // Only initialize if swiper element exists
+          if (!eventSwiperEl) {
+            // Hide loading overlay even if no swiper
+            if (loadingOverlay) loadingOverlay.classList.add('hidden');
+            return;
+          }
+          
+          const swiper = new Swiper('.event-swiper', {
+            slidesPerView: 1,
+            spaceBetween: 20,
+            loop: false,
+            grabCursor: true,
+            preloadImages: true,
+            watchSlidesProgress: true,
+            preventInteractionOnTransition: true,
+            pagination: {
+              el: '.swiper-pagination',
+              clickable: true,
+            },
+            navigation: {
+              nextEl: '.swiper-button-next',
+              prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+              576: {
+                slidesPerView: 1,
+                spaceBetween: 20
+              },
+              768: {
+                slidesPerView: 1,
+                spaceBetween: 30
+              },
+              992: {
+                slidesPerView: 2,
+                spaceBetween: 30
+              },
+              1400: {
+                slidesPerView: 2,
+                spaceBetween: 30
+              }
+            },
+            on: {
+              init: function() {
+                if (eventSwiperEl) {
+                  eventSwiperEl.classList.remove('swiper-container-initializing');
+                }
+                if (eventSliderContainer) {
+                  eventSliderContainer.classList.add('loaded');
+                }
+                if (loadingOverlay) {
+                  loadingOverlay.classList.add('hidden');
+                }
+              }
+            }
+          });
+        }
+        
+        if (totalImages > 0) {
+          cardImages.forEach(img => {
+            if (img.complete) {
+              imageLoaded();
+            } else {
+              img.addEventListener('load', imageLoaded);
+              img.addEventListener('error', imageLoaded);
+            }
+          });
+        } else {
+          initializeSwiper();
+        }
+        
+        function imageLoaded() {
+          imagesLoaded++;
+          if (imagesLoaded === totalImages) {
+            initializeSwiper();
+          }
+        }
+      });
+      
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          const loadingOverlay = document.getElementById('loadingOverlay');
+          const eventSliderContainer = document.getElementById('eventSliderContainer');
+          
+          if (loadingOverlay) {
+            loadingOverlay.classList.add('hidden');
+          }
+          if (eventSliderContainer) {
+            eventSliderContainer.classList.add('loaded');
+          }
+        }, 500);
+      });
+    </script>
+
+    <script src="{% static 'js/user/usernavbar.js' %}"></script>
+    
+  </body>
+</html>

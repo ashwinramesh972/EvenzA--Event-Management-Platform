@@ -1,0 +1,316 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Ban Appeal - Eneza</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .warning-icon {
+            font-size: 4rem;
+            color: #ff6b6b;
+            margin-bottom: 15px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .title {
+            color: #2c3e50;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+        }
+
+        .ban-info {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .ban-duration {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .reasons-list {
+            list-style: none;
+        }
+
+        .reasons-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .reasons-list li:before {
+            content: '×';
+            position: absolute;
+            left: 0;
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .appeal-section {
+            margin-top: 30px;
+        }
+
+        .appeal-title {
+            color: #27ae60;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e6ed;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+            font-family: inherit;
+        }
+
+        .file-upload {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-upload input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-upload-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px;
+            border: 2px dashed #667eea;
+            border-radius: 12px;
+            background: rgba(102, 126, 234, 0.05);
+            color: #667eea;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload-label:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: #5a67d8;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .note {
+            background: rgba(52, 152, 219, 0.1);
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin-top: 25px;
+            border-radius: 8px;
+            color: #2c3e50;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+                margin: 10px;
+            }
+            
+            .title {
+                font-size: 1.6rem;
+            }
+            
+            .warning-icon {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="warning-icon">⚠️</div>
+            <h1 class="title">Account Suspended</h1>
+            <p class="subtitle">Your Eneza account has been temporarily restricted</p>
+        </div>
+
+        <div class="ban-info">
+            <div class="ban-duration">
+                🔒 <span>Suspension Duration: 6 Months</span>
+            </div>
+            <p style="margin-bottom: 15px; font-weight: 500;">Reasons for suspension may include:</p>
+            <ul class="reasons-list">
+                <li>Cancelling 3 or more approved events</li>
+                <li>Sending inappropriate messages</li>
+                <li>Acting against our community policy</li>
+            </ul>
+        </div>
+
+        <div class="appeal-section">
+            <h2 class="appeal-title">
+                📝 Submit an Appeal
+            </h2>
+            
+            <form method="POST" enctype="multipart/form-data" action="{% url 'dashboard:banneduser' %}">
+              {% csrf_token %}
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required placeholder="Enter your username">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required placeholder="Enter your email address">
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="subject" required placeholder="Brief description of your appeal">
+                </div>
+
+                <div class="form-group">
+                    <label for="reason">Detailed Explanation</label>
+                    <textarea id="reason" name="reason" required placeholder="Please provide a detailed explanation of why you believe the suspension should be lifted. Include any relevant context or circumstances."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="proof">Supporting Evidence</label>
+                    <div class="file-upload">
+                        <input type="file" id="proof" name="proof" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.txt">
+                        <label for="proof" class="file-upload-label">
+                            📎 <span>Click to upload supporting documents</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Appeal</button>
+            </form>
+
+            <div class="note">
+                <strong>📋 Important:</strong> Appeals are reviewed within 5-7 business days. Please ensure all information is accurate and complete. False information may result in permanent account suspension.
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/admin/appeal.js' %}" ></script>
+</body>
+</html>

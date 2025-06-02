@@ -1,0 +1,309 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>EvenzA - Joiner Dashboard</title>
+  <meta charset="utf-8" />
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="{% static 'css/user/usernavbar.css' %}">
+  <link rel="stylesheet" href="{% static 'css/user/joiner.css' %}">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+  <!-- Side Navbar -->
+  {% include 'user-homepage/usernavbar.html' %}
+
+  <!-- Main Content -->
+  <div class="dashboard-wrapper">
+    <!-- Main Section -->
+    <div class="main-section">
+      <!-- Welcome Section -->
+      <h1 class="page-title">Dashboard</h1>
+      <div class="welcome-section">
+        <div class="profile-picture">
+          <img src="{{ request.user.profile_picture.url|default:'/static/default-pic.png' }}" alt="Profile">
+        </div>
+        <div>
+          <h2 class="username">Welcome, {{ data.username }}</h2>
+          <p class="user-tier">Tier: Joiner</p>
+        </div>
+      </div>
+
+      <!-- Banner Row (Banner + Calendar) -->
+      <div class="banner-row">
+        <!-- Upgrade Banner -->
+        <div class="banner">
+          <h3 class="banner-title">Unlock More with Premium</h3>
+          <p class="banner-text">Get unlimited messaging, create events, and view recent activity!</p>
+          <a href="{% url 'users:user-upgrade'%}" class="banner-btn">Upgrade Now</a>
+        </div>
+
+        <!-- Calendar Section (Blurred for Joiners) -->
+        <div class="calendar-section">
+          <div class="calendar">
+            <div class="calendar-header">
+              <h5 class="calendar-title" id="calendar-title"></h5>
+              <div class="calendar-nav">
+                <button class="calendar-nav-btn" onclick="prevMonth()" disabled>
+                  <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="calendar-nav-btn" onclick="nextMonth()" disabled>
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              </div>
+            </div>
+            <table class="calendar-table">
+              <thead>
+                <tr>
+                  <th>Sun</th>
+                  <th>Mon</th>
+                  <th>Tue</th>
+                  <th>Wed</th>
+                  <th>Thu</th>
+                  <th>Fri</th>
+                  <th>Sat</th>
+                </tr>
+              </thead>
+              <tbody id="calendar-body"></tbody>
+            </table>
+          </div>
+          <div class="upgrade-overlay">
+            <p>Upgrade to view calendar!</p>
+            <a href="{% url 'users:user-upgrade'%}" class="btn btn-upgrade">Upgrade Now</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Create Event Section -->
+      <div class="create-event-section">
+        <h3 class="section-title">Create an Event</h3>
+        <div class="create-event-content">
+          <img src="{% static 'images/user/createevnt.jpg' %}" class="create-event-image" alt="Create Event">
+          <h5 class="create-event-title">Host Your Next Event</h5>
+          <p class="create-event-text">You have created {{ paid_events_count }} paid events. Upgrade to Premium for advanced features!</p>
+          <a href="/event/joiner/create/" class="btn btn-create">
+            <i class="fas fa-plus-circle me-1"></i>Create Event
+          </a>
+        </div>
+      </div>
+
+      <div class="your-events">
+        <h3 class="your-events-title section-title">Your Events</h3>
+        {% if eventcreated %}
+          <div class="event-container">
+            {% for i in eventcreated %}
+              <div class="event-card">
+                <div class="card">
+                  <img src="{{ i.image.url|default:'/static/images/placeholder.jpg' }}" class="event-image" alt="Event Image">
+                  <div class="card-body">
+                    <span class="event-status {% if i.status == 'Active' %}status-active{% else %}status-pending{% endif %}">
+                      {{ i.status }}
+                    </span>
+                    <h5 class="card-title">{{ i.title }}</h5>
+                    <p class="card-text">{{ i.description }}</p>
+                    <div class="event-date">
+                      <i class="far fa-calendar-alt"></i>
+                      <span>{{ i.date_time }}</span>
+                    </div>
+                    <div class="event-actions">
+                      <a href="{% url 'event:edit-event' id=i.id %}" class="btn btn-edit">
+                        <i class="fas fa-edit me-1"></i>Edit
+                      </a>
+                      <a href="/event/cancel/{{ i.id }}" class="btn btn-cancel">
+                        <i class="fas fa-times me-1"></i>Cancel
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p>No events created yet.</p>
+          <a href="/event/Event-Details-Creator" class="btn btn-join">
+            <i class="fas fa-plus me-1"></i>Create Event
+          </a>
+        {% endif %}
+      </div>
+
+      <!-- Messages Section -->
+      <div class="messages-section">
+        <h3 class="section-title">Messages</h3>
+        <div class="messages-row">
+          <div class="messages-box direct-messages">
+            <h4 class="messages-title">Direct Messages</h4>
+            {% if direct_messages %}
+              <div class="messages-list">
+                {% for message in direct_messages %}
+                  <div class="message-item">
+                    <img src="{{ message.sender.profile_picture.url|default:'/static/default-pic.png' }}" class="message-profile-pic" alt="Sender Profile">
+                    <div class="message-content">
+                      <div class="message-sender">{{ message.sender.username }}</div>
+                      <div class="message-text">{{ message.content|truncatechars:50 }}</div>
+                      <div class="message-time">{{ message.sent_at|date:"M d, Y, H:i" }}</div>
+                    </div>
+                    <a href="/message/send_message/?recipient_id={{ message.sender.id }}&event_id={{ message.event.id }}" class="btn btn-reply">
+                      <i class="fas fa-reply me-1"></i>Reply
+                    </a>
+                  </div>
+                {% endfor %}
+              </div>
+            {% else %}
+              <p class="no-messages">No direct messages yet.</p>
+            {% endif %}
+          </div>
+
+          <div class="messages-box group-messages">
+            <h4 class="messages-title">Group Messages</h4>
+            {% if eventcreated %}
+              <div class="group-events-list">
+                {% for event in eventcreated %}
+                  <div class="group-event-item">
+                    <div class="group-event-content">
+                      <div class="group-event-title">{{ event.title }}</div>
+                      <div class="group-event-date">{{ event.date_time|date:"M d, Y" }}</div>
+                    </div>
+                    <a href="{% url 'message:messages_home' %}" class="btn btn-chat">
+                      <i class="fas fa-comments me-1"></i>Chat
+                    </a>
+                  </div>
+                {% endfor %}
+              </div>
+            {% else %}
+              <p class="no-messages">No events created yet.</p>
+            {% endif %}
+          </-div>
+        </div>
+      </div>
+    </div>
+
+      <!-- Upcoming Events -->
+       {% include 'user-homepage/upcomingevent.html' %}
+
+      
+
+      <!-- Recent Activity (Blurred for Joiners) -->
+      <div class="recent-activity">
+        <h3 class="section-title">Recent Activity</h3>
+        <div class="activity-list" id="activity-list">
+          <!-- Placeholder content (blurred) -->
+          <div class="activity-item">
+            <div class="activity-icon icon-login">
+              <i class="fas fa-sign-in-alt"></i>
+            </div>
+            <div class="activity-content">
+              <div class="activity-title">You logged in</div>
+              <div class="activity-time">Today, 10:00 AM</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon icon-event_joined">
+              <i class="fas fa-user-plus"></i>
+            </div>
+            <div class="activity-content">
+              <div class="activity-title">You joined an event</div>
+              <div class="activity-time">Yesterday, 3:00 PM</div>
+            </div>
+          </div>
+        </div>
+        <div class="upgrade-overlay">
+          <p>Upgrade to Premium to view your recent activity!</p>
+          <a href="{% url 'users:user-upgrade'%}" class="btn btn-upgrade">Upgrade Now</a>
+        </div>
+      </div>
+
+
+      <!-- Tips Section -->
+      <div class="tips-section">
+        <h3 class="section-title">Joiner Tips</h3>
+        <div class="tip-item">
+          <div class="tip-icon">
+            <i class="fas fa-lightbulb"></i>
+          </div>
+          <div class="tip-content">
+            <h5>Stay Engaged</h5>
+            <p>Join group chats to connect with other attendees before the event.</p>
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-icon">
+            <i class="fas fa-calendar-check"></i>
+          </div>
+          <div class="tip-content">
+            <h5>Plan Ahead</h5>
+            <p>Check event details and arrive early to make the most of it.</p>
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-icon">
+            <i class="fas fa-star"></i>
+          </div>
+          <div class="tip-content">
+            <h5>Upgrade for More</h5>
+            <p>Unlock unlimited messaging with a Premium plan.</p>
+          </div>
+        </div>
+      </div>
+
+      {% include 'user-homepage/review.html' %}
+    </div>
+        <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-section">
+          <h4>EventZA</h4>
+          <p>Create, join, and manage your events with ease.</p>
+          <p>Email: support@eventza.com</p>
+          <p>Phone: +91 123-456-7890</p>
+        </div>
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <p><a href="#">Create Event</a></p>
+          <p><a href="#">Join Events</a></p>
+          <p><a href="#">Our Services</a></p>
+          <p><a href="#">Community Posts</a></p>
+        </div>
+        <div class="footer-section">
+          <h4>Follow Us</h4>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 EventZA. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
+  </script>
+  <script src="{% static 'js/user/try/utils.js' %}"></script>
+  <script src="{% static 'js/user/usernavbar.js' %}"></script>
+  <script src="{% static 'js/user/try/user.js' %}"></script>
+  <script src="{% static 'js/user/try/eventActions.js' %}"></script>
+  <script src="{% static 'js/user/try/group_chat.js' %}"></script>
+  <script src="{% static 'js/user/try/owngroup_chat.js' %}"></script>
+  <script src="{% static 'js/user/try/review.js' %}"></script>
+  <script src="{% static 'js/user/try/cancel.js' %}"></script>
+  <script src="{% static 'js/user/try/leave.js' %}"></script>
+  <script src="{% static 'js/user/eventcreate/sendmessage.js' %}"></script>
+  <script>
+    const userId = {{ data.id|safe }};
+  </script>
+</body>
+</html>

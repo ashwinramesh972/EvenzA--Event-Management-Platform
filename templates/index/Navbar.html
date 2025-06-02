@@ -1,0 +1,91 @@
+<header class="navbar">
+  <!-- Main navigation section -->
+  <div class="main-nav-container">
+    <div class="logo-container">
+      <a href="/" class="logo">EvenzA</a>
+    </div>
+    <nav class="desktop-nav">
+      <ul>
+        <li><a href="/" class="nav-link active">Home</a></li>
+        <li><a href="{% url 'users:about' %}" class="nav-link">About</a></li>
+        <li><a href="/contact" class="nav-link">Contact</a></li>
+        
+        {% if request.user.is_authenticated %}
+        <li><a href="{% url 'communitypost:community_feed' %}" class="nav-link">Community Post</a></li>
+          <li>
+            <a href="{% if request.user.user_type == 'joiner' %}{% url 'users:Joiner-home' %}
+                      {% elif request.user.user_type == 'creator' %}{% url 'users:creator-home' %}
+                      {% else %}{% url 'users:Premium-Home' %}{% endif %}" class="nav-link">Dashboard</a>
+          </li>
+        {% else %}
+          <li><a href="/user-login" class="nav-link">Login</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+
+  <!-- User profile or signup section -->
+  <div class="user-section">
+    {% if request.user.is_authenticated %}
+      <div class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle user-profile" href="#" id="navbarDropdown" role="button" aria-expanded="false">
+          <img src="{{ request.user.profile_picture.url|default:'/static/default-pic.png' }}" alt="Profile" class="profile-pic">
+          <span class="username-display">{{ request.user.username }}</span>
+          {% if request.user.user_type == 'premium' %}
+            <span class="premium-badge">Premium</span>
+          {% endif %}
+        </a>
+        <ul class="dropdown-menu" style="display: none;" aria-labelledby="navbarDropdown">
+          {% if request.user.user_type == 'joiner' or request.user.user_type == 'creator' %}
+            <li><a class="dropdown-item" href="{% url 'users:user-upgrade'%}">Upgrade</a></li>
+          {% endif %}
+          <li><a class="dropdown-item" href="/profile">Profile</a></li>
+          <li><a class="dropdown-item" href="/user-logout">Logout</a></li>
+        </ul>
+      </div>
+    {% else %}
+      <a href="/user-register" class="btn-signup">Sign Up</a>
+    {% endif %}
+  </div>
+
+  <!-- Mobile menu button -->
+  <div class="mobile-menu-btn">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <div class="menu-overlay"></div>
+  <div class="mobile-nav">
+    <ul>
+      <li><a href="/" class="nav-link active" style="--item-index: 1;">Home</a></li>
+      <li><a href="#about" class="nav-link" style="--item-index: 2;">About</a></li>
+      <li><a href="#contact" class="nav-link" style="--item-index: 3;">Contact</a></li>
+      {% if request.user.is_authenticated %}
+        <li>
+          <a href="{% if request.user.user_type == 'joiner' %}{% url 'users:Joiner-home' %}
+                    {% elif request.user.user_type == 'creator' %}{% url 'users:creator-home' %}
+                    {% else %}{% url 'users:Premium-Home' %}{% endif %}" class="nav-link" style="--item-index: 4;">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link user-profile" href="#" role="button" data-bs-toggle="collapse" data-bs-target="#mobileDropdown" aria-expanded="false" style="--item-index: 5;">
+            <img src="{{ request.user.profile_picture.url|default:'/static/default-pic.png' }}" alt="Profile" class="profile-pic">
+            <span class="username-display">{{ request.user.username }}</span>
+            {% if request.user.user_type == 'premium' %}
+              <span class="premium-badge">Premium</span>
+            {% endif %}
+          </a>
+          <ul class="collapse" id="mobileDropdown" style="display: none;">
+            {% if request.user.user_type == 'joiner' or request.user.user_type == 'creator' %}
+              <li><a class="dropdown-item" href="{% url 'users:user-upgrade'%}">Upgrade</a></li>
+            {% endif %}
+            <li><a class="dropdown-item" href="/profile">Profile</a></li>
+            <li><a class="dropdown-item" href="/user-logout">Logout</a></li>
+          </ul>
+        </li>
+      {% else %}
+        <li><a href="/user-login" class="nav-link" style="--item-index: 4;">Login</a></li>
+        <li><a href="/user-register" class="btn-signup" style="--item-index: 5;">Sign Up</a></li>
+      {% endif %}
+    </ul>
+  </div>
+</header>

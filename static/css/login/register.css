@@ -1,0 +1,469 @@
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #1A1A2E;
+  min-height: 100vh;
+  color: #fff;
+  padding: 10px;
+  position: relative;
+  padding-top: 78px;
+}
+
+/* Navigation Buttons */
+.nav-buttons {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-home,
+.btn-login {
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 50px;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-home {
+  background: transparent;
+  color: #fff;
+  border: 2px solid #8F00FF;
+}
+
+.btn-home:hover {
+  background: #8F00FF;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.btn-login {
+  background: linear-gradient(90deg, #8F00FF, #B34CFF);
+  color: #fff;
+  border: none;
+}
+
+.btn-login:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(143, 0, 255, 0.3);
+}
+
+/* Container */
+.container {
+  display: flex;
+  width: 1000px;
+  background-color: #fff;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  position: relative;
+  margin: 0 auto;
+}
+
+/* Brand Logo */
+.brand-logo {
+  position: absolute;
+  top: 30px;
+  left: 40px;
+  font-weight: 600;
+  font-size: 28px;
+  color: #8F00FF;
+}
+
+/* Form Section */
+.form-section {
+  padding: 40px;
+  width: 45%;
+  background: #fff;
+  color: #222;
+}
+
+.form-content {
+  margin-top: 60px;
+}
+
+h2 {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  position: relative;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.form-group.visible {
+  opacity: 1;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px 0;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  font-size: 15px;
+  outline: none;
+  background: transparent;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  border-bottom: 1px solid #8F00FF;
+}
+
+input[type="password"] {
+  font-family: monospace;
+}
+
+input[type="file"] {
+  width: 100%;
+  padding: 12px 0;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  font-size: 15px;
+  outline: none;
+  background: transparent;
+}
+
+label {
+  color: #888;
+  font-size: 14px;
+  position: absolute;
+  left: 0;
+  top: 15px;
+  pointer-events: none;
+  transition: 0.3s;
+}
+
+input:focus + label,
+input:not(:placeholder-shown) + label {
+  transform: translateY(-24px);
+  font-size: 12px;
+  color: #555;
+}
+
+.terms-checkbox {
+  margin: 20px 0 30px;
+  font-size: 13px;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-container input {
+  margin-right: 8px;
+}
+
+.terms-link {
+  color: #8F00FF;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.terms-link:hover {
+  color: #B34CFF;
+  text-decoration: underline;
+}
+
+.error-message {
+  color: #e74c3c;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(90deg, #8F00FF, #B34CFF);
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-submit:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(143, 0, 255, 0.3);
+}
+
+.login-link {
+  margin-top: 20px;
+  text-align: left;
+  font-size: 14px;
+  color: #666;
+}
+
+.login-link a {
+  color: #8F00FF;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.login-link a:hover {
+  color: #B34CFF;
+  text-decoration: underline;
+}
+
+/* Image Section */
+.image-section {
+  flex: 1;
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../../images/login/register.jpg') center/cover no-repeat;
+  position: relative;
+}
+
+.overlay-box {
+  position: absolute;
+  top: 125px;
+  left: 50px;
+  background-color: rgba(50, 50, 50, 0.8);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.event-time {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 5px;
+}
+
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: #8F00FF;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.calendar {
+  position: absolute;
+  bottom: 150px;
+  right: 40px;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  padding: 15px;
+  border-radius: 12px;
+  color: #fff;
+}
+
+.date-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.date-row span {
+  width: 30px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.highlight {
+  color: #8F00FF;
+  font-weight: 600;
+}
+
+.meeting {
+  margin-top: 15px;
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+  body {
+    padding-top: 60px;
+  }
+
+  .container {
+    width: 90%;
+    flex-direction: column;
+    height: auto;
+  }
+
+  .form-section {
+    width: 100%;
+    padding: 30px;
+  }
+
+  .image-section {
+    width: 100%;
+    min-height: 300px;
+    padding: 30px;
+  }
+
+  .brand-logo {
+    top: 20px;
+    left: 30px;
+    font-size: 24px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  .overlay-box {
+    top: 80px;
+    left: 30px;
+    font-size: 13px;
+  }
+
+  .event-time {
+    font-size: 11px;
+  }
+
+  .calendar {
+    bottom: 80px;
+    right: 30px;
+    padding: 12px;
+  }
+
+  .date-row span {
+    font-size: 11px;
+  }
+
+  .meeting {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 576px) {
+  .nav-buttons {
+    top: 15px;
+    left: 15px;
+    right: 15px;
+  }
+
+  .btn-home,
+  .btn-login {
+    padding: 6px 15px;
+    font-size: 12px;
+  }
+
+  .container {
+    width: 95%;
+    border-radius: 12px;
+  }
+
+  .form-section {
+    padding: 20px;
+  }
+
+  .brand-logo {
+    top: 15px;
+    left: 20px;
+    font-size: 20px;
+  }
+
+  .form-content {
+    margin-top: 40px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="file"] {
+    padding: 10px 0;
+    font-size: 14px;
+  }
+
+  label {
+    font-size: 12px;
+  }
+
+  input:focus + label,
+  input:not(:placeholder-shown) + label {
+    transform: translateY(-20px);
+    font-size: 10px;
+  }
+
+  .btn-submit {
+    padding: 12px;
+    font-size: 13px;
+  }
+
+  .login-link {
+    font-size: 12px;
+  }
+
+  .terms-checkbox {
+    font-size: 12px;
+  }
+
+  .overlay-box {
+    top: 60px;
+    left: 20px;
+    padding: 10px 15px;
+    font-size: 12px;
+  }
+
+  .event-time {
+    font-size: 10px;
+  }
+
+  .calendar {
+    bottom: 60px;
+    right: 20px;
+    padding: 10px;
+  }
+
+  .date-row span {
+    font-size: 10px;
+  }
+
+  .meeting {
+    font-size: 10px;
+  }
+}

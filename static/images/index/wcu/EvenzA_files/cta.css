@@ -1,0 +1,253 @@
+.evenza-unique-hero-section {
+  position: relative;
+  height: 500px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), 
+              url('../../images/index/background/cta3.jpg') center/cover;
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+  
+}
+
+.evenza-unique-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 50%, rgba(255, 255, 255, 0.5) 100%);
+}
+
+.evenza-unique-content-container {
+  position: relative;
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  z-index: 10;
+}
+
+.evenza-unique-text-content {
+  flex: 1;
+  padding-right: 20px;
+}
+
+.evenza-unique-card-content {
+  flex: 1;
+  position: relative;
+  padding: 30px;
+}
+
+.evenza-unique-hero-card {
+  background: linear-gradient(to bottom, #0a001d, #2c0052);
+  color: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(107, 44, 245, 0.3);
+  transform: translateY(20px);
+  opacity: 0;
+  animation: evenza-unique-slideUp 1s forwards 0.5s;
+}
+
+.evenza-unique-hero-heading {
+  font-size: 44px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #333;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: evenza-unique-fadeInUp 1s forwards;
+}
+
+.evenza-unique-hero-subheading {
+  font-size: 18px;
+  line-height: 1.7;
+  color: #555;
+  margin-bottom: 30px;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: evenza-unique-fadeInUp 1s forwards 0.3s;
+}
+
+.evenza-unique-card-heading {
+  font-size: 36px;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.evenza-unique-card-text {
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.evenza-unique-cta-buttons {
+  display: flex;
+  gap: 15px;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: evenza-unique-fadeInUp 1s forwards 0.6s;
+}
+
+.evenza-unique-primary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  background: linear-gradient(135deg, #6b2cf5 0%, #d427a4 100%);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 20px rgba(107, 44, 245, 0.2);
+}
+
+.evenza-unique-primary-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 25px rgba(107, 44, 245, 0.3);
+}
+
+.evenza-unique-secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 32px;
+  background: transparent;
+  color: #6b2cf5;
+  border: 2px solid #6b2cf5;
+  border-radius: 50px;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.evenza-unique-secondary-btn:hover {
+  background: rgba(107, 44, 245, 0.1);
+  transform: translateY(-5px);
+}
+
+.evenza-unique-btn-icon {
+  margin-left: 8px;
+  transition: transform 0.3s ease;
+}
+
+.evenza-unique-primary-btn:hover .evenza-unique-btn-icon {
+  transform: translateX(5px);
+}
+
+.evenza-unique-floating-shapes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.evenza-unique-shape {
+  position: absolute;
+  opacity: 0.4;
+  z-index: 1;
+}
+
+.evenza-unique-shape-1 {
+  top: 20%;
+  left: 10%;
+  width: 60px;
+  height: 60px;
+  background: #6b2cf5;
+  border-radius: 50%;
+  animation: evenza-unique-float 6s ease-in-out infinite;
+}
+
+.evenza-unique-shape-2 {
+  top: 60%;
+  right: 10%;
+  width: 80px;
+  height: 80px;
+  background: #d427a4;
+  border-radius: 12px;
+  animation: evenza-unique-float 8s ease-in-out infinite 1s;
+}
+
+.evenza-unique-shape-3 {
+  bottom: 10%;
+  left: 20%;
+  width: 40px;
+  height: 40px;
+  background: #ffac41;
+  border-radius: 10px;
+  transform: rotate(45deg);
+  animation: evenza-unique-float 7s ease-in-out infinite 2s;
+}
+
+@keyframes evenza-unique-float {
+  0%, 100% {
+      transform: translateY(0) rotate(0deg);
+  }
+  50% {
+      transform: translateY(-20px) rotate(10deg);
+  }
+}
+
+@keyframes evenza-unique-fadeInUp {
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+@keyframes evenza-unique-slideUp {
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 992px) {
+  .evenza-unique-content-container {
+      flex-direction: column;
+  }
+  
+  .evenza-unique-text-content {
+      padding-right: 0;
+      margin-bottom: 40px;
+  }
+  
+  .evenza-unique-hero-heading {
+      font-size: 36px;
+  }
+  
+  .evenza-unique-card-heading {
+      font-size: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .evenza-unique-hero-section {
+      height: auto;
+      padding: 80px 0;
+  }
+  
+  .evenza-unique-cta-buttons {
+      flex-direction: column;
+  }
+  
+  .evenza-unique-primary-btn, .evenza-unique-secondary-btn {
+      width: 100%;
+      justify-content: center;
+  }
+  
+  .evenza-unique-hero-heading {
+      font-size: 32px;
+  }
+}

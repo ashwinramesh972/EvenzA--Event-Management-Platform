@@ -1,0 +1,599 @@
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #1A1A2E;
+  min-height: 100vh;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* Navigation Buttons */
+.nav-buttons {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+}
+
+.btn-home,
+.btn-register {
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 50px;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  white-space: nowrap;
+}
+
+.btn-home {
+  background: transparent;
+  color: #fff;
+  border: 2px solid #8F00FF;
+}
+
+.btn-home:hover {
+  background: #8F00FF;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.btn-register {
+  background: linear-gradient(90deg, #8F00FF, #B34CFF);
+  color: #fff;
+  border: none;
+}
+
+.btn-register:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(143, 0, 255, 0.3);
+}
+
+/* Wrapper for centering the login form */
+.login-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 80px 20px 20px;
+}
+
+/* Container */
+.login-container.container {
+  display: flex;
+  width: 100%;
+  max-width: 1000px;
+  min-height: 600px;
+  background-color: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 15px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+/* Form Section */
+.form-section {
+  width: 50%;
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #fff;
+  color: #222;
+  min-height: 600px;
+}
+
+.brand-logo {
+  font-size: 24px;
+  font-weight: 600;
+  color: #8F00FF;
+  margin-bottom: 20px;
+}
+
+.form-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 100%;
+}
+
+h2 {
+  font-size: clamp(28px, 5vw, 36px);
+  font-weight: 600;
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+h2 span {
+  color: #8F00FF;
+}
+
+.subtitle {
+  font-size: clamp(14px, 2.5vw, 16px);
+  font-weight: 300;
+  color: #666;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.form-group {
+  margin-bottom: 25px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.form-group.visible {
+  opacity: 1;
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px 0;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  font-size: 15px;
+  outline: none;
+  background: transparent;
+  transition: border-color 0.3s ease;
+  color: #333;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  border-bottom: 2px solid #8F00FF;
+}
+
+input[type="text"]::placeholder,
+input[type="password"]::placeholder {
+  color: #999;
+}
+
+.remember-forgot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0 30px;
+  font-size: 13px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkbox-container input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  accent-color: #8F00FF;
+}
+
+.checkbox-container label {
+  margin: 0;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.forgot-link {
+  color: #8F00FF;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  font-size: 13px;
+}
+
+.forgot-link:hover {
+  color: #B34CFF;
+  text-decoration: underline;
+}
+
+.form-section .btn {
+  width: 100%;
+  padding: 14px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 50px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: none;
+}
+
+.form-section .btn-primary {
+  background: linear-gradient(90deg, #8F00FF, #B34CFF);
+  color: #fff;
+}
+
+.form-section .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(143, 0, 255, 0.4);
+}
+
+.signup-link {
+  margin-top: 25px;
+  font-size: 13px;
+  text-align: center;
+  color: #666;
+}
+
+.signup-link a {
+  color: #8F00FF;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 5px;
+}
+
+.signup-link a:hover {
+  color: #B34CFF;
+  text-decoration: underline;
+}
+
+/* Image Section */
+.image-section {
+  width: 50%;
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../../images/login/karena.jpg') center/cover no-repeat;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 40px;
+  min-height: 600px;
+}
+
+.secondary-logo {
+  font-size: clamp(24px, 4vw, 32px);
+  font-weight: 600;
+  color: #fff;
+}
+
+.secondary-logo span {
+  color: #8F00FF;
+}
+
+.artist-name {
+  font-size: clamp(36px, 8vw, 48px);
+  font-weight: 300;
+  color: #fff;
+  text-align: center;
+  margin: auto 0;
+}
+
+.bottom-text {
+  font-size: clamp(11px, 1.5vw, 12px);
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  max-width: 90%;
+}
+
+/* Error Message Styles */
+.errormsg {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 59, 48, 0.95);
+  color: #fff;
+  padding: 15px 25px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  max-width: 90%;
+  min-width: 300px;
+  border: 1px solid rgba(255, 59, 48, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  animation: fadeInError 0.5s ease forwards;
+  z-index: 1000;
+}
+
+/* Fade-in animation for error message */
+@keyframes fadeInError {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Tablet Styles */
+@media (max-width: 1024px) {
+  .login-wrapper {
+    padding: 60px 15px 15px;
+  }
+  
+  .login-container.container {
+    max-width: 900px;
+    min-height: 550px;
+  }
+  
+  .form-section,
+  .image-section {
+    min-height: 550px;
+  }
+  
+  .form-section {
+    padding: 35px 25px;
+  }
+  
+  .image-section {
+    padding: 35px;
+  }
+}
+
+/* Large Mobile / Small Tablet */
+@media (max-width: 768px) {
+  .nav-buttons {
+    top: 15px;
+    left: 15px;
+    right: 15px;
+  }
+  
+  .btn-home,
+  .btn-register {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+  
+  .login-wrapper {
+    padding: 70px 10px 10px;
+    min-height: 100vh;
+  }
+
+  .login-container.container {
+    width: 95%;
+    max-width: none;
+    height: auto;
+    min-height: auto;
+    flex-direction: column;
+    border-radius: 12px;
+  }
+
+  .form-section,
+  .image-section {
+    width: 100%;
+    min-height: auto;
+  }
+
+  .form-section {
+    padding: 40px 30px;
+    order: 1;
+  }
+  
+  .image-section {
+    order: 2;
+    min-height: 250px;
+    padding: 30px;
+  }
+
+  .artist-name {
+    margin: 20px 0;
+  }
+  
+  .errormsg {
+    top: 70px;
+    position: relative;
+    margin: 10px auto 20px;
+    min-width: 250px;
+    padding: 12px 20px;
+    font-size: 13px;
+    max-width: 85%;
+    left: auto;
+    transform: none;
+  }
+}
+
+/* Mobile Styles */
+@media (max-width: 576px) {
+  .nav-buttons {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    gap: 10px;
+  }
+
+  .btn-home,
+  .btn-register {
+    padding: 6px 12px;
+    font-size: 12px;
+    flex: 1;
+    text-align: center;
+    max-width: 120px;
+  }
+
+  .login-wrapper {
+    padding: 60px 5px 5px;
+  }
+
+  .login-container.container {
+    width: 98%;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .form-section {
+    padding: 30px 20px;
+  }
+  
+  .image-section {
+    min-height: 200px;
+    padding: 25px 20px;
+  }
+
+  .brand-logo {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  .subtitle {
+    margin-bottom: 25px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .remember-forgot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    margin: 20px 0 25px;
+  }
+  
+  .checkbox-container,
+  .forgot-link {
+    font-size: 12px;
+  }
+
+  .form-section .btn {
+    padding: 12px;
+    font-size: 13px;
+  }
+
+  .signup-link {
+    font-size: 12px;
+    margin-top: 20px;
+  }
+  
+  .errormsg {
+    top: 60px;
+    min-width: 200px;
+    padding: 10px 15px;
+    font-size: 12px;
+    max-width: 90%;
+  }
+}
+
+/* Extra Small Mobile */
+@media (max-width: 375px) {
+  .login-wrapper {
+    padding: 55px 3px 3px;
+  }
+  
+  .form-section {
+    padding: 25px 15px;
+  }
+  
+  .image-section {
+    padding: 20px 15px;
+    min-height: 180px;
+  }
+  
+  .nav-buttons {
+    gap: 8px;
+  }
+  
+  .btn-home,
+  .btn-register {
+    padding: 5px 10px;
+    font-size: 11px;
+    max-width: 100px;
+  }
+  
+  input[type="text"],
+  input[type="password"] {
+    font-size: 14px;
+    padding: 10px 0;
+  }
+  
+  .errormsg {
+    top: 55px;
+    min-width: 180px;
+    max-width: 95%;
+  }
+}
+
+/* Landscape orientation for mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .login-wrapper {
+    padding: 10px 5px;
+  }
+  
+  .login-container.container {
+    flex-direction: row;
+    min-height: auto;
+    max-height: 90vh;
+  }
+  
+  .form-section,
+  .image-section {
+    width: 50%;
+    min-height: auto;
+  }
+  
+  .form-section {
+    padding: 20px;
+  }
+  
+  .image-section {
+    min-height: 300px;
+    padding: 20px;
+  }
+  
+  .form-content {
+    justify-content: flex-start;
+  }
+  
+  .subtitle {
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .remember-forgot {
+    margin: 15px 0 20px;
+  }
+  
+  .signup-link {
+    margin-top: 15px;
+  }
+}
+
+/* High DPI / Retina Display Support */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .image-section {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../../images/login/karena@2x.jpg');
+  }
+}
+
+/* Focus and Accessibility Improvements */
+*:focus {
+  outline: 2px solid #8F00FF;
+  outline-offset: 2px;
+}
+
+.btn:focus,
+.btn-home:focus,
+.btn-register:focus {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* Remove all form-group animations to prevent conflicts with existing JS */
+.form-group {
+  opacity: 1;
+}
+
+.form-group.visible {
+  opacity: 1;
+}

@@ -1,0 +1,77 @@
+document.addEventListener('DOMContentLoaded', function() {
+    // Add .js-enabled class to body to enable JavaScript-dependent styles
+    document.body.classList.add('js-enabled');
+  
+    // Parallax effect and animation for images using Intersection Observer
+    const parallaxImages = document.querySelectorAll('.faq-image');
+  
+    // Function to handle parallax effect
+    const applyParallax = (image, scrollPosition) => {
+      const topDistance = image.parentElement.offsetTop;
+      const parallaxSpeed = 0.3;
+      if (scrollPosition > topDistance - window.innerHeight && 
+          scrollPosition < topDistance + image.parentElement.offsetHeight) {
+        const parallaxOffset = (scrollPosition - (topDistance - window.innerHeight)) * parallaxSpeed;
+        image.style.transform = `translateY(${-parallaxOffset}px)`;
+      }
+    };
+  
+    // Create Intersection Observer to add .animate-in class
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-in');
+          // Apply initial parallax effect for images already in view
+          applyParallax(entry.target, window.pageYOffset);
+        }
+      });
+    }, {
+      root: null,
+      threshold: 0.1 // Trigger when 10% of the image is visible
+    });
+  
+    // Observe each image and apply parallax on scroll
+    parallaxImages.forEach(image => {
+      observer.observe(image);
+      // Apply parallax effect on scroll
+      window.addEventListener('scroll', () => {
+        applyParallax(image, window.pageYOffset);
+      });
+    });
+  
+    // Make accordion buttons interactive with smooth animations
+    const accordionButtons = document.querySelectorAll('.accordion-button');
+    
+    accordionButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const isCollapsed = this.classList.contains('collapsed');
+        const arrowIcon = this.querySelector('.faq-arrow i');
+        
+        // Reset all arrows first
+        document.querySelectorAll('.faq-arrow i').forEach(icon => {
+          icon.style.transform = 'rotate(0deg)';
+        });
+        
+        // Rotate arrow for the clicked accordion
+        if (!isCollapsed) {
+          arrowIcon.style.transform = 'rotate(180deg)';
+        }
+      });
+    });
+    
+    // Dropdown questions (from screenshot)
+    const dropdownQuestions = document.querySelectorAll('.dropdown-question');
+    
+    dropdownQuestions.forEach(question => {
+      question.addEventListener('click', function() {
+        this.classList.toggle('active');
+        const icon = this.querySelector('i');
+        
+        if (this.classList.contains('active')) {
+          icon.style.transform = 'rotate(180deg)';
+        } else {
+          icon.style.transform = 'rotate(0deg)';
+        }
+      });
+    });
+  });

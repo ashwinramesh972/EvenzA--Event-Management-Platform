@@ -1,0 +1,134 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Event - EvenzA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/user/eventcreate/joiner.css' %}">
+</head>
+<body>
+  <!-- Navigation Buttons -->
+  <div class="nav-buttons">
+    <a href="javascript:history.back()" class="btn btn-back">Back</a>
+    <a href="/" class="btn btn-home">Home</a>
+  </div>
+
+  <div class="container">
+    <!-- Brand Logo -->
+    <div class="brand-logo">EvenzA</div>
+
+    <!-- Left Section: Form -->
+    <div class="form-section">
+      <div class="form-content">
+        <h2>Create an Event</h2>
+
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert {{ message.tags }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          
+          <div class="form-group">
+            <input type="text" id="title" value="{{event.title}}" name="title" placeholder=" " required>
+            <label for="title">Title</label>
+          </div>
+
+          <div class="form-group">
+            <input type="datetime-local" id="date_time" name="date_time" value="{{ event.date_time|date:'Y-m-d\\TH:i' }}" required>
+            <label for="date_time">Date and Time</label>
+          </div>
+
+          <div class="form-group">
+            <input type="text" id="location" value="{{event.location}}" name="location" placeholder=" " required>
+            <label for="location">Location</label>
+          </div>
+
+          <div class="form-group">
+            <textarea id="description" name="description" placeholder=" ">{{event.description}}</textarea>
+            <label for="description">Description</label>
+          </div>
+
+          <!-- Event Type and Capacity in the same row -->
+          <div class="form-row">
+            <div class="form-group">
+              <select id="eventType" name="eventType" required>
+                <option value="" disabled {% if not event.event_type %}selected{% endif %}>Select Type</option>
+                <option value="online" {% if event.event_type == 'online' %}selected{% endif %}>Online</option>
+                <option value="offline" {% if event.event_type == 'offline' %}selected{% endif %}>Offline</option>
+              </select>
+              <label for="eventType">Event Type</label>
+            </div>
+            <div class="form-group">
+              <input type="number" id="capacity" name="capacity" value="{{event.capacity}}" placeholder=" ">
+              <label for="capacity">Capacity</label>
+            </div>
+          </div>
+
+          <!-- Upload Image and Default Image in the same row -->
+          <div class="form-row">
+            <div class="form-group">
+              <input type="file" id="image" name="image" accept="image/*">
+              <label for="image">Upload Image (Optional)</label>
+            </div>
+            <div class="form-group">
+              <select id="default_image" name="default_image" onchange="updatePreview()">
+                <option value="main.jpg" selected>None</option>
+                <option value="party.jpg">Party</option>
+                <option value="concert.jpg">Concert</option>
+                <option value="meeting.jpg">Meeting</option>
+                <option value="sports.jpg">Sports</option>
+                <option value="movie.jpg">Movie</option>
+              </select>
+              <label for="default_image">Default Image</label>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-submit">Create Event</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Right Section: Image and Event Graphics -->
+    <div class="right-section" data-default-image="{% static 'images/user/createpage.jpg' %}">
+      <img id="right_image" src="{% static 'images/user/createpage.jpg' %}" alt="Promotional Image">
+      <div class="overlay-box">
+        <span class="dot"></span>Create Your Event
+        <div class="event-time">Select a time</div>
+      </div>
+
+      <div class="calendar">
+        <div class="date-row">
+          <span>Sun</span>
+          <span>Mon</span>
+          <span>Tue</span>
+          <span>Wed</span>
+          <span class="highlight">Thu</span>
+          <span>Fri</span>
+          <span>Sat</span>
+        </div>
+        <div class="date-row">
+          <span>22</span>
+          <span>23</span>
+          <span>24</span>
+          <span>25</span>
+          <span class="highlight">26</span>
+          <span>27</span>
+          <span>28</span>
+        </div>
+        <div class="meeting">
+          Plan your epic event!
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{% static 'js/user/eventcreate/joiner.js' %}"></script>
+  <script src="{% static 'js/user/eventcreate/validation.js' %}"></script>
+  <script src="{% static 'js/user/eventcreate/message.js' %}"></script>
+</body>
+</html>

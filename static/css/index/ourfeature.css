@@ -1,0 +1,264 @@
+/* CSS for Our Features Section */
+.our-features-section {
+  background-color: #f8f7fa;
+  padding: 60px 0;
+}
+
+.our-features-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.our-features-label {
+  color: #8662e8;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+}
+
+.our-features-label::before {
+  content: "";
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-color: #8662e8;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.our-features-title {
+  font-size: 36px;
+  color: #3d2c72;
+  margin-bottom: 30px;
+  max-width: 700px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.our-features-subtitle {
+  color: #666;
+  max-width: 400px;
+  line-height: 1.6;
+  margin-left: auto;
+  margin-bottom: 40px;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .features-grid {
+      grid-template-columns: 1fr;
+  }
+}
+
+.feature-card {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  height: 240px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+.feature-card.venue {
+  background: linear-gradient(to bottom left, #8662e8, #d04cd0);
+}
+
+.feature-card.community-post {
+  background: linear-gradient(to bottom left, #8577ac, #4f36c0);
+}
+
+.feature-card.catering {
+  background: #3d2c72;
+}
+
+.feature-card.decor {
+  background: linear-gradient(to bottom left, #faf8ff, #646368);
+  border: 1px solid #eee;
+}
+
+.feature-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.arrow-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: white;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.arrow-btn:hover {
+  transform: scale(1.1);
+}
+
+.arrow-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.feature-content {
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  color: white;
+}
+
+.decor .feature-content {
+  color: #3d2c72;
+}
+
+.feature-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.feature-desc {
+  font-size: 14px;
+  opacity: 0.9;
+  max-width: 250px;
+}
+
+.play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease;
+}
+
+.play-btn:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* Feature details section */
+.feature-details {
+  display: none;
+  padding: 40px;
+  background-color: white;
+  border-radius: 20px;
+  margin-top: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.feature-details h2 {
+  color: #3d2c72;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.feature-details p {
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+/* Login modal */
+.feature-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature-modal-content {
+  position: relative;
+  background-color: white;
+  padding: 30px;
+  border-radius: 15px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.feature-modal-title {
+  font-size: 24px;
+  color: #3d2c72;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.feature-form-group {
+  margin-bottom: 20px;
+}
+
+.feature-form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #555;
+  font-weight: 500;
+}
+
+.feature-form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.feature-login-btn {
+  background-color: #8662e8;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.feature-login-btn:hover {
+  background-color: #7151d3;
+}
+
+.feature-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #555;
+}

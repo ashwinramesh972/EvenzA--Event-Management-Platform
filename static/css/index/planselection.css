@@ -1,0 +1,215 @@
+/* Main Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #ffffff;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.main-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-align: center;
+    color: #222;
+}
+
+.highlight {
+    color: #7956ec;
+}
+
+.subtitle {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #555;
+    max-width: 800px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.6;
+}
+
+/* Billing Toggle */
+.billing-toggle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 3rem;
+    border-radius: 50px;
+    background: #f5f5f7;
+    width: fit-content;
+    padding: 0.25rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.toggle-btn {
+    padding: 0.75rem 2rem;
+    border: none;
+    background: transparent;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #555;
+}
+
+.toggle-btn.active {
+    background: #7956ec;
+    color: white;
+}
+
+/* Pricing Cards */
+.pricing-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+@media (min-width: 768px) {
+    .pricing-cards {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.pricing-card {
+    background: linear-gradient(135deg, #7956ec, #6842da);
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.3s ease;
+    padding: 2rem 1.5rem;
+    box-shadow: 0 10px 20px rgba(121, 86, 236, 0.15);
+    display: flex;
+    flex-direction: column;
+    min-height: 620px;
+    color: white;
+}
+
+.joiner-card, .creator-card {
+    background: linear-gradient(135deg, #7956ec, #6842da);
+}
+
+.premium-card {
+    background: linear-gradient(135deg, #3d1a7a, #502a9c);
+    z-index: 2;
+}
+
+.pricing-card h3 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: white;
+}
+
+.description {
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Featured Tag */
+.featured-tag {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #9c74ff;
+    color: white;
+    padding: 0.5rem 1.5rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-bottom-left-radius: 16px;
+}
+
+/* Price Container */
+.price-container {
+    margin: 1.5rem 0;
+}
+
+.price-value {
+    display: flex;
+    align-items: baseline;
+}
+
+.currency {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-right: 0.25rem;
+}
+
+.price {
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.price-period {
+    margin-top: 0.25rem;
+}
+
+.period {
+    font-size: 1.1rem;
+    font-weight: 400;
+    opacity: 0.9;
+}
+
+.yearly-price {
+    display: none;
+}
+
+/* Features */
+.features {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 2rem 0;
+    flex-grow: 1;
+}
+
+.features li {
+    padding: 0.75rem 0;
+    position: relative;
+    padding-left: 1.75rem;
+    font-size: 0.95rem;
+}
+
+.features li:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* CTA Button */
+.cta-btn {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: auto;
+}
+
+.cta-btn:hover:not(.disabled) {
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.cta-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: rgba(255, 255, 255, 0.1);
+}

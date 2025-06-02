@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #10b981;
+            --secondary-green: #065f46;
+            --light-green: #d1fae5;
+            --accent-green: #34d399;
+            --neutral-50: #f9fafb;
+            --neutral-100: #f3f4f6;
+            --neutral-200: #e5e7eb;
+            --neutral-600: #4b5563;
+            --neutral-700: #374151;
+            --neutral-800: #1f2937;
+            --neutral-900: #111827;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(52, 211, 153, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(6, 95, 70, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 3.5rem 2.5rem;
+            text-align: center;
+            box-shadow: var(--shadow-xl);
+            max-width: 480px;
+            width: 90%;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: containerAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes containerAppear {
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .success-icon {
+            width: 88px;
+            height: 88px;
+            margin: 0 auto 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary-green), var(--accent-green));
+            position: relative;
+            box-shadow: 0 8px 32px rgba(16, 185, 129, 0.3);
+            animation: iconPulse 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes iconPulse {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .success-icon::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-green), var(--accent-green));
+            opacity: 0.2;
+            animation: ripple 2s infinite;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(1);
+                opacity: 0.2;
+            }
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .checkmark {
+            font-size: 2.8rem;
+            color: white;
+            font-weight: 300;
+            animation: checkmarkDraw 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+        }
+
+        @keyframes checkmarkDraw {
+            0% {
+                transform: scale(0) rotate(-45deg);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2) rotate(-22.5deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--neutral-900);
+            letter-spacing: -0.025em;
+            line-height: 1.2;
+        }
+
+        .message {
+            color: var(--neutral-600);
+            font-size: 1.125rem;
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+            font-weight: 400;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .countdown-container {
+            background: var(--light-green);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            padding: 1.75rem;
+            border-radius: 16px;
+            margin: 2.5rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .countdown-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary-green), transparent);
+        }
+
+        .countdown-text {
+            color: var(--secondary-green);
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .countdown-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            font-feature-settings: 'tnum';
+            margin-bottom: 1rem;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-green), var(--accent-green));
+            width: 0%;
+            transition: width 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .home-button {
+            background: linear-gradient(135deg, var(--primary-green), var(--accent-green));
+            color: white;
+            padding: 16px 32px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 1.5rem;
+            font-family: inherit;
+            letter-spacing: 0.01em;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .home-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .home-button:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 12px 32px rgba(16, 185, 129, 0.4);
+        }
+
+        .home-button:hover::before {
+            left: 100%;
+        }
+
+        .home-button:active {
+            transform: translateY(-1px) scale(1.01);
+        }
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .floating-particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: var(--primary-green);
+            border-radius: 50%;
+            opacity: 0;
+            animation: floatUp 4s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) scale(0);
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(90vh) scale(1);
+            }
+            90% {
+                opacity: 1;
+                transform: translateY(10vh) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(0) scale(0);
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 640px) {
+            .container {
+                padding: 2.5rem 1.5rem;
+                margin: 1rem;
+            }
+            
+            h1 {
+                font-size: 1.875rem;
+            }
+            
+            .message {
+                font-size: 1rem;
+            }
+            
+            .success-icon {
+                width: 72px;
+                height: 72px;
+                margin-bottom: 2rem;
+            }
+            
+            .checkmark {
+                font-size: 2.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements" id="floatingElements"></div>
+    
+    <div class="container">
+        <div class="success-icon">
+            <span class="checkmark">✓</span>
+        </div>
+        
+        <h1>Payment Successful!</h1>
+        
+        <p class="message">
+            Thank you for your payment! Your transaction has been completed successfully and a confirmation email has been sent to your registered email address.
+        </p>
+        
+        <div class="countdown-container">
+            <div class="countdown-text">Redirecting to home page in</div>
+            <div class="countdown-number" id="countdown">5</div>
+            <div class="progress-container">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+        </div>
+        
+        <button class="home-button" onclick="goHome()">
+            Booked! Keep the vibe going
+        </button>
+    </div>
+
+    <script>
+        // Countdown functionality
+        let seconds = 5;
+        const countdownElement = document.getElementById('countdown');
+        const progressBar = document.getElementById('progressBar');
+        
+        // Start countdown
+        const countdownInterval = setInterval(() => {
+            seconds--;
+            countdownElement.textContent = seconds;
+            
+            if (seconds <= 0) {
+                clearInterval(countdownInterval);
+                goHome();
+            }
+        }, 1000);
+        
+        // Progress bar animation
+        let progress = 0;
+        const progressInterval = setInterval(() => {
+            progress += 2;
+            progressBar.style.width = progress + '%';
+            
+            if (progress >= 100) {
+                clearInterval(progressInterval);
+            }
+        }, 100);
+
+        // Redirect function
+        function goHome() {
+            // Replace with your actual home page URL
+            window.location.href = '/';
+        }
+
+        // Create floating particles
+        function createFloatingParticles() {
+            const container = document.getElementById('floatingElements');
+            
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.className = 'floating-particle';
+                    particle.style.left = Math.random() * 100 + 'vw';
+                    particle.style.animationDelay = Math.random() * 4 + 's';
+                    particle.style.animationDuration = (3 + Math.random() * 2) + 's';
+                    
+                    const colors = ['#10b981', '#34d399', '#6ee7b7', '#a7f3d0'];
+                    particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    
+                    container.appendChild(particle);
+                    
+                    setTimeout(() => {
+                        if (particle.parentNode) {
+                            particle.remove();
+                        }
+                    }, 6000);
+                }, i * 200);
+            }
+        }
+
+        // Initialize animations
+        window.addEventListener('load', () => {
+            createFloatingParticles();
+            
+            // Repeat particle animation
+            setInterval(createFloatingParticles, 3000);
+        });
+    </script>
+</body>
+</html>

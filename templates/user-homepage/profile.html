@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .profile-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .profile-picture {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            margin: 0 auto 20px;
+            object-fit: cover;
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-picture:hover {
+            transform: scale(1.05);
+        }
+
+        .user-name {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .user-details {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255, 215, 0, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 40px;
+            background: #f8fafc;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 30px 25px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #64748b;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .stat-change {
+            font-size: 0.85rem;
+            color: #10b981;
+            margin-top: 4px;
+            font-weight: 600;
+        }
+
+        .events-section {
+            padding: 40px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            color: #667eea;
+        }
+
+        .events-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .events-group {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .group-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .event-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            position: relative;
+        }
+
+        .event-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-left-color: #667eea;
+        }
+
+        .event-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .event-title {
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .event-description {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .event-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-size: 0.85rem;
+            color: #6b7280;
+            align-items: center;
+        }
+
+        .event-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-upcoming {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .status-completed {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .no-events {
+            text-align: center;
+            color: #9ca3af;
+            font-style: italic;
+            padding: 20px;
+        }
+
+        /* Eye button styles */
+        .view-participants-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-left: auto;
+        }
+
+        .view-participants-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .close {
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+
+        .close:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-body {
+            padding: 25px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .participants-count {
+            color: #64748b;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .participant-card {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+            background: #fafbfc;
+        }
+
+        .participant-card:hover {
+            border-color: #667eea;
+            background: #f8faff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .participant-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+            border: 2px solid #e5e7eb;
+        }
+
+        .participant-info {
+            flex: 1;
+        }
+
+        .participant-name {
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 4px;
+        }
+
+        .participant-username {
+            color: #667eea;
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+        }
+
+        .participant-email {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        .participant-status {
+            text-align: right;
+            font-size: 0.8rem;
+        }
+
+        .status-tag {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 500;
+            margin-bottom: 4px;
+            display: inline-block;
+        }
+
+        .status-confirmed {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-cancelled {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .joined-date {
+            color: #9ca3af;
+            font-size: 0.75rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 40px;
+            color: #dc2626;
+        }
+
+        @media (max-width: 768px) {
+            .profile-container {
+                margin: 10px;
+                border-radius: 16px;
+            }
+
+            .profile-header {
+                padding: 30px 20px;
+            }
+
+            .user-name {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 30px 20px;
+                gap: 15px;
+            }
+
+            .stat-card {
+                padding: 20px 15px;
+            }
+
+            .events-section {
+                padding: 30px 20px;
+            }
+
+            .events-container {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+            }
+
+            .participant-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .participant-avatar {
+                margin: 0 0 10px 0;
+            }
+
+            .participant-status {
+                text-align: center;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <img src="{{ user_data.profile_picture }}" alt="Profile Picture" class="profile-picture">
+            <h1 class="user-name">{{ user_data.full_name }}</h1>
+            <div class="user-details">
+                <p>@{{ user_data.username }} • Member since {{ user_data.joined_date }}</p>
+                <div class="rating-badge">
+                    <i class="fas fa-star" style="color: #fbbf24; margin-right: 5px;"></i>
+                    {{ stats.avg_rating }} average rating
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-number">{{ stats.total_attendees }}</div>
+                <div class="stat-label">Total Attendees</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-calendar-plus"></i>
+                </div>
+                <div class="stat-number">{{ stats.upcoming_events }}</div>
+                <div class="stat-label">Upcoming Events</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <div class="stat-number">{{ stats.completed_events }}</div>
+                <div class="stat-label">Completed Events</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div class="stat-number">{{ stats.events_created }}</div>
+                <div class="stat-label">Events Created</div>
+                <div class="stat-change">+{{ stats.events_created_this_month }} this month</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <div class="stat-number">{{ stats.events_joined }}</div>
+                <div class="stat-label">Events Joined</div>
+                <div class="stat-change">+{{ stats.events_joined_this_month }} this month</div>
+            </div>
+        </div>
+
+        <!-- Events Section -->
+        <div class="events-section">
+            <h2 class="section-title">
+                <i class="fas fa-calendar-alt"></i>
+                Recent Activity
+            </h2>
+            
+            <div class="events-container">
+                <!-- Events Created -->
+                <div class="events-group">
+                    <h3 class="group-title">
+                        <i class="fas fa-plus-circle" style="color: #10b981;"></i>
+                        Events I Created
+                    </h3>
+                    <div>
+                        {% if recent_events_created %}
+                            {% for event in recent_events_created %}
+                            <div class="event-card">
+                                <div class="event-title">{{ event.title }}</div>
+                                <div class="event-description">{{ event.description }}</div>
+                                <div class="event-meta">
+                                    <span><i class="fas fa-calendar"></i> {{ event.date }}</span>
+                                    <span><i class="fas fa-map-marker-alt"></i> {{ event.location }}</span>
+                                    <span><i class="fas fa-users"></i> {{ event.participants }} participants</span>
+                                    <span class="status-badge {% if event.status == 'Upcoming' %}status-upcoming{% else %}status-completed{% endif %}">
+                                        {{ event.status }}
+                                    </span>
+                                    <button class="view-participants-btn" onclick="viewParticipants({{ event.id }}, '{{ event.title }}')">
+                                        <i class="fas fa-eye"></i>
+                                        View Participants
+                                    </button>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="no-events">No recent events created</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Events Joined -->
+                <div class="events-group">
+                    <h3 class="group-title">
+                        <i class="fas fa-user-check" style="color: #3b82f6;"></i>
+                        Events I Joined
+                    </h3>
+                    <div>
+                        {% if recent_events_joined %}
+                            {% for event in recent_events_joined %}
+                            <div class="event-card">
+                                <div class="event-title">{{ event.title }}</div>
+                                <div class="event-description">{{ event.description }}</div>
+                                <div class="event-meta">
+                                    <span><i class="fas fa-calendar"></i> {{ event.date }}</span>
+                                    <span><i class="fas fa-map-marker-alt"></i> {{ event.location }}</span>
+                                    <span><i class="fas fa-user"></i> by @{{ event.creator }}</span>
+                                    <span class="status-badge {% if event.status == 'Upcoming' %}status-upcoming{% else %}status-completed{% endif %}">
+                                        {{ event.status }}
+                                    </span>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="no-events">No recent events joined</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Participants -->
+    <div id="participantsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Event Participants</h2>
+                <button class="close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    Loading participants...
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Get CSRF token
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        const csrftoken = getCookie('csrftoken');
+
+        // Function to view participants
+        function viewParticipants(eventId, eventTitle) {
+            const modal = document.getElementById('participantsModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            
+            // Show modal
+            modal.style.display = 'block';
+            modalTitle.textContent = `Participants - ${eventTitle}`;
+            
+            // Show loading
+            modalBody.innerHTML = `
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    Loading participants...
+                </div>
+            `;
+            
+            // Fetch participants
+            fetch(`/get-event-participants/${eventId}/`, {
+                method: 'GET',
+                headers: {
+                    'X-CSRFToken': csrftoken,
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    displayParticipants(data);
+                } else {
+                    modalBody.innerHTML = `
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <p>${data.error || 'Failed to load participants'}</p>
+                        </div>
+                    `;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                modalBody.innerHTML = `
+                    <div class="error-message">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>An error occurred while loading participants</p>
+                    </div>
+                `;
+            });
+        }
+
+        // Function to display participants
+        function displayParticipants(data) {
+            const modalBody = document.getElementById('modalBody');
+            
+            if (data.participants.length === 0) {
+                modalBody.innerHTML = `
+                    <div class="no-events">
+                        <i class="fas fa-users" style="font-size: 3rem; margin-bottom: 15px; color: #d1d5db;"></i>
+                        <p>No participants yet</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let participantsHTML = `
+                <div class="participants-count">
+                    <i class="fas fa-users"></i>
+                    ${data.total_participants} participant${data.total_participants !== 1 ? 's' : ''}
+                </div>
+            `;
+
+            data.participants.forEach(participant => {
+                const statusClass = getStatusClass(participant.status);
+                const paymentStatusClass = getPaymentStatusClass(participant.payment_status);
+                
+                participantsHTML += `
+                    <div class="participant-card">
+                        <img src="${participant.profile_picture}" 
+                             alt="${participant.full_name}" 
+                             class="participant-avatar"
+                             onerror="this.src='/static/default.jpg'">
+                        <div class="participant-info">
+                            <div class="participant-name">${participant.full_name}</div>
+                            <div class="participant-username">@${participant.username}</div>
+                            <div class="participant-email">${participant.email}</div>
+                        </div>
+                        <div class="participant-status">
+                            <div class="status-tag ${statusClass}">
+                                ${participant.status.charAt(0).toUpperCase() + participant.status.slice(1)}
+                            </div>
+                            ${participant.payment_status ? `
+                                <div class="status-tag ${paymentStatusClass}">
+                                    ${participant.payment_status.charAt(0).toUpperCase() + participant.payment_status.slice(1)}
+                                </div>
+                            ` : ''}
+                            ${participant.attended ? `
+                                <div class="status-tag status-confirmed">
+                                    <i class="fas fa-check"></i> Attended
+                                </div>
+                            ` : ''}
+                            <div class="joined-date">
+                                Joined: ${participant.joined_at}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            modalBody.innerHTML = participantsHTML;
+        }
+
+        // Function to get status class
+        function getStatusClass(status) {
+            switch(status.toLowerCase()) {
+                case 'confirmed':
+                    return 'status-confirmed';
+                case 'pending':
+                    return 'status-pending';
+                case 'cancelled':
+                    return 'status-cancelled';
+                default:
+                    return 'status-pending';
+            }
+        }
+
+        // Function to get payment status class
+        function getPaymentStatusClass(paymentStatus) {
+            if (!paymentStatus) return '';
+            
+            switch(paymentStatus.toLowerCase()) {
+                case 'paid':
+                case 'completed':
+                    return 'status-confirmed';
+                case 'pending':
+                    return 'status-pending';
+                case 'failed':
+                case 'cancelled':
+                    return 'status-cancelled';
+                default:
+                    return 'status-pending';
+            }
+        }
+
+        // Function to close modal
+        function closeModal() {
+            const modal = document.getElementById('participantsModal');
+            modal.style.display = 'none';
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('participantsModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Add smooth scrolling for better UX
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hover effects to stat cards
+            const statCards = document.querySelectorAll('.stat-card');
+            statCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Add click animation to buttons
+            const buttons = document.querySelectorAll('.view-participants-btn');
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 150);
+                });
+            });
+
+            // Add loading animation to profile picture
+            const profilePic = document.querySelector('.profile-picture');
+            if (profilePic) {
+                profilePic.addEventListener('load', function() {
+                    this.style.opacity = '1';
+                });
+            }
+        });
+
+        // Error handling for profile picture
+        function handleImageError(img) {
+            img.src = '/static/default.jpg';
+            img.onerror = null; // Prevent infinite loop
+        }
+
+        // Add this to all profile images
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('img[src*="profile"]');
+            images.forEach(img => {
+                img.onerror = function() {
+                    handleImageError(this);
+                };
+            });
+        });
+    </script>
+</body>
+</html>

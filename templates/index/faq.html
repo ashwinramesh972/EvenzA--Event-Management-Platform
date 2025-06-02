@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ Section - Working Demo</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* FAQ Section Styles */
+        .faq-section {
+            background: linear-gradient(to bottom, #0a001d, #cc9ef5);
+            color: #fff;
+            padding: 80px 0;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .faq-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-label {
+            display: inline-block;
+            color: #ff6b6b;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 15px;
+        }
+
+        .faq-left h2 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #fff;
+            line-height: 1.2;
+        }
+
+        .eventheader {
+            color: #3498db;
+        }
+
+        .faq-left p {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        .faq-image {
+            width: 100%;
+            height: 360px;
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .row {
+            margin-bottom: 50px;
+        }
+
+        .mt-5 {
+            margin-top: 50px !important;
+        }
+
+        /* Accordion styling */
+        .accordion {
+            margin-bottom: 30px;
+        }
+
+        .accordion-item {
+            background-color: transparent;
+            border: none;
+            margin-bottom: 15px;
+        }
+
+        .accordion-button {
+            background-color: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            font-size: 18px;
+            font-weight: 500;
+            padding: 20px 25px;
+            border: none;
+            border-radius: 12px !important;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #fff;
+            box-shadow: none;
+        }
+
+        .accordion-button:focus {
+            box-shadow: none;
+            border-color: transparent;
+        }
+
+        .accordion-button::after {
+            display: none;
+        }
+
+        .faq-arrow {
+            position: absolute;
+            right: 25px;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-arrow i {
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-body {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+            padding: 20px 25px;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            line-height: 1.6;
+        }
+
+        .more-questions-btn {
+            display: block;
+            width: 200px;
+            height: 50px;
+            background-color: #fff;
+            color: #13101F;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            line-height: 50px;
+            border-radius: 50px;
+            margin: 20px auto 0;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid #8F00FF;
+        }
+
+        .more-questions-btn:hover {
+            background-color: #8F00FF;
+            color: #fff;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(180, 52, 219, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .faq-section {
+                padding: 60px 0;
+            }
+            
+            .faq-left h2 {
+                font-size: 32px;
+            }
+            
+            .faq-image {
+                height: 250px;
+                margin-bottom: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="faq-section">
+        <div class="faq-container">
+            <div class="row">
+                <!-- Row 1, Column 1: Heading and Description -->
+                <div class="col-md-6 faq-left">
+                    <span class="section-label">FAQ SECTION</span>
+                    <h2>Answers to Your <span class="eventheader">Event</span> Questions</h2>
+                    <p>Explore quick answers to help you create, join, and manage events on EvenzA with ease.</p>
+                </div>
+                <!-- Row 1, Column 2: First Image -->
+                <div class="col-md-6">
+                    <div class="faq-image">Event attendees smiling</div>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <!-- Row 2, Column 1: Second Image -->
+                <div class="col-md-6">
+                    <div class="faq-image">Event organizer planning</div>
+                </div>
+                <!-- Row 2, Column 2: FAQ Accordion -->
+                <div class="col-md-6 faq-right">
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-answer-1" aria-expanded="false" aria-controls="faq-answer-1">
+                                    How do I create an event on EvenzA?
+                                    <span class="faq-arrow"><i class="fas fa-chevron-down"></i></span>
+                                </button>
+                            </h2>
+                            <div id="faq-answer-1" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Sign up as a Creator or Premium user, go to your dashboard, and click "Create Event." Fill in the details, set a price if needed, and publish to attract attendees.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-answer-2" aria-expanded="false" aria-controls="faq-answer-2">
+                                    Can I join events for free?
+                                    <span class="faq-arrow"><i class="fas fa-chevron-down"></i></span>
+                                </button>
+                            </h2>
+                            <div id="faq-answer-2" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Yes, many events on EvenzA are free to join! Some events may have a fee set by the creator, but community events are often free for all users.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingThree">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-answer-3" aria-expanded="false" aria-controls="faq-answer-3">
+                                    What benefits does a Premium plan offer?
+                                    <span class="faq-arrow"><i class="fas fa-chevron-down"></i></span>
+                                </button>
+                            </h2>
+                            <div id="faq-answer-3" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    A Premium plan lets you create unlimited paid events, gain priority visibility in listings, and access advanced analytics to track your event performance.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="more-questions-btn">More Questions</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle arrow rotation for accordion
+            const accordionElement = document.getElementById('faqAccordion');
+            
+            if (accordionElement) {
+                // Listen for when an accordion item is shown
+                accordionElement.addEventListener('shown.bs.collapse', function (e) {
+                    const button = document.querySelector(`[data-bs-target="#${e.target.id}"]`);
+                    if (button) {
+                        const arrowIcon = button.querySelector('.faq-arrow i');
+                        if (arrowIcon) {
+                            arrowIcon.style.transform = 'rotate(180deg)';
+                        }
+                    }
+                });
+                
+                // Listen for when an accordion item is hidden
+                accordionElement.addEventListener('hidden.bs.collapse', function (e) {
+                    const button = document.querySelector(`[data-bs-target="#${e.target.id}"]`);
+                    if (button) {
+                        const arrowIcon = button.querySelector('.faq-arrow i');
+                        if (arrowIcon) {
+                            arrowIcon.style.transform = 'rotate(0deg)';
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

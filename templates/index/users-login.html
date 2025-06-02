@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - EvenzA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/login/login.css' %}">
+
+</head>
+<body>
+  {% if error %}
+  <div class="errormsg">
+    {{ error }}
+  </div>
+{% endif %}
+
+  <!-- Navigation Buttons -->
+  <div class="nav-buttons">
+    <a href="/" class="btn btn-home">Home</a>
+    <a href="/user-register" class="btn btn-register">Register</a>
+  </div>
+
+  <div class="login-wrapper">
+    <div class="login-container container">
+      <div class="form-section">
+        <div class="brand-logo">EvenzA</div>
+        <div class="form-content">
+          <h2>Welcome Back to <span>EvenzA</span></h2>
+          <p class="subtitle">Log in to create and join unforgettable events.</p>
+          <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" id="username" name="username" placeholder="Enter your username" required>
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" name="password" placeholder="•••••••••" required>
+            </div>
+            <div class="remember-forgot">
+              <div class="checkbox-container">
+                <input type="checkbox" id="remember" name="remember">
+                <label for="remember">Remember me</label>
+              </div>
+              <a href="{% url 'dashboard:reset_password' %}" class="forgot-link">Forgot Password?</a>
+            </div>
+            <button type="submit" class="btn btn-primary">Sign In</button>
+            <div class="signup-link">
+              Don't have an account? <a href="/user-register">Sign up</a>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="image-section">
+        <div class="secondary-logo">Even<span>za</span></div>
+        <div class="artist-name">Karina</div>
+        <div class="bottom-text">Join aespa and millions of others in creating moments that matter with EvenzA.</div>
+      </div>
+    </div>
+  </div>
+  <script src="{% static 'js/login/login.js' %}"></script>
+</body>
+</html>

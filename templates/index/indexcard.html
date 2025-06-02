@@ -1,0 +1,186 @@
+{% load static %}
+
+<!-- Paid Events Section -->
+<div class="events-section one" id="events-section">
+  <h2><span class="title-part1">Experience Our Prestigious</span> <span class="title-part2">Elite Gatherings</span></h2>
+  <div class="carousel-container" id="paid-events-carousel">
+    <div class="carousel" id="paid-events-track">
+      {% for event in paid_events %}
+      <div class="card" data-event-id="{{ event.id }}">
+        <div class="profile-area" data-recipient-id="{{ event.creator.id }}">
+          <div style="display: flex; flex-direction: column; align-items: flex-end;">
+            <span class="profile-name">{{ event.creator.username }}</span>
+            <button class="message-button">Message</button>
+            <span class="status online">{{ event.event_type }}</span>
+          </div>
+          <button class="profile-button">
+            <div class="profile-icon">
+              <img src="{{ event.creator.profile_picture.url }}" alt="Profile Icon">
+            </div>
+          </button>
+        </div>
+        <div class="date-badge">
+          <span class="countdown-label">Closes in:</span>
+          <span class="countdown-timer" data-datetime="{{ event.date_time|date:'Y-m-d H:i:s' }}"></span>
+        </div>
+        
+        <div class="event-image">
+          <img src="{% if event.image %}{{ event.image.url }}{% else %}/static/images/default_event.jpg{% endif %}" alt="Event Image">
+        </div>
+        <div class="bottom">
+          <div class="content">
+            <span class="name">{{ event.title }}</span>
+            <span class="about-me">{{ event.description|truncatewords:30 }}</span>
+            
+            <div class="event-details">
+              <span class="label">Date:</span>
+              <span class="value">{{ event.date_time|date:"M d, Y, g:i a" }}</span>
+              
+              <span class="label">Location:</span>
+              <span class="value">{{ event.location }}</span>
+              
+              <span class="label">Attendees:</span>
+              <span class="value">{{ event.participants.count }} people attending</span>
+            </div>
+          </div>
+          <div class="bottom-bottom">
+            <span class="event-mtitle">
+              {{ event.title|truncatechars:10 }}
+            </span>
+            <button 
+            data-user-id="{{ request.user.id }}" 
+            class="join-button" {% if event.user_has_joined %}disabled{% endif %}>
+              {% if event.user_has_joined %}Joined{% else %}Join ${{ event.price }}{% endif %}
+            </button>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p>No paid events available.</p>
+      {% endfor %}
+    </div>
+  </div>
+  {% if paid_events %}
+  <div class="carousel-controls">
+    <button class="carousel-button" id="paid-prev" disabled>←</button>
+    <button class="carousel-button" id="paid-next">→</button>
+  </div>
+  {% endif %}
+  <div class="browse-more-container">
+    {% if request.user.is_authenticated %}
+      <a href="{% url 'event:all-free-events' %}" class="browse-more-button" style="text-decoration: none;">Browse More</a>
+    {% else %}
+      <a href="{% url 'users:user-login' %}?next={% url 'event:all-free-events' %}" class="browse-more-button" style="text-decoration: none;">Browse More</a>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Non-Paid Events Section -->
+<div class="events-section two">
+  <h2><span class="title-part1">Embrace Vibrant Community</span> <span class="title-part2">Celebrations</span></h2>
+  <div class="carousel-container" id="non-paid-events-carousel">
+    <div class="carousel" id="non-paid-events-track">
+      {% for event in non_paid_events %}
+      <div class="card" data-event-id="{{ event.id }}">
+        <div class="profile-area" data-recipient-id="{{ event.creator.id }}">
+          <div style="display: flex; flex-direction: column; align-items: flex-end;">
+            <span class="profile-name">{{ event.creator.username }}</span>
+            <button class="message-button">Message</button>
+            <span class="status online">{{ event.event_type }}</span>
+          </div>
+          <button class="profile-button">
+            <div class="profile-icon">
+              <img src="{{ event.creator.profile_picture.url }}" alt="Profile Icon">
+            </div>
+          </button>
+        </div>
+        <div class="date-badge">
+          <span class="countdown-label">Closes in:</span>
+          <span class="countdown-timer" data-datetime="{{ event.date_time|date:'Y-m-d H:i:s' }}"></span>
+        </div>
+        <div class="event-image">
+          <img src="{% if event.image %}{{ event.image.url }}{% else %}/static/images/default_event.jpg{% endif %}" alt="Event Image">
+        </div>
+        <div class="bottom">
+          <div class="content">
+            <span class="name">{{ event.title }}</span>
+            <span class="about-me">{{ event.description|truncatewords:30 }}</span>
+            
+            <div class="event-details">
+              <span class="label">Date:</span>
+              <span class="value">{{ event.date_time|date:"M d, Y, g:i a" }}</span>
+              
+              <span class="label">Location:</span>
+              <span class="value">{{ event.location }}</span>
+              
+              <span class="label">Attendees:</span>
+              <span class="value">{{ event.participants.count }} people attending</span>
+            </div>
+          </div>
+          <div class="bottom-bottom">
+            <span class="event-mtitle">
+              {{event.title|truncatechars:10}}
+            </span>
+            <button
+              data-user-id="{{ request.user.id }}" 
+              class="join-button" {% if event.user_has_joined %}disabled{% endif %}>
+              {% if event.user_has_joined %}Joined{% else %}Join Event{% endif %}
+            </button>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p>No free events available.</p>
+      {% endfor %}
+    </div>
+  </div>
+  {% if non_paid_events %}
+  <div class="carousel-controls">
+    <button class="carousel-button" id="non-paid-prev" disabled>←</button>
+    <button class="carousel-button" id="non-paid-next">→</button>
+  </div>
+  {% endif %}
+  <div class="browse-more-container">
+    {% if request.user.is_authenticated %}
+      <a href="{% url 'event:all-free-events' %}" class="browse-more-button" style="text-decoration: none;">Browse More</a>
+    {% else %}
+      <a href="{% url 'users:user-login' %}?next={% url 'event:all-free-events' %}" class="browse-more-button" style="text-decoration: none;">Browse More</a>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Message Modal (Add this if it doesn't exist) -->
+<div id="messageModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-recipient">
+        <img id="recipientAvatar" src="/api/placeholder/40/40" alt="Recipient">
+        <h3 id="messageModalTitle">Send Message</h3>
+      </div>
+      <button class="close-modal-btn">&times;</button>
+    </div>
+    <div class="modal-body">
+      <textarea id="messageContent" placeholder="Type your message here..."></textarea>
+    </div>
+    <div class="modal-footer">
+      <button id="sendMessageBtn">Send</button>
+    </div>
+  </div>
+</div>
+
+<!-- Upgrade Modal (Add this if it doesn't exist) -->
+<div id="upgradeModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Upgrade Required</h3>
+      <button class="close-upgrade-btn">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p>You need to upgrade your account to upgrade to send messages.</p>
+    </div>
+    <div class="modal-footer">
+      <button id="upgradeBtn">Upgrade Now</button>
+      <button class="cancel-btn">Cancel</button>
+    </div>
+  </div>
+</div>

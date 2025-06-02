@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Reviews</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    body {
+      background-color: #f3f4f6;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .ur-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .ur-section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .ur-title {
+      font-size: 2rem;
+      color: #333333;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    .ur-subtitle {
+      color: #666666;
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .ur-accent-line {
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, #F80A4A, #0AA4F8);
+      margin: 0 auto;
+      border-radius: 2px;
+    }
+
+    .ur-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    /* Card Style */
+    .ur-card {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      color: #ffffff;
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),;
+      border-radius: 0.5rem;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .ur-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .ur-content {
+      padding: 1.5rem;
+    }
+
+    .ur-status-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 1rem;
+      font-size: 0.8rem;
+      font-weight: bold;
+      color: white;
+      z-index: 10;
+    }
+
+    .ur-row {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: 0.8rem;
+    }
+
+    .ur-event-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 0;
+      line-height: 1.3;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .ur-date {
+      display: flex;
+      align-items: center;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      width: 100%;
+    }
+
+    .ur-date i {
+      margin-right: 0.5rem;
+      color: #0AA4F8;
+    }
+
+    .ur-description {
+      color: #ffffff;
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 1.5;
+    }
+
+    .ur-divider {
+      height: 1px;
+      background-color: rgba(255, 255, 255, 0.2);
+      margin: 1rem 0;
+    }
+
+    /* Rating section */
+    .ur-rating-section {
+      padding-top: 0.5rem;
+    }
+
+    .ur-rated {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+      background: linear-gradient(to bottom, rgba(123, 101, 169, 0.5), rgba(159, 130, 185, 0.5));
+      border-radius: 0.8rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(5px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .ur-rated-label {
+      font-size: 0.95rem;
+      color: #4ADE80;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.8rem;
+    }
+
+    .ur-rated-label i {
+      margin-right: 0.4rem;
+      font-size: 1.1rem;
+    }
+
+    .ur-stars {
+      color: #FFC107;
+      font-size: 1.3rem;
+      letter-spacing: 0.2rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 5px rgba(255, 193, 7, 0.3);
+    }
+
+    .ur-comment {
+      font-style: italic;
+      font-size: 0.9rem;
+      color: white;
+      text-align: center;
+      background-color: rgba(0, 0, 0, 0.3);
+      padding: 0.8rem;
+      border-radius: 0.5rem;
+      border-left: 3px solid #0AA4F8;
+      width: 90%;
+      margin: 0 auto;
+    }
+
+    /* Buttons */
+    .ur-buttons {
+      display: flex;
+      justify-content: center;
+      margin-top: 0.5rem;
+    }
+
+    .ur-btn {
+      padding: 0.7rem 1.5rem;
+      border-radius: 0.5rem;
+      border: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .ur-btn i {
+      margin-right: 0.5rem;
+    }
+
+    .ur-btn-rate {
+      background: linear-gradient(90deg, #F80A4A, #0AA4F8);
+      color: white;
+    }
+
+    .ur-btn-rate:hover {
+      box-shadow: 0 5px 15px rgba(10, 164, 248, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .ur-empty {
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+
+    .ur-empty-text {
+      color: #666666;
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .ur-btn-join {
+      background: linear-gradient(90deg, #F80A4A, #0AA4F8);
+      color: white;
+      padding: 0.8rem 2rem;
+      display: inline-flex;
+      margin: 0 auto;
+    }
+
+    .ur-btn-join:hover {
+      box-shadow: 0 5px 15px rgba(10, 164, 248, 0.3);
+      transform: translateY(-2px);
+    }
+
+    /* Modal styling */
+    .ur-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(5px);
+    }
+
+    .ur-modal.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .ur-modal-content {
+      background: linear-gradient(rgba(25, 25, 35, 0.9), rgba(15, 15, 25, 0.9));
+      color: #ffffff;
+      border-radius: 0.8rem;
+      width: 90%;
+      max-width: 500px;
+      padding: 2rem;
+      transform: scale(0.8);
+      transition: all 0.3s ease;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .ur-modal.show .ur-modal-content {
+      transform: scale(1);
+    }
+
+    .ur-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .ur-modal-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #ffffff;
+      background: linear-gradient(90deg, #F80A4A, #0AA4F8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .ur-modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #ffffff;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+    }
+
+    .ur-modal-close:hover {
+      opacity: 1;
+      transform: rotate(90deg);
+      transition: all 0.3s ease;
+    }
+
+    .ur-modal-body {
+      margin-bottom: 1.5rem;
+    }
+
+    .ur-star-rating {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .ur-star-rating .star {
+      font-size: 2.2rem;
+      color: #6c757d;
+      cursor: pointer;
+      margin: 0 0.3rem;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .ur-star-rating .star:hover {
+      transform: scale(1.3);
+    }
+
+    .ur-rating-feedback {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .ur-modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+    }
+
+    .ur-modal-btn {
+      padding: 0.7rem 1.5rem;
+      border-radius: 0.5rem;
+      border: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .ur-modal-btn-close {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+
+    .ur-modal-btn-close:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .ur-modal-btn-submit {
+      background: linear-gradient(90deg, #F80A4A, #0AA4F8);
+      color: white;
+    }
+
+    .ur-modal-btn-submit:hover {
+      box-shadow: 0 5px 15px rgba(10, 164, 248, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .ur-modal-textarea {
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 0.5rem;
+      padding: 0.8rem;
+      font-size: 0.9rem;
+      color: #ffffff;
+      resize: none;
+      height: 100px;
+      margin-bottom: 1rem;
+    }
+
+    .ur-modal-textarea::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .ur-modal-textarea:focus {
+      outline: none;
+      border-color: #0AA4F8;
+      box-shadow: 0 0 0 2px rgba(10, 164, 248, 0.2);
+    }
+
+    .ur-modal-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* Media queries for responsiveness */
+    @media (max-width: 768px) {
+      .ur-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      }
+    }
+
+    @media (max-width: 480px) {
+      .ur-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .ur-container {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="ur-container">
+  <div class="ur-section-header">
+    <h2 class="ur-title">Your Reviews</h2>
+    <p class="ur-subtitle">Your feedback is valuable and helps us improve experiences for everyone</p>
+    <div class="ur-accent-line"></div>
+  </div>
+
+  {% if eventjoined_over %}
+    <div class="ur-grid">
+      {% for i in eventjoined_over %}
+        <div class="ur-card" data-event-id="{{ i.id }}" style="background-image: url({{i.image.url}}); background-repeat: no-repeat; background-size: cover; background-position: center; background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),">
+          <div class="ur-content">
+            <div class="ur-row">
+              <h3 class="ur-event-title">{{ i.title }}</h3>
+            </div>
+            
+            <div class="ur-row">
+              <div class="ur-date">
+                <i class="far fa-calendar-alt"></i>
+                <span>{{ i.date_time }}</span>
+              </div>
+            </div>
+            
+            <p class="ur-description">{{ i.description }}</p>
+            
+            <div class="ur-divider"></div>
+            
+            <div class="ur-rating-section">
+              {% with has_rated=False %}
+                {% for rating in user_ratings %}
+                  {% if rating.event.id == i.id %}
+                    {% with has_rated=True %}
+                      <div class="ur-rated">
+                        <div class="ur-rated-label">
+                          <i class="fa-solid fa-check-circle"></i> You've rated this event
+                        </div>
+                        <div class="ur-stars">
+                          {% for _ in "12345" %}
+                            {% if forloop.counter <= rating.rating %}
+                              <i class="fa-solid fa-star"></i>
+                            {% else %}
+                              <i class="fa-regular fa-star"></i>
+                            {% endif %}
+                          {% endfor %}
+                        </div>
+                        {% if rating.comment and rating.comment != "No comment" %}
+                          <div class="ur-comment">
+                            "{{ rating.comment }}"
+                          </div>
+                        {% endif %}
+                      </div>
+                    {% endwith %}
+                  {% endif %}
+                {% endfor %}
+                
+                {% if not has_rated %}
+                  <div class="ur-buttons">
+                    <a href="javascript:void(0)" class="ur-btn ur-btn-rate" onclick="openRatingModal({{ i.id }})">
+                      <i class="fa-solid fa-star"></i> Rate This Event
+                    </a>
+                  </div>
+                {% endif %}
+              {% endwith %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="ur-empty">
+      <p class="ur-empty-text">You haven't joined any events yet. Discover events and share your experiences!</p>
+      <a href="/" class="ur-btn ur-btn-join">
+        <i class="fa-solid fa-calendar-plus"></i> Find Events
+      </a>
+    </div>
+  {% endif %}
+</div>
+
+<!-- Modal Design -->
+<div class="ur-modal" id="ratingModal">
+  <div class="ur-modal-content">
+    <div class="ur-modal-header">
+      <h2 class="ur-modal-title">Rate Event</h2>
+      <button class="ur-modal-close" id="modalCloseBtn">&times;</button>
+    </div>
+    <div class="ur-modal-body">
+      <div class="ur-star-rating">
+        <i class="fas fa-star star" data-value="1"></i>
+        <i class="fas fa-star star" data-value="2"></i>
+        <i class="fas fa-star star" data-value="3"></i>
+        <i class="fas fa-star star" data-value="4"></i>
+        <i class="fas fa-star star" data-value="5"></i>
+      </div>
+      <p class="ur-rating-feedback">Select a rating by clicking a star</p>
+      <label class="ur-modal-label" for="ratingComment">Your Review (Optional)</label>
+      <textarea class="ur-modal-textarea" id="ratingComment" placeholder="Share your experience..."></textarea>
+    </div>
+    <div class="ur-modal-footer">
+      <button class="ur-modal-btn ur-modal-btn-close" id="cancelRating">Cancel</button>
+      <button class="ur-modal-btn ur-modal-btn-submit" id="submitRating">Submit Review</button>
+    </div>
+  </div>
+</div>
+
+<script src="/static/js/review.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+document.addEventListener('DOMContentLoaded', function() {
+  // Toggle between monthly and yearly billing
+  const monthlyButton = document.querySelector('[data-billing="monthly"]');
+  const yearlyButton = document.querySelector('[data-billing="yearly"]');
+  const monthlyPrices = document.querySelectorAll('.monthly-price');
+  const yearlyPrices = document.querySelectorAll('.yearly-price');
+  
+  if (monthlyButton && yearlyButton) {
+    monthlyButton.addEventListener('click', function() {
+      monthlyButton.classList.add('active');
+      yearlyButton.classList.remove('active');
+      
+      monthlyPrices.forEach(price => {
+        price.classList.remove('hidden');
+        price.style.display = 'block'; // Explicitly show
+      });
+      
+      yearlyPrices.forEach(price => {
+        price.classList.add('hidden');
+        price.style.display = 'none'; // Explicitly hide
+      });
+    });
+    
+    yearlyButton.addEventListener('click', function() {
+      yearlyButton.classList.add('active');
+      monthlyButton.classList.remove('active');
+      
+      yearlyPrices.forEach(price => {
+        price.classList.remove('hidden');
+        price.style.display = 'block'; // Explicitly show
+      });
+      
+      monthlyPrices.forEach(price => {
+        price.classList.add('hidden');
+        price.style.display = 'none'; // Explicitly hide
+      });
+    });
+  }
+  
+  // Add hover effects for pricing cards
+  const pricingCards = document.querySelectorAll('.pricing-card');
+  
+  pricingCards.forEach(card => {
+    card.addEventListener('mouseenter', function() {
+      if (!card.classList.contains('featured')) {
+        card.style.transform = 'translateY(-5px)';
+      } else {
+        card.style.transform = 'translateY(-5px) scale(1.05)';
+      }
+    });
+    
+    card.addEventListener('mouseleave', function() {
+      if (!card.classList.contains('featured')) {
+        card.style.transform = 'translateY(0)';
+      } else {
+        card.style.transform = 'scale(1.05)';
+      }
+    });
+  });
+});
