@@ -52,12 +52,12 @@ def Admin_Event_reject(request,id):
 
 
 def events_created_over_time(request):
-    period = request.GET.get('period', 'monthly')  # Default to monthly
+    period = request.GET.get('period', 'monthly')  
     if period == 'daily':
         data = Event.objects.annotate(date=TruncDay('created_at')).values('date').annotate(count=Count('id')).order_by('date')
     elif period == 'yearly':
         data = Event.objects.annotate(date=TruncYear('created_at')).values('date').annotate(count=Count('id')).order_by('date')
-    else:  # monthly
+    else:  
         data = Event.objects.annotate(date=TruncMonth('created_at')).values('date').annotate(count=Count('id')).order_by('date')
     labels = [item['date'].strftime('%Y-%m-%d') if period == 'daily' else item['date'].strftime('%Y-%m') for item in data]
     counts = [item['count'] for item in data]
@@ -80,7 +80,7 @@ def new_user_registration(request):
         data = CustomUser.objects.annotate(date=TruncDay('date_joined')).values('date').annotate(count=Count('id')).order_by('date')
     elif period == 'yearly':
         data = CustomUser.objects.annotate(date=TruncYear('date_joined')).values('date').annotate(count=Count('id')).order_by('date')
-    else:  # monthly
+    else:  
         data = CustomUser.objects.annotate(date=TruncMonth('date_joined')).values('date').annotate(count=Count('id')).order_by('date')
     labels = [item['date'].strftime('%Y-%m-%d') if period == 'daily' else item['date'].strftime('%Y-%m') for item in data]
     counts = [item['count'] for item in data]
@@ -196,7 +196,6 @@ def Banneduser(request):
         reason = request.POST.get('reason')
         uploaded_file = request.FILES.get('proof')
         
-        # Check if username exists
         if not CustomUser.objects.filter(username__iexact=username).exists():
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
                 return JsonResponse({
@@ -210,7 +209,7 @@ def Banneduser(request):
                     'message': 'Username does not exist, please check and try again.'
                 })
         
-        # Check if email exists
+
         elif not CustomUser.objects.filter(email__iexact=email).exists():
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
                 return JsonResponse({
@@ -224,7 +223,7 @@ def Banneduser(request):
                     'message': 'Your email does not exist in our system.'
                 })
         
-        # Check if username and email belong to the same user
+
         user_by_username = CustomUser.objects.filter(username__iexact=username).first()
         user_by_email = CustomUser.objects.filter(email__iexact=email).first()
         
@@ -241,7 +240,6 @@ def Banneduser(request):
                     'message': 'Username and email do not match the same account.'
                 })
         
-        # Check if user is actually banned
         if not user_by_username.is_banned:
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
                 return JsonResponse({
@@ -255,7 +253,6 @@ def Banneduser(request):
                     'message': 'This account is not currently banned.'
                 })
         
-        # Check if user has already submitted an appeal recently (optional)
         recent_appeal = Appeal.objects.filter(
             username__iexact=username,
             submitted_at__gte=now - timezone.timedelta(days=7)
@@ -275,9 +272,9 @@ def Banneduser(request):
                 })
         
         try:
-            # Create the appeal
+            
             appeal = Appeal.objects.create(
-                user=user_by_username,  # Add the user relationship
+                user=user_by_username,  
                 username=username,
                 email=email,
                 subject=subject,
@@ -285,9 +282,7 @@ def Banneduser(request):
                 submitted_at=now,
                 uploaded_file=uploaded_file
             )
-            
-            # Log the appeal submission (optional)
-            # You might want to create a log entry here
+
             
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
                 return JsonResponse({
@@ -332,7 +327,7 @@ def revoke_ban(request,user_id):
 def view_events(request):
     now = timezone.now()
     
-    # Active Events (with date_time__gte=now reintroduced)
+
     active_events = Event.objects.filter(
         status='active',
         is_active=True,
@@ -341,7 +336,7 @@ def view_events(request):
         attendee_count=Count('participants', filter=Q(participants__status='confirmed'))
     ).select_related('creator').order_by('date_time')
     
-    # Completed Events
+
     completed_events = Event.objects.filter(
         date_time__lt=now,
         status='completed',
@@ -351,14 +346,14 @@ def view_events(request):
         average_rating=Avg('rating__rating')
     ).select_related('creator').order_by('-date_time')
     
-    # Cancelled Events
+
     cancelled_events = Event.objects.filter(
         Q(status='cancelled') | Q(is_active=False)
     ).annotate(
         attendee_count=Count('participants')
     ).select_related('creator').order_by('-canceled_at', '-created_at')
     
-    # Format data for template
+
     active_events_data = [{
         'id': event.id,
         'title': event.title,
@@ -417,7 +412,7 @@ def get_users(request):
     user_data = [
         {
             'id': user.id,
-            'username': user.username or f'user_{user.id}',  # Fallback for null/empty username
+            'username': user.username or f'user_{user.id}',  
             'email': user.email,
             'user_type': user.user_type,
             'profile_picture': user.profile_picture.url if user.profile_picture else '/media/profile_pics/default.jpg',
@@ -430,10 +425,10 @@ def get_users(request):
 
 def get_user_details(request, user_id):
     try:
-        # Fetch the user with minimal database queries
+
         user = CustomUser.objects.get(id=user_id)
 
-        # Fetch message counts and group message details
+
         messages = Message.objects.filter(sender=user).select_related('event')
         direct_message_count = messages.filter(message_type='direct').count()
         group_messages = messages.filter(message_type='group')
@@ -449,12 +444,12 @@ def get_user_details(request, user_id):
             for detail in group_message_details
         ]
 
-        # Fetch posts, likes, and comments
+
         posts = CommunityPost.objects.filter(user=user)
         total_posts = posts.count()
         total_likes = posts.aggregate(total_likes=Sum('like_count'))['total_likes'] or 0
 
-        # Fetch and paginate comments
+
         comments = Comment.objects.filter(post__in=posts).order_by('-created_at')
         total_comments = comments.count()
         comments_per_page = 5
@@ -463,7 +458,7 @@ def get_user_details(request, user_id):
         try:
             page_obj = paginator.page(page_number)
         except EmptyPage:
-            # If page is out of range, return the last page
+
             page_obj = paginator.page(paginator.num_pages)
         paginated_comments = [
             {
@@ -473,7 +468,7 @@ def get_user_details(request, user_id):
             for comment in page_obj
         ]
 
-        # Fetch events the user left
+
         events_left = EventParticipant.objects.filter(user=user, status='canceled').select_related('event')
         events_left_data = [
             {
@@ -483,14 +478,14 @@ def get_user_details(request, user_id):
             for participant in events_left
         ]
 
-        # Prepare response data
+
         response_data = {
             'user': {
-                'username': user.username,  # Add username
-                'profile_picture': user.profile_picture.url if user.profile_picture else '/media/profile_pics/default.jpg',  # Add profile_picture
+                'username': user.username, 
+                'profile_picture': user.profile_picture.url if user.profile_picture else '/media/profile_pics/default.jpg',  
                 'full_name': user.full_name if hasattr(user, 'full_name') else f"{user.first_name} {user.last_name}".strip() or 'N/A',
                 'email': user.email,
-                'user_type': user.user_type or 'N/A',  # Add user_type for modal header
+                'user_type': user.user_type or 'N/A',  
                 'events_created': user.event_created_count,
                 'events_attended': user.event_attended_count,
             },
@@ -520,7 +515,7 @@ def get_user_details(request, user_id):
     except CustomUser.DoesNotExist:
         raise Http404("User does not exist")
     except Exception as e:
-        # Log unexpected errors for debugging (in production, use proper logging)
+
         print(f"Error in get_user_details: {str(e)}")
         return JsonResponse({'error': 'An unexpected error occurred'}, status=500)
     
@@ -531,7 +526,7 @@ def reset_password(request):
         username = request.POST.get('username')
         email = request.POST.get('email')
 
-        # Check if username exists
+
         user_by_username = CustomUser.objects.filter(username__iexact=username).first()
         if not user_by_username:
             return JsonResponse({
@@ -542,7 +537,7 @@ def reset_password(request):
                 request, 'admin/forgetpassword.html', {'error': 'username_not_exists', 'message': 'Username does not exist.'}
             )
 
-        # Check if email exists
+
         user_by_email = CustomUser.objects.filter(email__iexact=email).first()
         if not user_by_email:
             return JsonResponse({
@@ -553,7 +548,7 @@ def reset_password(request):
                 request, 'admin/forgetpassword.html', {'error': 'email_not_exists', 'message': 'Email does not exist.'}
             )
 
-        # Check if they refer to the same user
+
         if user_by_username != user_by_email:
             return JsonResponse({
                 'success': False,
@@ -563,20 +558,20 @@ def reset_password(request):
                 request, 'admin/forgetpassword.html', {'error': 'user_mismatch', 'message': 'Username and email do not match.'}
             )
 
-        user = user_by_username  # now confirmed to be the same
+        user = user_by_username  
 
-        # Create a password reset token
+
         token = PasswordResetToken.objects.create(
             user=user,
             token=uuid.uuid4(),
             expires_at=timezone.now() + timedelta(minutes=30)
         )
 
-        # Create reset link
+
         reset_link = f"http://127.0.0.1:8000/dashboard/reset-password-form/?token={token.token}"
 
 
-        # Send reset email
+
         send_mail(
             subject="Password Reset Request",
             message=f"Click the following link to reset your password:\n{reset_link}",
@@ -606,7 +601,7 @@ def reset_password_confirm(request):
         new_password = request.POST.get("new_password")
         confirm_password = request.POST.get("confirm_password")
 
-        # Basic validations
+
         if not all([token_value, new_password, confirm_password]):
             return render(request, "reset_password_form.html", {
                 "error": "Missing required fields.",
@@ -638,11 +633,11 @@ def reset_password_confirm(request):
 
         user = token.user
 
-        # Update user's password
+        
         user.password = make_password(new_password)
         user.save()
 
-        # Mark token as used
+       
         token.used = True
         token.save()
 

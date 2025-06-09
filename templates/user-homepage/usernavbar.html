@@ -1,14 +1,27 @@
 {% load static %}
+<!-- DESKTOP NAV TOGGLE BUTTON (Visible on desktop) -->
+<div class="ez-nav-toggle-btn">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+
+<!-- MOBILE MENU TOGGLE BUTTON (Visible on mobile) -->
+<div class="ez-mobile-menu-btn">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+
+<!-- NAVBAR -->
 <nav class="ez-navbar ez-collapsed">
   <div class="ez-logo-container">
     <a href="/" class="ez-logo">EvenzA</a>
   </div>
-  <div class="ez-mobile-menu-btn">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
+  
   <div class="ez-menu-overlay"></div>
+  
+  <!-- DESKTOP NAVIGATION -->
   <div class="ez-desktop-nav">
     <ul>
       {% if request.user.is_authenticated %}
@@ -62,6 +75,8 @@
       {% endif %}
     </ul>
   </div>
+  
+  <!-- MOBILE NAVIGATION -->
   <div class="ez-mobile-nav">
     <ul>
       {% if request.user.is_authenticated %}
@@ -95,7 +110,7 @@
         <a href="{% url 'communitypost:community_feed' %}" class="ez-nav-link" style="--item-index: 5;"><i class="fas fa-users"></i>Community</a>
       </li>
       <li>
-        <a href="{% url 'message:messages_home' %}" class="ez-nav-link" style="--item-index: 6;"><i class="fas fa-calendar-alt"></i>message</a>
+        <a href="{% url 'message:messages_home' %}" class="ez-nav-link" style="--item-index: 6;"><i class="fas fa-calendar-alt"></i>Message</a>
       </li>
       {% if request.user.is_authenticated %}
         <li>
@@ -116,8 +131,3 @@
     </ul>
   </div>
 </nav>
-<div class="ez-nav-toggle-btn">
-  <span></span>
-  <span></span>
-  <span></span>
-</div>

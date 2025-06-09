@@ -87,16 +87,16 @@ def EventDetailsJoiner(request):
 
 def EventDetailsCreator(request):
     if request.method == 'POST':
-        # Get counts
+   
         paid_events_count = Event.objects.filter(creator=request.user, is_paid=True).count()
         private_events_count = Event.objects.filter(creator=request.user, visibility='private').count()
         
-        # Get form data
-        is_paid_str = request.POST.get('isPaid')  # Form field name is 'isPaid'
-        is_paid = is_paid_str == 'yes'  # Form sends 'yes'/'no', not 'True'/'False'
+
+        is_paid_str = request.POST.get('isPaid')  
+        is_paid = is_paid_str == 'yes' 
         visibility = request.POST.get('visibility')
         
-        # Check limits before processing
+
         if paid_events_count >= 3 and is_paid:
             return JsonResponse({
                 'success': False,
@@ -109,7 +109,7 @@ def EventDetailsCreator(request):
                 'message': "You've reached the limit of 5 private event creation."
             })
         
-        # Process form data
+
         try:
             title = request.POST.get('title')
             date_time = request.POST.get('date_time')
@@ -122,7 +122,7 @@ def EventDetailsCreator(request):
             default_image = request.POST.get('default_image')
             status = 'pending'
             
-            # Create event
+
             eventcreated = Event.objects.create(
                 creator=request.user,
                 title=title,
@@ -137,13 +137,13 @@ def EventDetailsCreator(request):
                 price=price
             )
             
-            # Handle event code for private events
+ 
             event_code = None
             if visibility == 'private':
-                event_code = generate_event_code()  # Make sure this function exists
+                event_code = generate_event_code()  
                 eventcreated.event_code = event_code
                          
-            # Handle image
+
             if image:
                 eventcreated.image = image
             elif default_image and default_image != 'main.jpg':
@@ -151,19 +151,19 @@ def EventDetailsCreator(request):
                          
             eventcreated.save()
                          
-            # Create activity record
+
             UserActivity.objects.create(
                 user=eventcreated.creator,
                 activity_type='event_created',
                 description=f'Created "{eventcreated.title}"'
             )
             
-            # Update user event count
+
             user = CustomUser.objects.get(id=request.user.id)
             user.event_created_count = (user.event_created_count or 0) + 1
             user.save()
             
-            # Prepare success message
+
             message = "Event created successfully! Please wait for admin approval."
             if visibility == 'private' and event_code:
                 message += f" Your event code is: {event_code}"
@@ -195,7 +195,7 @@ def generate_event_code(length=6):
 
 def EventDetailsPremiumCreator(request):
     if request.method == 'POST':
-        # Get form data
+
         title = request.POST.get('title')
         date_time = request.POST.get('date_time')
         location = request.POST.get('location')
@@ -209,7 +209,7 @@ def EventDetailsPremiumCreator(request):
         default_image = request.POST.get('default_image')
         
         try:
-            # Create event
+
             eventcreated = Event.objects.create(
                 creator=request.user,
                 title=title,
@@ -226,14 +226,14 @@ def EventDetailsPremiumCreator(request):
                 created_at=timezone.now()
             )
             
-            # Handle event code for private events
+
             if visibility == 'private':
                 event_code = request.POST.get('event_code')
                 if not event_code:
-                    event_code = generate_event_code()  # Ensure this function exists
+                    event_code = generate_event_code()  
                 eventcreated.event_code = event_code
             
-            # Handle image
+
             if image:
                 eventcreated.image = image
             elif default_image and default_image != 'None':
@@ -241,19 +241,19 @@ def EventDetailsPremiumCreator(request):
             
             eventcreated.save()
             
-            # Create activity record
+
             UserActivity.objects.create(
                 user=eventcreated.creator,
                 activity_type='event_created',
                 description=f'Created "{eventcreated.title}"'
             )
             
-            # Update user event count
+
             user = CustomUser.objects.get(id=request.user.id)
             user.event_created_count = (user.event_created_count or 0) + 1
             user.save()
             
-            # Prepare success message
+
             message = "Event created successfully! Please wait for admin approval."
             if visibility == 'private' and event_code:
                 message += f" Your event code is: {event_code}"
@@ -336,7 +336,7 @@ def leave_event(request, event_id):
                 event = get_object_or_404(Event, id=event_id)
                 participant = EventParticipant.objects.get(event=event, user=request.user)
                 
-                # Handle JSON request body
+
                 if request.content_type == 'application/json':
                     data = json.loads(request.body)
                     cancellation_reason = data.get('cancellation_reason', 'User left the event')
@@ -354,7 +354,7 @@ def leave_event(request, event_id):
                     description=f"Left event: {event.title}",
                 )
                 
-                # Promote the next waitlisted user
+
                 current_participants = EventParticipant.objects.filter(event=event, status='confirmed').count()
                 if event.capacity and current_participants < event.capacity:
                     next_waitlisted = EventParticipant.objects.filter(
@@ -369,16 +369,16 @@ def leave_event(request, event_id):
                         next_waitlisted.payment_amount = event.price if event.is_paid else None
                         next_waitlisted.save()
                         
-                        # Record activity for promotion
+
                         UserActivity.objects.create(
                             user=next_waitlisted.user,
                             activity_type='event_joined',
                             description=f"Promoted from waitlist to confirmed for event: {event.title}",
                         )
                         
-                        # Send confirmation email to promoted user with error handling
+
                         try:
-                            payment_url = None  # Placeholder for payment URL, replace with actual logic if needed
+                            payment_url = None  
                             subject = f"Confirmed: You're In for {event.title}!"
                             message = render_to_string('emails/event_confirmed_email.html', {
                                 'user': next_waitlisted.user,
@@ -390,17 +390,17 @@ def leave_event(request, event_id):
                             })
                             send_mail(
                                 subject=subject,
-                                message='',  # Plain text message (empty since we're using HTML)
-                                from_email=None,  # Uses DEFAULT_FROM_EMAIL from settings.py
+                                message='',  
+                                from_email=None,  
                                 recipient_list=[next_waitlisted.user.email],
                                 html_message=message,
-                                fail_silently=True,  # Changed to True to prevent email errors from breaking the flow
+                                fail_silently=True,  
                             )
                         except Exception as email_error:
-                            # Log the email error but don't fail the entire operation
+                            
                             print(f"Email sending failed: {email_error}")
                         
-                        # Update waitlist positions
+                        
                         remaining_waitlisted = EventParticipant.objects.filter(
                             event=event,
                             status='waitlisted'
@@ -491,28 +491,28 @@ def join_event_api(request, event_id):
             
             payment_status = 'pending' if event.is_paid else 'not_required'
             payment_amount = event.price if event.is_paid else None
-            payment_url = None  # Placeholder for payment URL, replace with actual logic if needed
+            payment_url = None 
             
             if event.capacity and current_participants >= event.capacity:
-                # Add to waitlist
+ 
                 next_position = waitlist_count + 1 if waitlist_count else 1
                 participant = EventParticipant.objects.create(
                     user=request.user,
                     event=event,
                     status='waitlisted',
                     waitlist_position=next_position,
-                    payment_status='not_required',  # Payment not required until confirmed
+                    payment_status='not_required',  
                     payment_amount=None
                 )
                 
-                # Create activity record
+
                 UserActivity.objects.create(
                     user=request.user,
                     activity_type='event_waitlisted',
                     description=f"Added to waitlist for event: {event.title}",
                 )
                 
-                # Send waitlist email with error handling
+
                 try:
                     subject = f"You're on the Waitlist for {event.title}"
                     message = render_to_string('emails/event_waitlisted_email.html', {
@@ -523,14 +523,14 @@ def join_event_api(request, event_id):
                     })
                     send_mail(
                         subject=subject,
-                        message='',  # Plain text message (empty since we're using HTML)
-                        from_email=None,  # Uses DEFAULT_FROM_EMAIL from settings.py
+                        message='',  
+                        from_email=None,  
                         recipient_list=[request.user.email],
                         html_message=message,
-                        fail_silently=True,  # Changed to True to prevent email errors from breaking the flow
+                        fail_silently=True, 
                     )
                 except Exception as email_error:
-                    # Log the email error but don't fail the entire operation
+
                     print(f"Email sending failed: {email_error}")
                 
                 return JsonResponse({
@@ -540,7 +540,7 @@ def join_event_api(request, event_id):
                     'waitlist_position': next_position
                 })
             
-            # Add as confirmed participant
+
             participant = EventParticipant.objects.create(
                 user=request.user,
                 event=event,
@@ -549,38 +549,38 @@ def join_event_api(request, event_id):
                 payment_amount=payment_amount
             )
             
-            # Create activity record
+ 
             UserActivity.objects.create(
                 user=request.user,
                 activity_type='event_joined',
                 description=f"Joined event: {event.title}",
             )
             
-            # Update user event count
+
             user = CustomUser.objects.get(id=request.user.id)
             user.event_attended_count += 1
             user.save()
             
-            # Send confirmation email with error handling
+
             try:
                 subject = f"Participation Confirmed for {event.title}"
                 message = render_to_string('emails/event_confirmed_email.html', {
                     'user': request.user,
                     'event': event,
                     'participant': participant,
-                    'payment_url': payment_url,  # Replace with actual payment URL if available
+                    'payment_url': payment_url,  
                     'current_year': timezone.now().year
                 })
                 send_mail(
                     subject=subject,
-                    message='',  # Plain text message (empty since we're using HTML)
-                    from_email=None,  # Uses DEFAULT_FROM_EMAIL from settings.py
+                    message='',  
+                    from_email=None,  
                     recipient_list=[request.user.email],
                     html_message=message,
-                    fail_silently=True,  # Changed to True to prevent email errors from breaking the flow
+                    fail_silently=True,  
                 )
             except Exception as email_error:
-                # Log the email error but don't fail the entire operation
+
                 print(f"Email sending failed: {email_error}")
             
             return JsonResponse({
@@ -597,17 +597,17 @@ def join_event_api(request, event_id):
 
 
 def cancel_event(request, event_id):
-    # Check if user is authenticated
+
     if not request.user.is_authenticated:
         return JsonResponse({'success': False, 'message': 'Authentication required.'}, status=401)
     
     try:
-        # Get the event and verify the user is the creator
+        
         event = get_object_or_404(Event, id=event_id, creator=request.user)
         user_profile = request.user
         now = timezone.now()
         
-        # Handle get_fee_details action for paid events
+   
         if request.method == 'POST' and request.body:
             import json
             data = json.loads(request.body)
@@ -646,7 +646,7 @@ def cancel_event(request, event_id):
                     'fee_percentage': fee_percentage
                 })
         
-        # Existing cancellation logic
+
         if event.status == 'pending':
             event.delete()
             return JsonResponse({
@@ -731,33 +731,33 @@ def all_paid_events(request):
 
     if request.user.is_authenticated:
         try:
-            # Exclude events created by the user
+  
             active_events = active_events.exclude(creator=request.user)
             
-            # Exclude events where the user has joined
+
             joined_event_ids = EventParticipant.objects.filter(
                 user=request.user,
-                status='confirmed'  # Case-insensitive match
+                status='confirmed'  
             ).values_list('event_id', flat=True)
             active_events = active_events.exclude(id__in=joined_event_ids)
             
-            # Exclude events where the user canceled participation
+
             canceled_event_ids = EventParticipant.objects.filter(
                 user=request.user,
-                status='canceled'  # Case-insensitive match
+                status='canceled'  
             ).values_list('event_id', flat=True)
             active_events = active_events.exclude(id__in=canceled_event_ids)
         except Exception as e:
-            # Log the error for debugging (in a real app, use proper logging)
+
             print(f"Error filtering events: {e}")
-            # Fallback to showing no events to avoid incorrect data
+
             active_events = Event.objects.none()
     
 
     paid_events = active_events.filter(
         is_paid=True
     ).order_by(
-        '-creator__user_type',  # Premium first
+        '-creator__user_type',  
         'date_time'
     )
 
@@ -782,33 +782,33 @@ def all_free_events(request):
 
     if request.user.is_authenticated:
         try:
-            # Exclude events created by the user
+  
             active_events = active_events.exclude(creator=request.user)
             
-            # Exclude events where the user has joined
+
             joined_event_ids = EventParticipant.objects.filter(
                 user=request.user,
-                status='confirmed'  # Case-insensitive match
+                status='confirmed'  
             ).values_list('event_id', flat=True)
             active_events = active_events.exclude(id__in=joined_event_ids)
             
-            # Exclude events where the user canceled participation
+
             canceled_event_ids = EventParticipant.objects.filter(
                 user=request.user,
-                status='canceled'  # Case-insensitive match
+                status='canceled'  
             ).values_list('event_id', flat=True)
             active_events = active_events.exclude(id__in=canceled_event_ids)
         except Exception as e:
-            # Log the error for debugging (in a real app, use proper logging)
+
             print(f"Error filtering events: {e}")
-            # Fallback to showing no events to avoid incorrect data
+
             active_events = Event.objects.none()
     
     
     non_paid_events = active_events.filter(
         is_paid=False
     ).order_by(
-        '-creator__user_type',  # Premium first
+        '-creator__user_type', 
         'date_time'
     )
     

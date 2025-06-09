@@ -14,6 +14,8 @@ from decimal import Decimal
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
+# Create your views here.
+
 @login_required
 def select_plan(request, plan_type, user_id):
     if request.user.id != int(user_id):
@@ -122,7 +124,7 @@ def purchase_event_ticket(request, event_id, user_id):
             metadata={
                 'event_id': event_id,
                 'user_id': user_id,
-                'type': 'event_ticket'  # ✅ add this
+                'type': 'event_ticket'  
             }
         )
 
@@ -130,7 +132,7 @@ def purchase_event_ticket(request, event_id, user_id):
             user=user, event=event, defaults={'status': 'pending', 'payment_status': 'pending'}
         )
 
-        # Optional: save PaymentIntent if immediately available
+
         if checkout_session.payment_intent:
             stripe_pi = stripe.PaymentIntent.retrieve(checkout_session.payment_intent)
             PaymentIntent.objects.create(
@@ -176,7 +178,7 @@ def stripe_webhook(request):
         user_id = metadata.get('user_id')
         plan = metadata.get('plan')
         event_id = metadata.get('event_id')
-        payment_type = metadata.get('type')  # can be 'subscription', 'event_ticket', 'cancellation_fee'
+        payment_type = metadata.get('type')  
 
         print(f"✅ Webhook received: user_id={user_id}, plan={plan}, event_id={event_id}, type={payment_type}")
 
@@ -190,7 +192,7 @@ def stripe_webhook(request):
             print("❌ User not found:", user_id)
             return HttpResponse(status=404)
 
-        # Handle subscription payments
+    
         if plan:
             plan_type, billing_cycle = plan.split('_')
             is_premium = plan_type == 'premium'
@@ -232,7 +234,7 @@ def stripe_webhook(request):
 
             print(f"✅ Subscription for {user.email} upgraded to {plan_type}")
 
-        # Handle event ticket payments
+
         elif payment_type == 'event_ticket' and event_id:
             try:
                 event_obj = Event.objects.get(id=event_id)
@@ -279,7 +281,7 @@ def stripe_webhook(request):
             except Exception as e:
                 print("❌ Error handling event participant:", str(e))
 
-        # ✅ Handle cancellation fee payment
+  
         elif payment_type == 'cancellation_fee' and event_id:
             try:
                 event_obj = Event.objects.get(id=event_id)
@@ -323,18 +325,18 @@ def cancellation_payment(request, event_id):
         event = Event.objects.get(id=event_id)
         user = request.user
 
-        # Only allow the creator to pay the cancellation fee
+
         if event.creator != user:
             return JsonResponse({'success': False, 'message': 'Unauthorized'}, status=403)
 
-        # Calculate hours until event
+
         now = timezone.now()
         event_date_time = event.date_time
         if not timezone.is_aware(event_date_time):
             event_date_time = timezone.make_aware(event_date_time)
         hours_to_event = (event_date_time - now).total_seconds() / 3600
 
-        # Determine cancellation fee
+
         if hours_to_event > 72 or not event.is_paid:
             return redirect('payment:checkout_cancel')
 
@@ -347,7 +349,6 @@ def cancellation_payment(request, event_id):
 
         fee_amount = (event.price * Decimal(fee_percentage) / Decimal('100')).quantize(Decimal('0.01'))
 
-        # Ensure Stripe customer
         if not user.stripe_customer_id:
             customer = stripe.Customer.create(email=user.email)
             user.stripe_customer_id = customer.id
@@ -355,7 +356,7 @@ def cancellation_payment(request, event_id):
         else:
             customer = stripe.Customer.retrieve(user.stripe_customer_id)
 
-        # Create Stripe checkout session
+
         checkout_session = stripe.checkout.Session.create(
             customer=customer.id,
             payment_method_types=['card'],

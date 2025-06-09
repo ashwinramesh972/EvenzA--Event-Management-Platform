@@ -6,7 +6,7 @@ from .models import CommunityPost, Comment
 # Create your views here.
 def community_feed(request):
     posts = CommunityPost.objects.all().order_by('-created_at')
-    # Format posts with display text
+
     formatted_posts = [
         {
             'post': post,
@@ -41,7 +41,7 @@ def post_detail(request, post_id):
             )
             return redirect('communitypost:post_detail', post_id=post.id)
 
-    # Format comments with display text
+
     formatted_comments = [
         {
             'comment': comment,
@@ -81,7 +81,7 @@ def create_post(request):
         image = request.FILES.get('image')
         
         if not caption and not image:
-            # For AJAX requests, return a JSON response
+
             if request.headers.get('x-requested-with') == 'XMLHttpRequest':
                 return JsonResponse({'error': "Post must have a caption or image."})
             error = "Post must have a caption or image."
@@ -95,12 +95,12 @@ def create_post(request):
                 caption=caption,
                 image=image
             )
-            # For AJAX requests, return success response
+
             if request.headers.get('x-requested-with') == 'XMLHttpRequest':
                 return JsonResponse({'success': True})
             return redirect('communitypost:community_feed')
     
-    # For GET requests or if there's an error
+
     return render(request, 'communitypost/create_post.html', {'error': error if 'error' in locals() else None})
 
 @login_required
@@ -110,7 +110,7 @@ def toggle_like(request, post_id):
 
     if request.method == 'POST':
         if user not in post.likes.all():
-            # User is liking the post
+  
             post.likes.add(user)
             post.like_count = post.likes.count()
             post.save(update_fields=['like_count'])
@@ -120,7 +120,7 @@ def toggle_like(request, post_id):
                 'is_liked': True
             })
         else:
-            # User is unliking the post
+
             post.likes.remove(user)
             post.like_count = post.likes.count()
             post.save(update_fields=['like_count'])

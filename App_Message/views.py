@@ -12,10 +12,12 @@ from django.db.models import Q, Max, Count
 from django.utils import timezone
 
 
+# Create your views here.
+
 @login_required
 def messages_home(request):
 
-    # Direct conversations (no event participation check)
+
     direct_conversations = Message.objects.filter(
         Q(sender=request.user) | Q(recipients=request.user),
         message_type='direct'
@@ -65,7 +67,7 @@ def messages_home(request):
             
             processed_conversations.add(conv_identifier)
     
-    # My Events (created by the user)
+
     my_events = Event.objects.filter(
         creator=request.user
     ).annotate(
@@ -90,13 +92,13 @@ def messages_home(request):
             'unread_count': event.unread_count
         })
     
-    # Joined Events (user is a confirmed participant)
+ 
     joined_events = Event.objects.filter(
         participants__user=request.user,
         participants__status='confirmed',
         status='active'
     ).exclude(
-        creator=request.user  # Exclude events created by the user
+        creator=request.user  
     ).annotate(
         last_message_time=Max('message__sent_at', filter=Q(message__message_type='group')),
         unread_count=Count('message', filter=Q(
@@ -119,7 +121,7 @@ def messages_home(request):
             'unread_count': event.unread_count
         })
     
-    # Initial chat area context (optional: pre-select a conversation via URL params)
+
     event = None
     recipient = None
     messages = []
@@ -269,7 +271,7 @@ def send_message(request):
             if direct_count >= 3:
                 return JsonResponse({'status': 'error', 'message': 'Direct message limit (3) reached for joiners'}, status=403)
         
-        # Create message
+
         message = Message.objects.create(
             sender=request.user,
             content=content,
@@ -298,7 +300,7 @@ def send_message_api(request):
         if not recipient or not content:
             return JsonResponse({'status': 'error', 'message': 'Invalid data'}, status=400)
         
-        # Check message limits
+
         user_type = request.user.user_type
         if user_type == 'premium':
             pass
@@ -317,7 +319,7 @@ def send_message_api(request):
             if direct_count >= 3:
                 return JsonResponse({'status': 'error', 'message': 'Direct message limit (3) reached for joiners'}, status=403)
         
-        # Create message
+
         message = Message.objects.create(
             sender=request.user,
             content=content,
@@ -347,7 +349,7 @@ def check_message_limit(request):
     message = None
 
     if user_type == 'premium':
-        # Premium users have no limit
+
         pass
     elif user_type == 'creator':
         direct_count = Message.objects.filter(
@@ -366,13 +368,13 @@ def check_message_limit(request):
             limit_reached = True
             message = 'Direct message limit (3) reached for joiners'
 
-    # Return response matching frontend expectations
+  
     if limit_reached:
         return JsonResponse({
             'success': False,
             'limit_reached': True,
             'message': message
-        }, status=403)  # Forbidden status for limit reached
+        }, status=403)  
     else:
         return JsonResponse({
             'success': True,
@@ -393,7 +395,7 @@ def get_group_messages(request, event_id):
 
 
         
-        # Check if user has access to this event
+
         is_creator = event.creator == userdata
         is_participant = userdata.participated_events.filter(event=event).exists()
     
@@ -405,10 +407,10 @@ def get_group_messages(request, event_id):
                 'error': 'You do not have access to this event'
             }, status=403)
         
-        # Get all messages for this event
+
         messages = Message.objects.filter(event_id=event.id).order_by('sent_at')
         
-        # Determine user role for message limit purposes
+
         if userdata.user_type=='premium':
             user_role='premium'
         elif userdata.user_type=='creator':
@@ -417,7 +419,6 @@ def get_group_messages(request, event_id):
             user_role='joiner'
 
 
-        # Format messages for JSON response
         messages_data = []
         for message in messages:
             messages_data.append({
@@ -430,7 +431,7 @@ def get_group_messages(request, event_id):
                 }
             })
         
-        # Mark messages as read
+
         unread_messages = Message.objects.filter(
             event=event,
             is_read__isnull=True
@@ -476,7 +477,7 @@ def send_group_message(request, event_id):
         
         event = get_object_or_404(Event, id=event_id)
         
-        # Check user relationship to the event
+
         is_creator = event.creator == userdata
         is_participant = userdata.participated_events.filter(event=event).exists()
         
@@ -486,7 +487,7 @@ def send_group_message(request, event_id):
                 'error': 'You do not have access to this event'
             }, status=403)
         
-        # Check message limits based on user type and role in event
+
         if not can_send_group_message(userdata, event):
             limit_message = get_limit_message(userdata, event)
             return JsonResponse({
@@ -495,7 +496,7 @@ def send_group_message(request, event_id):
                 'message': limit_message
             }, status=403)
         
-        # Create and save the message
+
         message = Message.objects.create(
             sender=userdata,
             message_type="group",
@@ -529,7 +530,7 @@ def get_new_group_messages(request, event_id, last_message_id=0):
     try:
         event = get_object_or_404(Event, id=event_id)
         
-        # Check if user has access to this event
+
         is_creator = event.creator == userdata
         is_participant = userdata.participated_events.filter(event=event).exists()
         
@@ -539,13 +540,13 @@ def get_new_group_messages(request, event_id, last_message_id=0):
                 'error': 'You do not have access to this event'
             }, status=403)
         
-        # Get new messages since last_message_id
+
         messages = Message.objects.filter(
             event=event,
             id__gt=last_message_id
         ).order_by('sent_at')
         
-        # Format messages for JSON response
+
         messages_data = []
         for message in messages:
             messages_data.append({
@@ -558,7 +559,7 @@ def get_new_group_messages(request, event_id, last_message_id=0):
                 }
             })
         
-        # Mark messages as read
+
         unread_messages = messages.exclude(sender=userdata)
         for message in unread_messages:
             message.is_read.add(userdata)
@@ -582,7 +583,7 @@ def check_group_message_limit(request, event_id):
     try:
         event = get_object_or_404(Event, id=event_id)
         
-        # Check if user has access to this event
+
         is_creator = event.creator == userdata
         is_participant = userdata.participated_events.filter(event=event).exists()
         
@@ -592,10 +593,10 @@ def check_group_message_limit(request, event_id):
                 'error': 'You do not have access to this event'
             }, status=403)
         
-        # Get message count, limit info and status
+
         limit_reached, msg_count, msg_limit, approaching = get_message_limit_info(userdata, event)
         
-        # Construct response based on limit status
+
         if limit_reached:
             return JsonResponse({
                 'success': False,
@@ -620,40 +621,39 @@ def check_group_message_limit(request, event_id):
             'error': str(e)
         }, status=500)
 
-# Helper functions for message limits
+
 def can_send_group_message(userdata, event):
     
 
     
-    # Premium users have no limits
     if userdata.is_premium:
         return True
     
     is_creator = event.creator == userdata
     is_participant = userdata.participated_events.filter(event=event).exists()
     
-    # Count messages for this event by this user
+
     message_count = Message.objects.filter(
         event=event,
         sender=userdata
     ).count()
     
-    # Apply limits based on user role and relationship to event
+
     if is_creator:
-        # User is the event creator
+
         if userdata.user_type == 'creator':
-            # Creator user type has unlimited messages for their own events
+
             return True
         elif userdata.user_type == 'joiner':
-            # Joiner user type who created this event has a limit of 5 messages
+
             return message_count < 5
     elif is_participant:
-        # User is a participant in the event
+ 
         if userdata.user_type == 'creator':
-            # Creator user type who joined someone else's event has a limit of 10 messages
+
             return message_count < 10
         elif userdata.user_type == 'joiner':
-            # Joiner user type who joined someone else's event has a limit of 3 messages
+
             return message_count < 3
     
     # User has no relationship to the event
@@ -662,36 +662,36 @@ def can_send_group_message(userdata, event):
 def get_message_limit_info(userdata, event):
     
     
-    # For premium users
+
     if userdata.is_premium:
         return False, 0, float('inf'), False
     
     is_creator = event.creator == userdata
     
-    # Count messages
+
     message_count = Message.objects.filter(
         event=event,
         sender=userdata
     ).count()
     
-    # Determine limit based on user type and role
+
     if is_creator:
         if userdata.user_type == 'creator':
-            # Unlimited messages
+
             return False, message_count, float('inf'), False
         elif userdata.user_type == 'joiner':
-            # 5 messages for joiners who created this event
+
             limit = 5
             approaching = message_count >= 3
             return message_count >= limit, message_count, limit, approaching
     else:
         if userdata.user_type == 'creator':
-            # 10 messages for creators participating in others' events
+
             limit = 10
             approaching = message_count >= 7
             return message_count >= limit, message_count, limit, approaching
         elif userdata.user_type == 'joiner':
-            # 3 messages for joiners participating in others' events
+
             limit = 3
             approaching = message_count >= 2
             return message_count >= limit, message_count, limit, approaching

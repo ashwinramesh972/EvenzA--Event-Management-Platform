@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token }}">
     <title>User Profile</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <style>
@@ -541,6 +542,30 @@
                 margin-top: 10px;
             }
         }
+        .participant-actions {
+            display: flex;
+            align-items: center;
+            margin: 0 15px;
+        }
+
+        .message-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .message-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
     </style>
 </head>
 <body>
@@ -689,238 +714,736 @@
             </div>
         </div>
     </div>
-    <script>
-        // Get CSRF token
-        function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                const cookies = document.cookie.split(';');
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
+<script>
+    // Get CSRF token
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
             }
-            return cookieValue;
         }
+    }
+    return cookieValue;
+}
 
-        const csrftoken = getCookie('csrftoken');
+const csrftoken = getCookie('csrftoken');
 
-        // Function to view participants
-        function viewParticipants(eventId, eventTitle) {
-            const modal = document.getElementById('participantsModal');
-            const modalTitle = document.getElementById('modalTitle');
-            const modalBody = document.getElementById('modalBody');
-            
-            // Show modal
-            modal.style.display = 'block';
-            modalTitle.textContent = `Participants - ${eventTitle}`;
-            
-            // Show loading
+// Function to view participants
+function viewParticipants(eventId, eventTitle) {
+    const modal = document.getElementById('participantsModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+    
+    // Show modal
+    modal.style.display = 'block';
+    modalTitle.textContent = `Participants - ${eventTitle}`;
+    
+    // Show loading
+    modalBody.innerHTML = `
+        <div class="loading">
+            <i class="fas fa-spinner fa-spin"></i>
+            Loading participants...
+        </div>
+    `;
+    
+    // Fetch participants
+    fetch(`/get-event-participants/${eventId}/`, {
+        method: 'GET',
+        headers: {
+            'X-CSRFToken': csrftoken,
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            displayParticipants(data);
+        } else {
             modalBody.innerHTML = `
-                <div class="loading">
-                    <i class="fas fa-spinner fa-spin"></i>
-                    Loading participants...
+                <div class="error-message">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>${data.error || 'Failed to load participants'}</p>
                 </div>
             `;
-            
-            // Fetch participants
-            fetch(`/get-event-participants/${eventId}/`, {
-                method: 'GET',
-                headers: {
-                    'X-CSRFToken': csrftoken,
-                    'Content-Type': 'application/json',
-                },
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    displayParticipants(data);
-                } else {
-                    modalBody.innerHTML = `
-                        <div class="error-message">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            <p>${data.error || 'Failed to load participants'}</p>
-                        </div>
-                    `;
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                modalBody.innerHTML = `
-                    <div class="error-message">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <p>An error occurred while loading participants</p>
-                    </div>
-                `;
-            });
         }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        modalBody.innerHTML = `
+            <div class="error-message">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>An error occurred while loading participants</p>
+            </div>
+        `;
+    });
+}
 
-        // Function to display participants
-        function displayParticipants(data) {
-            const modalBody = document.getElementById('modalBody');
-            
-            if (data.participants.length === 0) {
-                modalBody.innerHTML = `
-                    <div class="no-events">
-                        <i class="fas fa-users" style="font-size: 3rem; margin-bottom: 15px; color: #d1d5db;"></i>
-                        <p>No participants yet</p>
-                    </div>
-                `;
-                return;
-            }
+// Function to display participants
+function displayParticipants(data) {
+    const modalBody = document.getElementById('modalBody');
+    
+    if (data.participants.length === 0) {
+        modalBody.innerHTML = `
+            <div class="no-events">
+                <i class="fas fa-users" style="font-size: 3rem; margin-bottom: 15px; color: #d1d5db;"></i>
+                <p>No participants yet</p>
+            </div>
+        `;
+        return;
+    }
 
-            let participantsHTML = `
-                <div class="participants-count">
-                    <i class="fas fa-users"></i>
-                    ${data.total_participants} participant${data.total_participants !== 1 ? 's' : ''}
+    let participantsHTML = `
+        <div class="participants-count">
+            <i class="fas fa-users"></i>
+            ${data.total_participants} participant${data.total_participants !== 1 ? 's' : ''}
+        </div>
+    `;
+
+    data.participants.forEach(participant => {
+        const statusClass = getStatusClass(participant.status);
+        const paymentStatusClass = getPaymentStatusClass(participant.payment_status);
+        
+        participantsHTML += `
+            <div class="participant-card">
+                <img src="${participant.profile_picture}" 
+                     alt="${participant.full_name}" 
+                     class="participant-avatar"
+                     onerror="this.src='/static/default.jpg'">
+                <div class="participant-info">
+                    <div class="participant-name">${participant.full_name}</div>
+                    <div class="participant-username">@${participant.username}</div>
+                    <div class="participant-email">${participant.email}</div>
                 </div>
-            `;
-
-            data.participants.forEach(participant => {
-                const statusClass = getStatusClass(participant.status);
-                const paymentStatusClass = getPaymentStatusClass(participant.payment_status);
-                
-                participantsHTML += `
-                    <div class="participant-card">
-                        <img src="${participant.profile_picture}" 
-                             alt="${participant.full_name}" 
-                             class="participant-avatar"
-                             onerror="this.src='/static/default.jpg'">
-                        <div class="participant-info">
-                            <div class="participant-name">${participant.full_name}</div>
-                            <div class="participant-username">@${participant.username}</div>
-                            <div class="participant-email">${participant.email}</div>
+                <div class="participant-actions">
+                    <button class="message-btn" onclick="openMessageModal('${participant.id}', '${participant.username}', '${participant.full_name}', '${participant.profile_picture}')">
+                    
+                        <i class="fas fa-envelope"></i>
+                        Message
+                    </button>
+                </div>
+                <div class="participant-status">
+                    <div class="status-tag ${statusClass}">
+                        ${participant.status.charAt(0).toUpperCase() + participant.status.slice(1)}
+                    </div>
+                    ${participant.payment_status ? `
+                        <div class="status-tag ${paymentStatusClass}">
+                            ${participant.payment_status.charAt(0).toUpperCase() + participant.payment_status.slice(1)}
                         </div>
-                        <div class="participant-status">
-                            <div class="status-tag ${statusClass}">
-                                ${participant.status.charAt(0).toUpperCase() + participant.status.slice(1)}
-                            </div>
-                            ${participant.payment_status ? `
-                                <div class="status-tag ${paymentStatusClass}">
-                                    ${participant.payment_status.charAt(0).toUpperCase() + participant.payment_status.slice(1)}
-                                </div>
-                            ` : ''}
-                            ${participant.attended ? `
-                                <div class="status-tag status-confirmed">
-                                    <i class="fas fa-check"></i> Attended
-                                </div>
-                            ` : ''}
-                            <div class="joined-date">
-                                Joined: ${participant.joined_at}
-                            </div>
+                    ` : ''}
+                    ${participant.attended ? `
+                        <div class="status-tag status-confirmed">
+                            <i class="fas fa-check"></i> Attended
+                        </div>
+                    ` : ''}
+                    <div class="joined-date">
+                        Joined: ${participant.joined_at}
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+
+    modalBody.innerHTML = participantsHTML;
+}
+
+// Function to get status class
+function getStatusClass(status) {
+    switch(status.toLowerCase()) {
+        case 'confirmed':
+            return 'status-confirmed';
+        case 'pending':
+            return 'status-pending';
+        case 'cancelled':
+            return 'status-cancelled';
+        default:
+            return 'status-pending';
+    }
+}
+
+// Function to get payment status class
+function getPaymentStatusClass(paymentStatus) {
+    if (!paymentStatus) return '';
+    
+    switch(paymentStatus.toLowerCase()) {
+        case 'paid':
+        case 'completed':
+            return 'status-confirmed';
+        case 'pending':
+            return 'status-pending';
+        case 'failed':
+        case 'cancelled':
+            return 'status-cancelled';
+        default:
+            return 'status-pending';
+    }
+}
+
+// Function to close modal
+function closeModal() {
+    const modal = document.getElementById('participantsModal');
+    modal.style.display = 'none';
+}
+
+// MESSAGING FUNCTIONALITY
+// Function to check if user is logged in
+function isUserLoggedIn() {
+    const loginLink = document.querySelector('.nav-link[href="/user-login"]');
+    return !loginLink;
+}
+
+// Function to open message modal
+function openMessageModal(recipientId, username, fullName, profilePicture) {
+    console.log('Opening message modal for:', username);
+    console.log(recipientId);
+    
+    // Check if user is logged in
+    if (!isUserLoggedIn()) {
+        window.location.href = '/user-login';
+        return;
+    }
+
+    // Create modal if it doesn't exist
+    let messageModal = document.getElementById('messageModal');
+    if (!messageModal) {
+        createMessageModal();
+        messageModal = document.getElementById('messageModal');
+    }
+
+    // Set recipient information
+    const recipientAvatar = document.getElementById('recipientAvatar');
+    const recipientName = document.getElementById('messageModalTitle');
+    const messageContent = document.getElementById('messageContent');
+
+    recipientAvatar.src = profilePicture || '/static/default.jpg';
+    recipientName.textContent = fullName || username;
+    messageContent.value = '';
+
+    // Store recipient data
+    messageModal.setAttribute('data-recipient-id', recipientId);
+    messageModal.setAttribute('data-recipient-username', username);
+
+    // Show modal
+    messageModal.style.display = 'flex';
+    setTimeout(() => {
+        messageModal.classList.add('visible');
+        messageContent.focus();
+    }, 10);
+}
+
+// Function to create message modal
+function createMessageModal() {
+    const modalHTML = `
+        <div id="messageModal" class="message-modal">
+            <div class="message-modal-content">
+                <div class="message-modal-header">
+                    <div class="recipient-info">
+                        <img id="recipientAvatar" src="" alt="Recipient" class="recipient-avatar">
+                        <h3 id="messageModalTitle">Send Message</h3>
+                    </div>
+                    <button class="close-message-modal" onclick="closeMessageModal()">&times;</button>
+                </div>
+                <div class="message-modal-body">
+                    <textarea id="messageContent" placeholder="Type your message here..." rows="5"></textarea>
+                </div>
+                <div class="message-modal-footer">
+                    <button id="sendMessageBtn" class="send-message-btn">
+                        <i class="fas fa-paper-plane"></i>
+                        Send Message
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="upgradeModal" class="message-modal">
+            <div class="upgrade-modal-content">
+                <div class="upgrade-modal-header">
+                    <h3>Upgrade Required</h3>
+                    <button class="close-upgrade-modal" onclick="closeUpgradeModal()">&times;</button>
+                </div>
+                <div class="upgrade-modal-body">
+                    <div class="upgrade-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h4>Premium Feature</h4>
+                    <p>Messaging is a premium feature. Upgrade your account to start conversations with other users.</p>
+                    <div class="upgrade-benefits">
+                        <div class="benefit">
+                            <i class="fas fa-check"></i>
+                            <span>Unlimited messaging</span>
+                        </div>
+                        <div class="benefit">
+                            <i class="fas fa-check"></i>
+                            <span>Priority support</span>
+                        </div>
+                        <div class="benefit">
+                            <i class="fas fa-check"></i>
+                            <span>Advanced event features</span>
                         </div>
                     </div>
-                `;
-            });
+                </div>
+                <div class="upgrade-modal-footer">
+                    <button id="upgradeBtn" class="upgrade-btn">
+                        <i class="fas fa-crown"></i>
+                        Upgrade Now
+                    </button>
+                    <button class="cancel-upgrade-btn" onclick="closeUpgradeModal()">Maybe Later</button>
+                </div>
+            </div>
+        </div>
+    `;
 
-            modalBody.innerHTML = participantsHTML;
+    // Add modal HTML to body
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+    // Add modal styles
+    const modalStyles = `
+        <style>
+        .message-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        // Function to get status class
-        function getStatusClass(status) {
-            switch(status.toLowerCase()) {
-                case 'confirmed':
-                    return 'status-confirmed';
-                case 'pending':
-                    return 'status-pending';
-                case 'cancelled':
-                    return 'status-cancelled';
-                default:
-                    return 'status-pending';
+        .message-modal.visible {
+            opacity: 1;
+        }
+
+        .message-modal-content, .upgrade-modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+
+        .message-modal.visible .message-modal-content,
+        .message-modal.visible .upgrade-modal-content {
+            transform: scale(1);
+        }
+
+        .message-modal-header, .upgrade-modal-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .recipient-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .recipient-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .close-message-modal, .close-upgrade-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+
+        .close-message-modal:hover, .close-upgrade-modal:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .message-modal-body, .upgrade-modal-body {
+            padding: 25px;
+        }
+
+        #messageContent {
+            width: 100%;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 15px;
+            font-family: inherit;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 120px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        #messageContent:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .message-modal-footer, .upgrade-modal-footer {
+            padding: 20px 25px;
+            background: #f8fafc;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .send-message-btn, .upgrade-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .send-message-btn:hover, .upgrade-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .send-message-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .cancel-upgrade-btn {
+            background: #6b7280;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .cancel-upgrade-btn:hover {
+            background: #4b5563;
+        }
+
+        .upgrade-icon {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .upgrade-icon i {
+            font-size: 4rem;
+            color: #fbbf24;
+        }
+
+        .upgrade-modal-body h4 {
+            text-align: center;
+            color: #1a202c;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .upgrade-modal-body p {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .upgrade-benefits {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .benefit {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #1a202c;
+        }
+
+        .benefit i {
+            color: #10b981;
+            font-size: 1.1rem;
+        }
+
+        .upgrade-modal-footer {
+            justify-content: center;
+        }
+
+        @media (max-width: 600px) {
+            .message-modal-content, .upgrade-modal-content {
+                width: 95%;
+                margin: 20px;
             }
-        }
-
-        // Function to get payment status class
-        function getPaymentStatusClass(paymentStatus) {
-            if (!paymentStatus) return '';
             
-            switch(paymentStatus.toLowerCase()) {
-                case 'paid':
-                case 'completed':
-                    return 'status-confirmed';
-                case 'pending':
-                    return 'status-pending';
-                case 'failed':
-                case 'cancelled':
-                    return 'status-cancelled';
-                default:
-                    return 'status-pending';
+            .upgrade-modal-footer {
+                flex-direction: column;
+            }
+            
+            .upgrade-btn, .cancel-upgrade-btn {
+                width: 100%;
+                justify-content: center;
             }
         }
+        </style>
+    `;
 
-        // Function to close modal
-        function closeModal() {
-            const modal = document.getElementById('participantsModal');
-            modal.style.display = 'none';
-        }
+    document.head.insertAdjacentHTML('beforeend', modalStyles);
 
-        // Close modal when clicking outside of it
-        window.onclick = function(event) {
-            const modal = document.getElementById('participantsModal');
-            if (event.target === modal) {
-                closeModal();
-            }
-        }
+    // Add event listeners
+    const sendMessageBtn = document.getElementById('sendMessageBtn');
+    const upgradeBtn = document.getElementById('upgradeBtn');
 
-        // Close modal with Escape key
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                closeModal();
-            }
+    if (sendMessageBtn) {
+        sendMessageBtn.addEventListener('click', sendMessage);
+    }
+
+    if (upgradeBtn) {
+        upgradeBtn.addEventListener('click', () => {
+            window.location.href = '/accounts/upgrade/';
         });
+    }
+}
 
-        // Add smooth scrolling for better UX
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add hover effects to stat cards
-            const statCards = document.querySelectorAll('.stat-card');
-            statCards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-5px) scale(1.02)';
-                });
-                
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0) scale(1)';
-                });
-            });
+// Function to close message modal
+function closeMessageModal() {
+    const messageModal = document.getElementById('messageModal');
+    if (messageModal) {
+        messageModal.classList.remove('visible');
+        setTimeout(() => {
+            messageModal.style.display = 'none';
+        }, 300);
+    }
+}
 
-            // Add click animation to buttons
-            const buttons = document.querySelectorAll('.view-participants-btn');
-            buttons.forEach(button => {
-                button.addEventListener('click', function() {
-                    this.style.transform = 'scale(0.95)';
-                    setTimeout(() => {
-                        this.style.transform = 'scale(1)';
-                    }, 150);
-                });
-            });
+// Function to open upgrade modal
+function openUpgradeModal() {
+    closeMessageModal();
+    const upgradeModal = document.getElementById('upgradeModal');
+    if (upgradeModal) {
+        upgradeModal.style.display = 'flex';
+        setTimeout(() => {
+            upgradeModal.classList.add('visible');
+        }, 10);
+    }
+}
 
-            // Add loading animation to profile picture
-            const profilePic = document.querySelector('.profile-picture');
-            if (profilePic) {
-                profilePic.addEventListener('load', function() {
-                    this.style.opacity = '1';
-                });
-            }
-        });
+// Function to close upgrade modal
+function closeUpgradeModal() {
+    const upgradeModal = document.getElementById('upgradeModal');
+    if (upgradeModal) {
+        upgradeModal.classList.remove('visible');
+        setTimeout(() => {
+            upgradeModal.style.display = 'none';
+        }, 300);
+    }
+}
 
-        // Error handling for profile picture
-        function handleImageError(img) {
-            img.src = '/static/default.jpg';
-            img.onerror = null; // Prevent infinite loop
+// Function to send message
+function sendMessage() {
+    const messageModal = document.getElementById('messageModal');
+    const messageContent = document.getElementById('messageContent');
+    const sendMessageBtn = document.getElementById('sendMessageBtn');
+    
+    const recipientId = messageModal.getAttribute('data-recipient-id');
+    const content = messageContent.value.trim();
+
+    if (!content) {
+        showNotification('Please enter a message.', 'error');
+        return;
+    }
+
+    // Disable button and show loading
+    sendMessageBtn.disabled = true;
+    sendMessageBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+    // Send message
+    fetch('/message/api/send_message/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken,
+        },
+        body: JSON.stringify({
+            recipient_id: recipientId,
+            content: content,
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            showNotification('Message sent successfully!', 'success');
+            closeMessageModal();
+        } else if (data.status === 'upgrade_required') {
+            openUpgradeModal();
+        } else {
+            showNotification(data.message || 'Failed to send message.', 'error');
         }
+    })
+    .catch(error => {
+        console.error('Error sending message:', error);
+        showNotification('Failed to send message. Please try again.', 'error');
+    })
+    .finally(() => {
+        sendMessageBtn.disabled = false;
+        sendMessageBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+    });
+}
 
-        // Add this to all profile images
-        document.addEventListener('DOMContentLoaded', function() {
-            const images = document.querySelectorAll('img[src*="profile"]');
-            images.forEach(img => {
-                img.onerror = function() {
-                    handleImageError(this);
-                };
-            });
+// Function to show notifications
+function showNotification(message, type = 'success') {
+    let notification = document.querySelector('.notification-toast');
+    if (!notification) {
+        notification = document.createElement('div');
+        notification.className = 'notification-toast';
+        document.body.appendChild(notification);
+        
+        const notificationStyle = document.createElement('style');
+        notificationStyle.innerHTML = `
+            .notification-toast {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: #333;
+                color: white;
+                padding: 15px 25px;
+                border-radius: 10px;
+                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+                z-index: 3000;
+                transform: translateX(400px);
+                opacity: 0;
+                transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                font-weight: 500;
+                max-width: 350px;
+            }
+            .notification-toast.show {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            .notification-toast.success {
+                background: linear-gradient(135deg, #10b981, #059669);
+            }
+            .notification-toast.error {
+                background: linear-gradient(135deg, #ef4444, #dc2626);
+            }
+        `;
+        document.head.appendChild(notificationStyle);
+    }
+    
+    notification.textContent = message;
+    notification.className = `notification-toast ${type}`;
+    
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 100);
+    
+    setTimeout(() => {
+        notification.classList.remove('show');
+    }, 3500);
+}
+
+// Close modal when clicking outside of it
+window.onclick = function(event) {
+    const participantsModal = document.getElementById('participantsModal');
+    const messageModal = document.getElementById('messageModal');
+    const upgradeModal = document.getElementById('upgradeModal');
+    
+    if (event.target === participantsModal) {
+        closeModal();
+    }
+    if (event.target === messageModal) {
+        closeMessageModal();
+    }
+    if (event.target === upgradeModal) {
+        closeUpgradeModal();
+    }
+}
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeModal();
+        closeMessageModal();
+        closeUpgradeModal();
+    }
+});
+
+// Add smooth scrolling for better UX
+document.addEventListener('DOMContentLoaded', function() {
+    // Add hover effects to stat cards
+    const statCards = document.querySelectorAll('.stat-card');
+    statCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px) scale(1.02)';
         });
-    </script>
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+    });
+
+    // Add click animation to buttons
+    const buttons = document.querySelectorAll('.view-participants-btn, .message-btn');
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 150);
+        });
+    });
+
+    // Add loading animation to profile picture
+    const profilePic = document.querySelector('.profile-picture');
+    if (profilePic) {
+        profilePic.addEventListener('load', function() {
+            this.style.opacity = '1';
+        });
+    }
+});
+
+// Error handling for profile picture
+function handleImageError(img) {
+    img.src = '/static/default.jpg';
+    img.onerror = null; // Prevent infinite loop
+}
+
+// Add this to all profile images
+document.addEventListener('DOMContentLoaded', function() {
+    const images = document.querySelectorAll('img[src*="profile"]');
+    images.forEach(img => {
+        img.onerror = function() {
+            handleImageError(this);
+        };
+    });
+});
+</script>
 </body>
 </html>

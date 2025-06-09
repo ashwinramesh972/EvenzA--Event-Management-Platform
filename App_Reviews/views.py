@@ -17,7 +17,7 @@ def submit_rating(request):
         rating = data.get('rating')
         comment = data.get('comment', 'No comment')
 
-        # Validate inputs
+
         if not event_id or not rating:
             return JsonResponse({'success': False, 'error': 'Event ID and rating are required.'}, status=400)
 
@@ -28,14 +28,14 @@ def submit_rating(request):
         except ValueError:
             return JsonResponse({'success': False, 'error': 'Invalid rating value.'}, status=400)
 
-        # Get event
+
         event = get_object_or_404(Event, id=event_id)
 
-        # Check if user already rated this event
+
         if Rating.objects.filter(user=request.user, event=event).exists():
             return JsonResponse({'success': False, 'error': 'You have already rated this event.'}, status=400)
 
-        # Create rating
+
         Rating.objects.create(
             user=request.user,
             event=event,

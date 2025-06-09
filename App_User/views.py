@@ -24,12 +24,12 @@ def home(request):
     now = timezone.now()
 
     
-    # Calculate statistics
+
     total_users = CustomUser.objects.count()
     total_cities = Event.objects.values('location').distinct().count()
     total_events = Event.objects.count()
     
-    # Filter active, approved, upcoming events
+
     active_events = Event.objects.filter(
         is_active=True,
         status='active',
@@ -37,43 +37,43 @@ def home(request):
         date_time__gte=now
     ).exclude(visibility='private')
     
-    # Exclude events for authenticated users
+
     if request.user.is_authenticated:
         try:
-            # Exclude events created by the user
+
             active_events = active_events.exclude(creator=request.user)
             
-            # Exclude events where the user has joined
+      
             joined_event_ids = EventParticipant.objects.filter(
                 user=request.user,
-                status='confirmed'  # Case-insensitive match
+                status='confirmed'  
             ).values_list('event_id', flat=True)
             active_events = active_events.exclude(id__in=joined_event_ids)
             
-            # Exclude events where the user canceled participation
+           
             canceled_event_ids = EventParticipant.objects.filter(
                 user=request.user,
-                status='canceled'  # Case-insensitive match
+                status='canceled'  
             ).values_list('event_id', flat=True)
             active_events = active_events.exclude(id__in=canceled_event_ids)
         except Exception as e:
-            # Log the error for debugging (in a real app, use proper logging)
+            
             print(f"Error filtering events: {e}")
-            # Fallback to showing no events to avoid incorrect data
+    
             active_events = Event.objects.none()
     
-    # Split into paid and non-paid events, prioritizing premium users
+    
     paid_events = active_events.filter(
         is_paid=True
     ).order_by(
-        '-creator__user_type',  # Premium first
+        '-creator__user_type',  
         'date_time'
     )
     
     non_paid_events = active_events.filter(
         is_paid=False
     ).order_by(
-        '-creator__user_type',  # Premium first
+        '-creator__user_type',  
         'date_time'
     )
     
@@ -98,7 +98,7 @@ def user_register(request):
         last_name = request.POST.get('last_name', '')
         profile_picture = request.FILES.get('profile_picture')
 
-        # Validate inputs
+
         if not all([username, email, password1, password2]):
             return render(request, 'index/users-register.html', {
                 'error': 'missing_fields',
@@ -123,7 +123,7 @@ def user_register(request):
                 'message': 'Passwords do not match.'
             })
 
-        # Create user
+
         try:
             user = CustomUser.objects.create_user(
                 username=username,
@@ -136,7 +136,7 @@ def user_register(request):
             )
             login(request, user)
             
-            # Always render the plan selection page
+
             return render(request, 'index/users-plan_selection.html', {'userdata': user})
                      
         except Exception as e:
@@ -155,9 +155,9 @@ def user_login(request):
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
-            # Check if user is banned
+   
             if user.is_banned:
-                return render(request,'admin/appeal.html')  # Redirect to banned user page
+                return render(request,'admin/appeal.html')  
 
             login(request, user)
 
@@ -165,7 +165,7 @@ def user_login(request):
                 request.session['a_id'] = user.id
                 return redirect('dashboard:admin-view-user')
 
-            # Standard users (joiner, creator, premium)
+            
             request.session['user_id'] = user.id
             request.session['user_type'] = user.user_type
 
@@ -225,48 +225,48 @@ def Adminhome(request):
 @login_required
 def Joinerhome(request):
     if not request.user.is_authenticated:
-        return redirect('login')  # Ensure this matches your login URL name
+        return redirect('login')  
 
     user = request.user
 
-    # Calculate the number of events created by the user
+
     user.created_events_count = Event.objects.filter(creator=user).count()
     
-    # Calculate remaining events (3 - created_events_count)
+
     remaining_events = 3 - user.created_events_count
 
-    # Get events created by the user
+
     eventcreated = Event.objects.select_related('creator').filter(creator=user)
 
-    # Get confirmed events the user has joined
+
     confirmed_participants = EventParticipant.objects.filter(user_id=user.id, status='confirmed')
 
-    # Upcoming joined events
+
     eventjoined = Event.objects.select_related('creator').filter(
         id__in=confirmed_participants.values_list('event_id', flat=True),
         date_time__gte=timezone.now()
     ).order_by('date_time')
 
-    # Past joined events with ratings
+ 
     eventjoined_over = Event.objects.select_related('creator').prefetch_related('rating_set').filter(
         id__in=confirmed_participants.values_list('event_id', flat=True),
         date_time__lt=timezone.now()
     ).order_by('date_time')
 
-    # Fetch ratings for eventjoined_over by the current user
+
     event_ids = eventjoined_over.values_list('id', flat=True)
     user_ratings = Rating.objects.filter(
         event_id__in=event_ids,
         user=user
     ).select_related('event')
 
-    # Get recommended events (active events the user hasn't joined)
+
     joined_event_ids = confirmed_participants.values_list('event_id', flat=True)
     recommended_events = Event.objects.select_related('creator').filter(
         status='Active'
     ).exclude(id__in=joined_event_ids).order_by('date_time')[:5]
 
-    # Fetch recent messages
+
     recent_messages = Message.objects.filter(recipients=user).order_by('-sent_at')[:3].values(
         'event__title', 'content', 'is_read'
     )
@@ -279,13 +279,13 @@ def Joinerhome(request):
         for msg in recent_messages
     ]
 
-    # Fetch direct messages
+ 
     direct_messages = Message.objects.filter(
         recipients=user,
         message_type='direct'
     ).select_related('sender', 'event').order_by('-sent_at')[:10]
 
-    # Pass the context to the template
+
     context = {
         'data': {
             'id': user.id,
@@ -308,7 +308,7 @@ def Joinerhome(request):
 def creatorhome(request):
     user=request.user
 
-    # Created events (only upcoming)
+
     eventcreated = Event.objects.select_related('creator').filter(
         creator=user,
         date_time__gte=timezone.now()
@@ -323,7 +323,7 @@ def creatorhome(request):
     )
     paid_events_count = Event.objects.filter(creator=user, is_paid=True).count()
 
-    # Joined events (only upcoming)
+  
     confirmed_participants = EventParticipant.objects.filter(user_id=request.user.id, status='confirmed')
 
     eventjoined = Event.objects.select_related('creator').filter(
@@ -331,20 +331,20 @@ def creatorhome(request):
         date_time__gte=timezone.now()
     ).order_by('date_time')
 
-    # Joined events (already over) with ratings
+ 
     eventjoined_over = Event.objects.select_related('creator').prefetch_related('rating_set').filter(
         id__in=confirmed_participants.values_list('event_id', flat=True),
         date_time__lt=timezone.now()
     ).order_by('date_time')
 
-    # Fetch ratings for eventjoined_over by the current user
+ 
     event_ids = eventjoined_over.values_list('id', flat=True)
     user_ratings = Rating.objects.filter(
         event_id__in=event_ids,
         user=request.user
     ).select_related('event')
 
-    # Direct messages
+
     direct_messages = Message.objects.filter(
         recipients=user,
         message_type='direct'
@@ -369,28 +369,28 @@ def creatorhome(request):
 def PremiumHome(request):
     user=request.user
 
-    # Created events (only upcoming)
+
     eventcreated = Event.objects.select_related('creator').filter(
         creator=user,
         date_time__gte=timezone.now()
     )
 
-    # Joined events
+
     confirmed_participants = EventParticipant.objects.filter(user_id=request.user.id, status='confirmed')
 
-    # Upcoming joined events
+
     eventjoined = Event.objects.select_related('creator').filter(
         id__in=confirmed_participants.values_list('event_id', flat=True),
         date_time__gte=timezone.now()
     ).order_by('date_time')
 
-    # Past joined events with ratings
+
     eventjoined_over = Event.objects.select_related('creator').prefetch_related('rating_set').filter(
         id__in=confirmed_participants.values_list('event_id', flat=True),
         date_time__lt=timezone.now()
     ).order_by('date_time')
 
-    # Fetch ratings for eventjoined_over by the current user
+
     event_ids = eventjoined_over.values_list('id', flat=True)
     user_ratings = Rating.objects.filter(
         event_id__in=event_ids,
@@ -457,11 +457,11 @@ def upgrade(request,):
 def user_profile(request):
     user = request.user
     
-    # Ensure user is authenticated and a valid CustomUser
+
     if not isinstance(user, CustomUser):
         return render(request, 'user-homepage/profile.html', {'error': 'Invalid user'})
     
-    # Fetch user details
+
     user_data = {
         'username': user.username,
         'full_name': f"{user.first_name} {user.last_name}".strip() or user.username,
@@ -511,10 +511,10 @@ def user_profile(request):
         is_active=True
     ).order_by('-created_at')[:3]
     
-    # Updated to include event ID for the eye button
+    
     recent_events_created_data = [
         {
-            'id': event.id,  # Added event ID
+            'id': event.id,  
             'title': event.title,
             'description': event.description,
             'date': event.date_time.strftime('%B %d, %Y'),
@@ -564,15 +564,15 @@ def user_profile(request):
 def get_event_participants(request, event_id):
 
     try:
-        # Get the event and ensure the current user is the creator
+        
         event = get_object_or_404(Event, id=event_id, creator=request.user, is_active=True)
         
-        # Get all participants for this event
+        
         participants = EventParticipant.objects.filter(
             event=event
         ).select_related('user').order_by('-joined_at')
         
-        # Prepare participant data
+        
         participant_data = []
         for participant in participants:
             participant_data.append({
@@ -584,7 +584,9 @@ def get_event_participants(request, event_id):
                 'status': participant.status,
                 'payment_status': participant.payment_status,
                 'attended': participant.attended,
+                'id':participant.user.id
             })
+            
         
         return JsonResponse({
             'success': True,
